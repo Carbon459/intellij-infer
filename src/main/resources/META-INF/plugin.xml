@@ -15,6 +15,7 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
+        <toolWindow id="Infer" icon="toolWindowIcon.svg" secondary="false" anchor="bottom" factoryClass="MainToolWindowFactory"/>
     </extensions>
 
     <actions>
