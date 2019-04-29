@@ -19,9 +19,9 @@
     </extensions>
 
     <actions>
-        <group id="MyPlugin.SampleMenu" text="Greeting" description="Greeting menu">
+        <group id="infer.menu" text="Infer" description="Infer Integration menu">
             <add-to-group group-id="MainMenu" anchor="last"/>
-            <action id="Myplugin.Textboxes" class="HelloAction" text="Hello" description="Says hello"/>
+            <action id="infer.textboxes" class="RunAction" text="Run" description="Runs Infer"/>
         </group>
     </actions>
 </idea-plugin>
