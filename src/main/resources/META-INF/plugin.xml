@@ -1,5 +1,5 @@
 <idea-plugin>
-    <id>de.thl.intelij-infer</id>
+    <id>de.thl.intelijinfer</id>
     <name>Infer Integration</name>
     <vendor email="friedrich.hudinjan@stud.th-luebeck.de" url="http://www.th-luebeck.de">Friedrich Hudinjan</vendor>
 
@@ -13,15 +13,27 @@
     <depends>com.intellij.modules.lang</depends>
     -->
 
+    <!-- Plugin's application components -->
+    <application-components>
+        <component>
+            <!-- Component's interface class -->
+            <interface-class>de.thl.intelijinfer.config.ConfigComponent</interface-class>
+            <!-- Component's implementation class -->
+            <implementation-class>de.thl.intelijinfer.config.ConfigComponentImpl</implementation-class>
+        </component>
+    </application-components>
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
-        <toolWindow id="Infer" icon="toolWindowIcon.svg" secondary="false" anchor="bottom" factoryClass="MainToolWindowFactory"/>
+        <toolWindow id="Infer" icon="toolWindowIcon.svg" secondary="false" anchor="bottom" factoryClass="de.thl.intelijinfer.ui.MainToolWindowFactory"/>
+        <applicationService serviceImplementation="de.thl.intelijinfer.service.Installer"/>
+        <projectService serviceImplementation="de.thl.intelijinfer.service.InferRunner"/>
+        <projectService serviceImplementation="de.thl.intelijinfer.service.ResultParser"/>
     </extensions>
 
     <actions>
         <group id="infer.menu" text="Infer" description="Infer Integration menu">
             <add-to-group group-id="MainMenu" anchor="last"/>
-            <action id="infer.textboxes" class="RunAction" text="Run" description="Runs Infer"/>
+            <action id="infer.textboxes" class="de.thl.intelijinfer.actions.RunAction" text="Run" description="Runs Infer"/>
         </group>
     </actions>
 </idea-plugin>
