@@ -32,7 +32,9 @@
     <actions>
         <group id="infer.menu" text="Infer" description="Infer Integration menu">
             <add-to-group group-id="MainMenu" anchor="last"/>
-            <action id="infer.textboxes" class="de.thl.intelijinfer.actions.RunAction" text="Run" description="Runs Infer"/>
+            <action id="infer.textboxes" class="de.thl.intelijinfer.actions.RunAction" text="Run" description="Runs Infer">
+                <keyboard-shortcut keymap="$default" first-keystroke="control alt G" second-keystroke="C"/>
+            </action>
         </group>
     </actions>
 </idea-plugin>
