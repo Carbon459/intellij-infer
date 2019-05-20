@@ -28,7 +28,8 @@ public class InferRunner {
     public void run() {
         ProcessBuilder processBuilder = new ProcessBuilder();
         processBuilder.directory(new File(project.getBasePath()));
-        String[] commands = {"/bin/bash", "-c", "infer -- " + createJavacParams()};
+        //String[] commands = {"/bin/bash", "-c", "infer -- " + createJavacParams()};
+        String[] commands = {"bash", "-c", "infer -- " + createJavacParams()};
         processBuilder.command(commands);
         try {
             Process p = processBuilder.start();

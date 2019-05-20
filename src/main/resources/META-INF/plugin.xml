@@ -25,7 +25,6 @@
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
         <toolWindow id="Infer" icon="toolWindowIcon.svg" secondary="false" anchor="bottom" factoryClass="de.thl.intelijinfer.ui.MainToolWindowFactory"/>
-        <applicationService serviceImplementation="de.thl.intelijinfer.service.Installer"/>
         <projectService serviceImplementation="de.thl.intelijinfer.service.InferRunner"/>
         <projectService serviceImplementation="de.thl.intelijinfer.service.ResultParser"/>
     </extensions>

@@ -14,9 +14,9 @@ public class MainToolWindow {
 
 
     public MainToolWindow(ToolWindow toolWindow) {
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode("Root");
-        DefaultMutableTreeNode subnode = new DefaultMutableTreeNode("Subnode");
-        DefaultMutableTreeNode subnode2 = new DefaultMutableTreeNode("Subnode 2");
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode("File1.java");
+        DefaultMutableTreeNode subnode = new DefaultMutableTreeNode("Error 1: .....");
+        DefaultMutableTreeNode subnode2 = new DefaultMutableTreeNode("Error 2: ....");
         root.add(subnode);
         root.add(subnode2);
         TreeModel tm = new DefaultTreeModel(root);
