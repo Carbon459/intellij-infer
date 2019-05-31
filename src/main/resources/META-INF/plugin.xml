@@ -1,5 +1,5 @@
 <idea-plugin>
-    <id>de.thl.intelijinfer</id>
+    <id>de.thl.intellijinfer</id>
     <name>Infer Integration</name>
     <vendor email="friedrich.hudinjan@stud.th-luebeck.de" url="http://www.th-luebeck.de">Friedrich Hudinjan</vendor>
 
@@ -9,30 +9,30 @@
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to target different products -->
-    <!-- uncomment to enable plugin in all products
     <depends>com.intellij.modules.lang</depends>
-    -->
+    <depends optional="true" config-file="withIDEA.xml">com.intellij.modules.java</depends>
+    <depends optional="true" config-file="withCLion.xml">com.intellij.modules.clion</depends>
 
     <!-- Plugin's application components -->
     <application-components>
         <component>
             <!-- Component's interface class -->
-            <interface-class>de.thl.intelijinfer.config.ConfigComponent</interface-class>
+            <interface-class>de.thl.intellijinfer.config.ConfigComponent</interface-class>
             <!-- Component's implementation class -->
-            <implementation-class>de.thl.intelijinfer.config.ConfigComponentImpl</implementation-class>
+            <implementation-class>de.thl.intellijinfer.config.ConfigComponentImpl</implementation-class>
         </component>
     </application-components>
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
-        <toolWindow id="Infer" icon="toolWindowIcon.svg" secondary="false" anchor="bottom" factoryClass="de.thl.intelijinfer.ui.MainToolWindowFactory"/>
-        <projectService serviceImplementation="de.thl.intelijinfer.service.InferRunner"/>
-        <projectService serviceImplementation="de.thl.intelijinfer.service.ResultParser"/>
+        <toolWindow id="Infer" icon="toolWindowIcon.svg" secondary="false" anchor="bottom" factoryClass="de.thl.intellijinfer.ui.MainToolWindowFactory"/>
+        <projectService serviceImplementation="de.thl.intellijinfer.service.InferLauncher"/>
+        <projectService serviceImplementation="de.thl.intellijinfer.service.ResultParser"/>
     </extensions>
 
     <actions>
         <group id="infer.menu" text="Infer" description="Infer Integration menu">
             <add-to-group group-id="MainMenu" anchor="last"/>
-            <action id="infer.textboxes" class="de.thl.intelijinfer.actions.RunAction" text="Run" description="Runs Infer">
+            <action id="infer.textboxes" class="de.thl.intellijinfer.actions.RunAction" text="Run" description="Runs Infer">
                 <keyboard-shortcut keymap="$default" first-keystroke="control alt G" second-keystroke="C"/>
             </action>
         </group>

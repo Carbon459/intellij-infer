@@ -1,6 +1,5 @@
-package de.thl.intelijinfer.config;
+package de.thl.intellijinfer.config;
 
-import de.thl.intelijinfer.ui.MainToolWindow;
 import org.jetbrains.annotations.NotNull;
 
 public class ConfigComponentImpl implements ConfigComponent{
@@ -14,11 +13,11 @@ public class ConfigComponentImpl implements ConfigComponent{
 
     @Override
     public void initComponent() {
-        System.out.println("IDE Start");
+        System.out.println("--- IDE Start ---");
     }
 
     @Override
     public void disposeComponent() {
-        System.out.println("IDE Stop");
+        System.out.println("--- IDE Stop ---");
     }
 }

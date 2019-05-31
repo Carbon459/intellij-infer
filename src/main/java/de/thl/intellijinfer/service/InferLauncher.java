@@ -1,23 +1,21 @@
-package de.thl.intelijinfer.service;
+package de.thl.intellijinfer.service;
 
-import com.intellij.ide.highlighter.JavaFileType;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.projectRoots.Sdk;
+import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.ui.Messages;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.search.FileTypeIndex;
+import com.intellij.psi.search.FilenameIndex;
 import com.intellij.psi.search.GlobalSearchScope;
-import com.intellij.util.indexing.FileBasedIndex;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.util.Collection;
 
 public class InferLauncher {
+    private static final Logger log = Logger.getInstance("#de.thl.intellijinfer.service.InferLauncher");
     private Project project;
-
-    private static final Logger log = Logger.getInstance("#de.thl.intelij");
+    private BuildTool buildtool;
 
     public InferLauncher(Project project) {
         this.project = project;
@@ -27,14 +25,27 @@ public class InferLauncher {
         return ServiceManager.getService(project, InferLauncher.class);
     }
 
+    enum BuildTool{
+        JAVAC, CLANG, MAVEN, GRADLE, MAKE, CMAKE
+    }
+
     public void run() {
         ProcessBuilder processBuilder = new ProcessBuilder();
         processBuilder.directory(new File(project.getBasePath()));
 
-        //String[] commands = {"/bin/sh", "-c", "infer -- " + createJavacParams()};
-        String[] commands = {"sh", "-c", "infer -- " + getBuildCmd()};
+        this.buildtool = getBuildTool();
+
+        String[] commands = {"sh", "-c", getBuildCmd(buildtool)};
         processBuilder.command(commands);
+
         try {
+            if(buildtool.equals(BuildTool.CMAKE)) {
+                ProcessBuilder processBuilder2 = new ProcessBuilder();
+                processBuilder2.directory(new File(project.getBasePath() + "/cmake-build-debug"));
+                processBuilder2.command("cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 ..");
+                Process p2 = processBuilder2.start();
+                p2.waitFor();
+            }
             Process p = processBuilder.start();
             p.waitFor();
             Messages.showMessageDialog(project, "Fertig", "Greeting", Messages.getInformationIcon());
@@ -44,22 +55,61 @@ public class InferLauncher {
 
     }
 
-    private String getBuildCmd() {
-        String buildTool = "Java"; //TODO buildtool auslesen
+    public BuildTool getBuildTool() {
+        Sdk sdk = ProjectRootManager.getInstance(project).getProjectSdk();
+
+        if(sdk != null && sdk.getSdkType().getName() == "JavaSDK") {
+            if (FilenameIndex.getFilesByName(project, "pom.xml", GlobalSearchScope.projectScope(project)).length > 0) {
+                return BuildTool.MAVEN;
+            }
+            else if (FilenameIndex.getFilesByName(project, "build.gradle", GlobalSearchScope.projectScope(project)).length > 0) {
+                return BuildTool.GRADLE;
+            } else {
+                return BuildTool.JAVAC;
+            }
+        }
+
+        if (FilenameIndex.getFilesByName(project, "CMakeLists.txt", GlobalSearchScope.projectScope(project)).length > 0) {
+            return BuildTool.CMAKE;
+        } else if (FilenameIndex.getFilesByName(project, "makefile", GlobalSearchScope.projectScope(project)).length > 0) {
+            return BuildTool.MAKE;
+        } else {
+            return BuildTool.CLANG;
+        }
+
+    }
+
+
+    public String getBuildCmd(BuildTool bt) {
         StringBuilder sb = new StringBuilder();
 
-        switch(buildTool) {
-            case "Java":
-                sb.append("javac -d out/infer ");
-
-                //Get all Class Filepaths
-                Collection<VirtualFile> projectJavaFiles = FileBasedIndex.getInstance().getContainingFiles(
-                        FileTypeIndex.NAME, JavaFileType.INSTANCE, GlobalSearchScope.projectScope(project));
-                for (VirtualFile virtualFile : projectJavaFiles) {
-                    sb.append(virtualFile.getCanonicalPath() + " ");
-                }
+        switch(bt) { //todo für javac, maven, gradle, cmake, make installation prüfen
+            case JAVAC:
+                sb.append("infer run -- javac -d out/infer ");
+                sb.append(IdeaHelper.getInstance(project).getAllJavaFiles());
+                break;
+            case MAVEN:
+                sb.append("infer run -- mvn package -Pdev");
+                break;
+            case GRADLE:
+                sb.append("infer run -- gradle build");
+                break;
+            case CLANG:
+                sb.append("infer run -- clang -o ");
+                //TODO ...
+                break;
+            case CMAKE:
+                sb.append("infer run --compilation-database cmake-build-debug/compile_commands.json");
+                break;
+            case MAKE:
+                sb.append("infer run -- make");
+                break;
+            default:
+                log.error("Unsupported Build Command for this IDE");
+                break;
         }
         System.out.println(sb.toString());
+        log.info("Build Cmd: " + sb.toString());
         return sb.toString();
     }
 }

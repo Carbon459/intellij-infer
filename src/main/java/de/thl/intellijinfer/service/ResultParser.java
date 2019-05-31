@@ -1,4 +1,4 @@
-package de.thl.intelijinfer.service;
+package de.thl.intellijinfer.service;
 
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.project.Project;

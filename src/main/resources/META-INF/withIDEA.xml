@@ -1,0 +1,5 @@
+<idea-plugin>
+    <extensions defaultExtensionNs="com.intellij">
+        <projectService serviceImplementation="de.thl.intellijinfer.service.IdeaHelper"/>
+    </extensions>
+</idea-plugin>

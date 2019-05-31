@@ -1,4 +1,4 @@
-package de.thl.intelijinfer.ui;
+package de.thl.intellijinfer.ui;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;

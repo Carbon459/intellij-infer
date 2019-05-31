@@ -1,4 +1,4 @@
-package de.thl.intelijinfer.ui;
+package de.thl.intellijinfer.ui;
 
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.ui.treeStructure.Tree;

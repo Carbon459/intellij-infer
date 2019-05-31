@@ -1,4 +1,4 @@
-package de.thl.intelijinfer.config;
+package de.thl.intellijinfer.config;
 
 import com.intellij.openapi.components.BaseComponent;
 
