@@ -1,4 +1,4 @@
-package de.thl.intellijinfer.config;
+package de.thl.intellijinfer.run;
 
 import com.intellij.execution.configurations.ConfigurationFactory;
 import com.intellij.execution.configurations.ConfigurationType;

@@ -1,4 +1,4 @@
-package de.thl.intellijinfer.config;
+package de.thl.intellijinfer.run;
 
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.Executor;
@@ -29,6 +29,6 @@ public class InferRunConfiguration extends RunConfigurationBase {
     @Nullable
     @Override
     public RunProfileState getState(@NotNull Executor executor, @NotNull ExecutionEnvironment executionEnvironment) throws ExecutionException {
-        return null;
+        return new InferRunState(executionEnvironment);
     }
 }

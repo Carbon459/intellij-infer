@@ -1,5 +1,9 @@
 package de.thl.intellijinfer.service;
 
+import com.intellij.execution.RunManager;
+import com.intellij.execution.RunnerAndConfigurationSettings;
+import com.intellij.execution.impl.RunnerAndConfigurationSettingsImpl;
+import com.intellij.execution.impl.RunnerAndConfigurationSettingsImplKt;
 import com.intellij.openapi.application.Application;
 import com.intellij.openapi.application.ApplicationInfo;
 import com.intellij.openapi.application.ex.ApplicationInfoEx;
@@ -42,7 +46,7 @@ public class InferLauncher {
         processBuilder.directory(new File(project.getBasePath()));
 
         this.buildtool = getBuildTool();
-
+        
         String[] commands = {"sh", "-c", getBuildCmd(buildtool)};
         processBuilder.command(commands);
 
