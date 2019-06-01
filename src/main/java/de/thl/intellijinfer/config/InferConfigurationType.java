@@ -2,7 +2,7 @@ package de.thl.intellijinfer.config;
 
 import com.intellij.execution.configurations.ConfigurationFactory;
 import com.intellij.execution.configurations.ConfigurationType;
-import com.intellij.icons.AllIcons;
+import com.intellij.openapi.util.IconLoader;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -20,7 +20,7 @@ public class InferConfigurationType implements ConfigurationType {
 
     @Override
     public Icon getIcon() {
-        return AllIcons.General.Information;
+        return IconLoader.getIcon("/META-INF/pluginIcon.svg");
     }
 
     @NotNull

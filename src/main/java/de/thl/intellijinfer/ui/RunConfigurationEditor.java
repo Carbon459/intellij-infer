@@ -2,8 +2,6 @@ package de.thl.intellijinfer.ui;
 
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.options.SettingsEditor;
-import com.intellij.openapi.ui.ComponentWithBrowseButton;
-import com.intellij.openapi.ui.LabeledComponent;
 import com.intellij.openapi.ui.TextFieldWithBrowseButton;
 import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBTextField;
@@ -20,10 +18,8 @@ public class RunConfigurationEditor extends SettingsEditor<InferRunConfiguration
     private JBLabel workingDirectoryJBLabel;
     private JBLabel buildToolLabel;
     private JComboBox buildToolComboBox;
-    private JBTextField workingDirectoryTextField;
-    private JButton workingDirSelector;
     private JBTextField inferArgumentsTextField;
-    private LabeledComponent<ComponentWithBrowseButton> myMainClass;
+    private TextFieldWithBrowseButton workingDirectoryChooser;
 
     @Override
     protected void resetEditorFrom(InferRunConfiguration demoRunConfiguration) {
@@ -39,10 +35,5 @@ public class RunConfigurationEditor extends SettingsEditor<InferRunConfiguration
     @Override
     protected JComponent createEditor() {
         return mainPanel;
-    }
-
-    private void createUIComponents() {
-        myMainClass = new LabeledComponent<ComponentWithBrowseButton>();
-        myMainClass.setComponent(new TextFieldWithBrowseButton());
     }
 }
