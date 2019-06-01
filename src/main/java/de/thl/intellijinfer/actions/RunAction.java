@@ -13,7 +13,7 @@ public class RunAction extends AnAction {
     public void actionPerformed(AnActionEvent event) {
         Project project = event.getProject();
         Editor editor = event.getData(CommonDataKeys.EDITOR);
-        InferLauncher.getInstance(project).run();
+        //InferLauncher.getInstance(project).run();
         //HintManager.getInstance().showErrorHint(editor,"jaja", 5, 5, HintManager.DEFAULT, HintManager.HIDE_BY_TEXT_CHANGE, 10);
     }
 }

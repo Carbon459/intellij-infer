@@ -1,24 +1,32 @@
 package de.thl.intellijinfer.service;
 
+import com.intellij.openapi.application.Application;
+import com.intellij.openapi.application.ApplicationInfo;
+import com.intellij.openapi.application.ex.ApplicationInfoEx;
 import com.intellij.openapi.components.ServiceManager;
+import com.intellij.openapi.diagnostic.ApplicationInfoProvider;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.ui.Messages;
+import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.search.FilenameIndex;
 import com.intellij.psi.search.GlobalSearchScope;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.util.Collection;
 
 public class InferLauncher {
     private static final Logger log = Logger.getInstance("#de.thl.intellijinfer.service.InferLauncher");
     private Project project;
     private BuildTool buildtool;
+    private boolean hasJavaSDK;
 
     public InferLauncher(Project project) {
         this.project = project;
+        hasJavaSDK = ProjectRootManager.getInstance(project).getProjectSdk() != null;
     }
 
     public static InferLauncher getInstance(@NotNull Project project) {
@@ -58,7 +66,7 @@ public class InferLauncher {
     public BuildTool getBuildTool() {
         Sdk sdk = ProjectRootManager.getInstance(project).getProjectSdk();
 
-        if(sdk != null && sdk.getSdkType().getName() == "JavaSDK") {
+        if(hasJavaSDK && sdk.getSdkType().getName() == "JavaSDK") {
             if (FilenameIndex.getFilesByName(project, "pom.xml", GlobalSearchScope.projectScope(project)).length > 0) {
                 return BuildTool.MAVEN;
             }
@@ -89,14 +97,14 @@ public class InferLauncher {
                 sb.append(IdeaHelper.getInstance(project).getAllJavaFiles());
                 break;
             case MAVEN:
-                sb.append("infer run -- mvn package -Pdev");
+                sb.append("infer run -- mvn package");
                 break;
             case GRADLE:
                 sb.append("infer run -- gradle build");
                 break;
             case CLANG:
                 sb.append("infer run -- clang -o ");
-                //TODO ...
+                sb.append(ClionHelper.getInstance(project).getAllCFiles());
                 break;
             case CMAKE:
                 sb.append("infer run --compilation-database cmake-build-debug/compile_commands.json");
@@ -105,7 +113,7 @@ public class InferLauncher {
                 sb.append("infer run -- make");
                 break;
             default:
-                log.error("Unsupported Build Command for this IDE");
+                log.error("Unsupported Build Command");
                 break;
         }
         System.out.println(sb.toString());
