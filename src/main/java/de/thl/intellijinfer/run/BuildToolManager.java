@@ -2,8 +2,6 @@ package de.thl.intellijinfer.run;
 
 import com.intellij.execution.application.ApplicationConfiguration;
 import com.intellij.execution.configurations.RunConfiguration;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -25,7 +23,6 @@ public class BuildToolManager {
         if(rc instanceof ApplicationConfiguration) {
             System.out.println(((ApplicationConfiguration)rc).getProgramParameters());
         }
-
         return null;
     }
 }
