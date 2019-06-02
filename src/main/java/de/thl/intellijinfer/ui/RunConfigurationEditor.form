@@ -39,7 +39,7 @@
               <text value="Infer Installation:"/>
             </properties>
           </component>
-          <component id="8c24e" class="com.intellij.ui.components.JBLabel" binding="buildToolLabel">
+          <component id="8c24e" class="com.intellij.ui.components.JBLabel" binding="usingRunConfigLabel">
             <constraints>
               <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="1" anchor="8" fill="0" indent="0" use-parent-layout="false">
                 <preferred-size width="183" height="29"/>
@@ -48,7 +48,7 @@
             </constraints>
             <properties>
               <labelFor value="b70a9"/>
-              <text value="Build Tool:"/>
+              <text value="Using Run Config:"/>
             </properties>
           </component>
           <component id="6e260" class="com.intellij.ui.components.JBLabel" binding="argumentsLabel">
@@ -86,7 +86,7 @@
               </model>
             </properties>
           </component>
-          <component id="b70a9" class="javax.swing.JComboBox" binding="buildToolComboBox" default-binding="true">
+          <component id="b70a9" class="javax.swing.JComboBox" binding="usingRunConfigComboBox" default-binding="true">
             <constraints>
               <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="98" height="29"/>

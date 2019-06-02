@@ -26,7 +26,7 @@ public class InferConfigurationType implements ConfigurationType {
     @NotNull
     @Override
     public String getId() {
-        return "DEMO_RUN_CONFIGURATION";
+        return "INFER_RUN_CONFIGURATION";
     }
 
     @Override

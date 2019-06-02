@@ -14,7 +14,7 @@ public class InferConfigurationFactory extends ConfigurationFactory {
 
     @Override
     public RunConfiguration createTemplateConfiguration(Project project) {
-        return new InferRunConfiguration(project, this, "Demo");
+        return new InferRunConfiguration(project, this, "Infer");
     }
 
     @Override
