@@ -19,23 +19,28 @@ public class RunConfigurationEditor extends SettingsEditor<InferRunConfiguration
     private JBLabel inferInstallationLabel;
     private JComboBox inferInstallationComboBox;
     private JBLabel argumentsLabel;
-    private JBLabel workingDirectoryJBLabel;
     private JBLabel usingRunConfigLabel;
     private JComboBox usingRunConfigComboBox;
     private JBTextField inferArgumentsTextField;
-    private TextFieldWithBrowseButton workingDirectoryChooser;
 
-    @Override
-    protected void resetEditorFrom(InferRunConfiguration demoRunConfiguration) {
-        List<RunConfiguration> runConfigList = RunManager.getInstance(demoRunConfiguration.getProject()).getAllConfigurationsList();
-        BuildToolManager.filterUnknownRunConfigurations(runConfigList);
-        usingRunConfigComboBox.setModel(new DefaultComboBoxModel(runConfigList.toArray()));
+    public RunConfigurationEditor() {
 
     }
 
     @Override
-    protected void applyEditorTo(InferRunConfiguration demoRunConfiguration) throws ConfigurationException {
+    protected void resetEditorFrom(InferRunConfiguration inferRunConfiguration) {
+        System.out.println("resetEditorFrom" + inferRunConfiguration.getId());
+        List<RunConfiguration> runConfigList = RunManager.getInstance(inferRunConfiguration.getProject()).getAllConfigurationsList();
+        System.out.println(runConfigList.size());
+        BuildToolManager.filterUnknownRunConfigurations(runConfigList);
+        usingRunConfigComboBox.setModel(new DefaultComboBoxModel(runConfigList.toArray()));
+    }
+
+    @Override
+    protected void applyEditorTo(InferRunConfiguration inferRunConfiguration) throws ConfigurationException {
         final RunConfiguration selectedRc = (RunConfiguration) usingRunConfigComboBox.getSelectedItem();
+        final String runCmd = BuildToolManager.getRunCmd(selectedRc);
+
     }
 
     @NotNull
