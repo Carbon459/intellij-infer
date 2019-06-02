@@ -14,8 +14,8 @@
         <rowspec value="center:d:grow"/>
         <rowspec value="top:4dlu:noGrow"/>
         <rowspec value="center:d:grow"/>
-        <colspec value="fill:166px:grow"/>
-        <colspec value="left:4dlu:noGrow"/>
+        <colspec value="left:d:grow"/>
+        <colspec value="left:7dlu:noGrow"/>
         <colspec value="fill:d:grow"/>
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
