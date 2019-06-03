@@ -11,6 +11,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class InferRunConfiguration extends RunConfigurationBase {
+
+    public String buildCmd;
+
     protected InferRunConfiguration(Project project, ConfigurationFactory factory, String name) {
         super(project, factory, name);
     }
@@ -29,6 +32,6 @@ public class InferRunConfiguration extends RunConfigurationBase {
     @Nullable
     @Override
     public RunProfileState getState(@NotNull Executor executor, @NotNull ExecutionEnvironment executionEnvironment) throws ExecutionException {
-        return new InferRunState(executionEnvironment);
+        return new InferRunState(this, executionEnvironment);
     }
 }

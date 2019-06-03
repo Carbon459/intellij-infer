@@ -12,6 +12,8 @@
     <depends>com.intellij.modules.lang</depends>
     <depends optional="true" config-file="withIDEA.xml">com.intellij.modules.java</depends>
     <depends optional="true" config-file="withCLion.xml">com.intellij.modules.clion</depends>
+    <!-- <depends>org.jetbrains.idea.maven</depends>
+    <depends>org.jetbrains.plugins.gradle</depends>-->
     <!--<depends optional="true" config-file="withCLion.xml">com.intellij.modules.cidr.lang</depends>-->
 
     <!-- Plugin's application components -->

@@ -2,12 +2,16 @@ package de.thl.intellijinfer.ui;
 
 import com.intellij.execution.RunManager;
 import com.intellij.execution.configurations.RunConfiguration;
+import com.intellij.execution.executors.DefaultRunExecutor;
+import com.intellij.execution.runners.ExecutionEnvironment;
+import com.intellij.execution.runners.ExecutionEnvironmentBuilder;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.options.SettingsEditor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
 import com.intellij.openapi.ui.TextFieldWithBrowseButton;
 import com.intellij.openapi.wm.WindowManager;
+import com.intellij.task.impl.ExecutionEnvironmentProviderImpl;
 import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBTextField;
 import de.thl.intellijinfer.run.BuildToolManager;
@@ -43,7 +47,9 @@ public class RunConfigurationEditor extends SettingsEditor<InferRunConfiguration
     protected void applyEditorTo(InferRunConfiguration inferRunConfiguration) throws ConfigurationException {
         final RunConfiguration selectedRc = (RunConfiguration) usingRunConfigComboBox.getSelectedItem();
         final String runCmd = BuildToolManager.getRunCmd(selectedRc);
-        inferRunConfiguration.
+        inferRunConfiguration.buildCmd = runCmd;
+        ExecutionEnvironment ex = ExecutionEnvironmentBuilder.create(DefaultRunExecutor.getRunExecutorInstance(), selectedRc).build();
+        //System.out.println(ex);
     }
 
     @NotNull
