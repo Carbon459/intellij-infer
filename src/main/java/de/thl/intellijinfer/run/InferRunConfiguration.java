@@ -22,10 +22,12 @@ import org.jetbrains.annotations.Nullable;
 
 public class InferRunConfiguration extends RunConfigurationBase {
     public static final String PREFIX = "INTELLIJ_INFER-";
-    public static final String SELECTED_RUN_CONFIG = PREFIX + "SELECTED_RUN_CONFIG";
+    public static final String SELECTED_RUN_CONFIG_NAME = PREFIX + "SELECTED_RUN_CONFIG_NAME";
+    public static final String SELECTED_RUN_CONFIG_TYPE = PREFIX + "SELECTED_RUN_CONFIG_TYPE";
 
     private RunConfiguration selectedRunConfig;
     private String selectedRunConfigName;
+    private String selectedRunConfigType;
     private Project project;
 
     protected InferRunConfiguration(Project project, ConfigurationFactory factory, String name) {
@@ -54,13 +56,17 @@ public class InferRunConfiguration extends RunConfigurationBase {
     @Override
     public void readExternal(@NotNull Element element) throws InvalidDataException {
         super.readExternal(element);
-        this.selectedRunConfigName = JDOMExternalizerUtil.readField(element, SELECTED_RUN_CONFIG);
+        this.selectedRunConfigName = JDOMExternalizerUtil.readField(element, SELECTED_RUN_CONFIG_NAME);
+        this.selectedRunConfigType = JDOMExternalizerUtil.readField(element, SELECTED_RUN_CONFIG_TYPE);
     }
 
     @Override
     public void writeExternal(@NotNull Element element) throws WriteExternalException {
         super.writeExternal(element);
-        if(this.getSelectedRunConfig() != null) JDOMExternalizerUtil.writeField(element, SELECTED_RUN_CONFIG, this.getSelectedRunConfig().getName());
+        if(this.getSelectedRunConfig() != null) {
+            JDOMExternalizerUtil.writeField(element, SELECTED_RUN_CONFIG_NAME, this.getSelectedRunConfig().getName());
+            JDOMExternalizerUtil.writeField(element, SELECTED_RUN_CONFIG_TYPE, this.getSelectedRunConfig().getType().getDisplayName());
+        }
     }
 
     public String getRunCmd() {
@@ -73,11 +79,11 @@ public class InferRunConfiguration extends RunConfigurationBase {
     public void setSelectedRunConfig(RunConfiguration rc) {
         this.selectedRunConfig = rc;
     }
-    //später als in readexternal ausgeführt da beim laden noch nicht alle run configs bestehen
+    //später als in readexternal ausgeführt da beim laden noch nicht alle run configs bestehen. name ist pro type einmalig
     private void loadRunConfigInstance() {
         if(this.selectedRunConfig != null) return;
         for(RunConfiguration rc : RunManager.getInstance(project).getAllConfigurationsList()) {
-            if(rc.getName().equals(this.selectedRunConfigName)) {
+            if(rc.getType().getDisplayName().equals(this.selectedRunConfigType) && rc.getName().equals(this.selectedRunConfigName)) {
                 this.setSelectedRunConfig(rc);
             }
         }
