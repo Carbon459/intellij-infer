@@ -41,14 +41,14 @@ public class RunConfigurationEditor extends SettingsEditor<InferRunConfiguration
         List<RunConfiguration> runConfigList = RunManager.getInstance(inferRunConfiguration.getProject()).getAllConfigurationsList();
         BuildToolManager.filterUnknownRunConfigurations(runConfigList);
         usingRunConfigComboBox.setModel(new DefaultComboBoxModel(runConfigList.toArray()));
+        if(inferRunConfiguration.getSelectedRunConfig() != null) usingRunConfigComboBox.setSelectedItem(inferRunConfiguration.getSelectedRunConfig());
     }
 
     @Override
     protected void applyEditorTo(InferRunConfiguration inferRunConfiguration) throws ConfigurationException {
         final RunConfiguration selectedRc = (RunConfiguration) usingRunConfigComboBox.getSelectedItem();
-        final String runCmd = BuildToolManager.getRunCmd(selectedRc);
-        inferRunConfiguration.buildCmd = runCmd;
-        ExecutionEnvironment ex = ExecutionEnvironmentBuilder.create(DefaultRunExecutor.getRunExecutorInstance(), selectedRc).build();
+        inferRunConfiguration.setSelectedRunConfig(selectedRc);
+        //ExecutionEnvironment ex = ExecutionEnvironmentBuilder.create(DefaultRunExecutor.getRunExecutorInstance(), selectedRc).build();
         //System.out.println(ex);
     }
 
