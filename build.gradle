@@ -21,7 +21,7 @@ dependencies {
 intellij {
     pluginName 'intellij-infer'
     version '2019.1'
-    plugins = ['Maven', 'Gradle']
+    //plugins = ['Maven', 'Gradle']
     sandboxDirectory = "$project.buildDir/myCustom-sandbox"
 }
 patchPluginXml {

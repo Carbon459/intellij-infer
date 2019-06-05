@@ -7,8 +7,6 @@ import com.intellij.execution.configurations.RunConfiguration;
 import com.intellij.util.PlatformUtils;
 import com.jetbrains.cidr.cpp.execution.CMakeAppRunConfiguration;
 import de.thl.intellijinfer.service.IdeaHelper;
-import org.jetbrains.idea.maven.execution.MavenRunConfiguration;
-import org.jetbrains.plugins.gradle.service.execution.GradleRunConfiguration;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -36,10 +34,10 @@ public class BuildToolManager {
 
         if (javaType != null && rc.getType().getDisplayName().equals(javaType.getDisplayName())) {
             return "infer run -- javac " + IdeaHelper.getInstance(rc.getProject()).getAllJavaFiles();
-        } else if (mavenType != null && rc.getType().getDisplayName().equals(mavenType.getDisplayName())) {
+        } else if (mavenType != null && rc.getType().getDisplayName().equals(mavenType.getDisplayName())) { //todo sicherstellen das maven installiert ist
             return "infer run -- mvn package";
         } else if (gradleType != null && rc.getType().getDisplayName().equals(gradleType.getDisplayName())) {
-            return "infer run -- gradle build";
+            return "infer run -- ./gradlew build";
         } else if (cmakeType != null && rc.getType().getDisplayName().equals(cmakeType.getDisplayName())) {
             System.out.println("CMAKEAPPRUNCONFIGURATION FOUND");
             return "infer run --compilation-database build/compile_commands.json";
