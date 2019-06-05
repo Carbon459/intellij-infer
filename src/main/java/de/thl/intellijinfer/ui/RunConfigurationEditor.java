@@ -39,7 +39,7 @@ public class RunConfigurationEditor extends SettingsEditor<InferRunConfiguration
     @Override
     protected void resetEditorFrom(InferRunConfiguration inferRunConfiguration) {
         List<RunConfiguration> runConfigList = RunManager.getInstance(inferRunConfiguration.getProject()).getAllConfigurationsList();
-        BuildToolManager.filterUnknownRunConfigurations(runConfigList);
+        runConfigList = BuildToolManager.filterUnknownRunConfigurations(runConfigList);
         usingRunConfigComboBox.setModel(new DefaultComboBoxModel(runConfigList.toArray()));
         if(inferRunConfiguration.getSelectedRunConfig() != null) usingRunConfigComboBox.setSelectedItem(inferRunConfiguration.getSelectedRunConfig());
     }

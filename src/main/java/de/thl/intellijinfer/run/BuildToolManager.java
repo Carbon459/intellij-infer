@@ -1,11 +1,9 @@
 package de.thl.intellijinfer.run;
 
-import com.intellij.execution.application.ApplicationConfiguration;
 import com.intellij.execution.configurations.ConfigurationType;
 import com.intellij.execution.configurations.ConfigurationTypeUtil;
 import com.intellij.execution.configurations.RunConfiguration;
-import com.intellij.util.PlatformUtils;
-import com.jetbrains.cidr.cpp.execution.CMakeAppRunConfiguration;
+import com.intellij.openapi.diagnostic.Logger;
 import de.thl.intellijinfer.service.IdeaHelper;
 
 import java.util.Arrays;
@@ -13,24 +11,27 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class BuildToolManager {
-    private final static List<String> runConfigurationWhitelist = new LinkedList<>(Arrays.asList("Application", "GradleRunConfiguration", "MavenRunConfiguration"));
+    private static final Logger log = Logger.getInstance("#de.thl.intellijinfer.run.BuildToolManager");
+    private final static List<String> runConfigurationWhitelist = new LinkedList<>(Arrays.asList("Application", "GradleRunConfiguration", "MavenRunConfiguration", "CMakeRunConfiguration"));
 
-    public static void filterUnknownRunConfigurations(List<RunConfiguration> rcList) {
-        for(RunConfiguration rc : rcList) {
+    public static List<RunConfiguration> filterUnknownRunConfigurations(List<RunConfiguration> rcList) {
+        List<RunConfiguration> newRcList = new LinkedList<>();
+        newRcList.addAll(rcList);
+        for(RunConfiguration rc : newRcList) {
             if(!runConfigurationWhitelist.contains(rc.getType().getId())) {
-                rcList.remove(rc);
+                newRcList.remove(rc);
             }
         }
+        return newRcList;
     }
 
     public static String getRunCmd(RunConfiguration rc) {
-        System.out.println(rc.getType().getDisplayName());
         if (rc == null) return null;
 
         final ConfigurationType javaType = ConfigurationTypeUtil.findConfigurationType("ApplicationConfiguration");
         final ConfigurationType mavenType = ConfigurationTypeUtil.findConfigurationType("MavenRunConfiguration");
         final ConfigurationType gradleType = ConfigurationTypeUtil.findConfigurationType("GradleRunConfiguration");
-        final ConfigurationType cmakeType = ConfigurationTypeUtil.findConfigurationType("CMakeAppRunConfiguration");
+        final ConfigurationType cmakeType = ConfigurationTypeUtil.findConfigurationType("CMakeRunConfiguration");
 
         if (javaType != null && rc.getType().getDisplayName().equals(javaType.getDisplayName())) {
             return "infer run -- javac " + IdeaHelper.getInstance(rc.getProject()).getAllJavaFiles();
@@ -39,10 +40,9 @@ public class BuildToolManager {
         } else if (gradleType != null && rc.getType().getDisplayName().equals(gradleType.getDisplayName())) {
             return "infer run -- ./gradlew build";
         } else if (cmakeType != null && rc.getType().getDisplayName().equals(cmakeType.getDisplayName())) {
-            System.out.println("CMAKEAPPRUNCONFIGURATION FOUND");
             return "infer run --compilation-database build/compile_commands.json";
         }
-        PlatformUtils.isCLion(); //todo
+        log.error("Unknown Run Configuration Type");
         return null;
     }
 }

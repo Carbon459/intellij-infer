@@ -10,6 +10,8 @@ import com.intellij.execution.runners.ExecutionEnvironment;
 import com.intellij.openapi.diagnostic.Logger;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
+
 public class InferRunState extends CommandLineState {
     private static final Logger log = Logger.getInstance("#de.thl.intellijinfer.run.InferRunState");
 
@@ -25,10 +27,13 @@ public class InferRunState extends CommandLineState {
     @NotNull
     @Override
     protected ProcessHandler startProcess() throws ExecutionException {
-        log.info("Running Infer with Command: " + runCfg.getRunCmd());
-        System.out.println("Running Process: " + runCfg.getRunCmd());
+        final String runCmd = runCfg.getRunCmd();
+        if(runCmd == null) throw new ExecutionException("Infer Execution not possible: Unable to get Run Command");
+        log.info("Running Infer with Command: " + runCmd);
+        System.out.println("Running Process: " + runCmd);
         //todo before run task cmake stuff
-        GeneralCommandLine commandLine = new GeneralCommandLine("/bin/sh", "-c", runCfg.getRunCmd());
+        GeneralCommandLine commandLine = new GeneralCommandLine("/bin/sh", "-c", runCmd);
+        commandLine.setWorkDirectory(new File(runCfg.getProject().getBasePath()));
         ProcessHandler ph = new ColoredProcessHandler(commandLine);
         return ph;
     }
