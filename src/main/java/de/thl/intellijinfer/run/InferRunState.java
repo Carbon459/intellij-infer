@@ -30,7 +30,6 @@ public class InferRunState extends CommandLineState {
         if(runCmd == null) throw new ExecutionException("Infer Execution not possible: Unable to get Run Command");
         log.info("Running Infer with Command: " + runCmd);
         System.out.println("Running Process: " + runCmd);
-        //todo before run task cmake stuff
         GeneralCommandLine commandLine = new GeneralCommandLine("/bin/sh", "-c", runCmd);
         commandLine.setWorkDirectory(new File(runCfg.getProject().getBasePath()));
         ProcessHandler ph = new ColoredProcessHandler(commandLine);

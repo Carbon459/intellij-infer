@@ -9,14 +9,13 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.InvalidDataException;
 import com.intellij.openapi.util.JDOMExternalizerUtil;
 import com.intellij.openapi.util.WriteExternalException;
+import com.intellij.util.PlatformUtils;
 import de.thl.intellijinfer.service.ClionHelper;
 import de.thl.intellijinfer.ui.RunConfigurationEditor;
 import de.thl.intellijinfer.util.BuildToolUtil;
 import org.jdom.Element;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
 
 public class InferRunConfiguration extends RunConfigurationBase {
     private static final Logger log = Logger.getInstance("#de.thl.intellijinfer.run.InferRunConfiguration");
@@ -45,13 +44,13 @@ public class InferRunConfiguration extends RunConfigurationBase {
             } catch(InterruptedException ex) {log.warn("Thread Interrupted: Not Loading the selected run config automatically");}
         }).start();
 
+        if(PlatformUtils.isCLion()) ClionHelper.getInstance(this.project).generateCompileCommands();
     }
 
     @NotNull
     @Override
     public SettingsEditor<? extends RunConfiguration> getConfigurationEditor() {
         loadRunConfigInstance();
-        ClionHelper.getInstance(this.project).createCMakeBeforeRunTask(this, this.selectedRunConfig);
         return new RunConfigurationEditor();
     }
 
@@ -64,7 +63,6 @@ public class InferRunConfiguration extends RunConfigurationBase {
     @Override
     public RunProfileState getState(@NotNull Executor executor, @NotNull ExecutionEnvironment executionEnvironment) throws ExecutionException {
         loadRunConfigInstance();
-
         return new InferRunState(this, executionEnvironment);
     }
     @Override

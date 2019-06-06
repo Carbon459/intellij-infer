@@ -1,5 +1,6 @@
 package de.thl.intellijinfer.config;
 
+import com.intellij.util.PlatformUtils;
 import org.jetbrains.annotations.NotNull;
 
 public class ConfigComponentImpl implements ConfigComponent{

@@ -15,9 +15,9 @@ public class BuildToolUtil {
 
     private static final Map<String, Function<RunConfiguration, String>> supportedRunConfigurations = ImmutableMap.<String, Function<RunConfiguration, String>>builder()
             .put("Application", (rc) -> "-- javac " + IdeaHelper.getInstance(rc.getProject()).getAllJavaFiles())
-            .put("MavenRunConfiguration", (rc) -> "-- mvn package")                                                                           //todo sicherstellen das maven installiert ist
+            .put("MavenRunConfiguration", (rc) -> "-- mvn package")                                               //todo sicherstellen das maven installiert ist
             .put("GradleRunConfiguration", (rc) -> "-- ./gradlew build")
-            .put("CMakeRunConfiguration", (rc) -> "--compilation-database build/compile_commands.json")
+            .put("CMakeRunConfiguration", (rc) -> "--compilation-database cmake-build-debug/compile_commands.json") //todo ordner anpassen
             .build();
 
     public static List<RunConfiguration> filterUnknownRunConfigurations(List<RunConfiguration> rcList) {
