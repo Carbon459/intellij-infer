@@ -8,15 +8,8 @@
     <properties/>
     <border type="none"/>
     <children>
-      <grid id="b880" layout-manager="FormLayout">
-        <rowspec value="center:d:grow"/>
-        <rowspec value="top:4dlu:noGrow"/>
-        <rowspec value="center:d:grow"/>
-        <rowspec value="top:4dlu:noGrow"/>
-        <rowspec value="center:d:grow"/>
-        <colspec value="left:d:grow"/>
-        <colspec value="left:7dlu:noGrow"/>
-        <colspec value="fill:d:grow"/>
+      <grid id="b880" layout-manager="GridLayoutManager" row-count="4" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
             <preferred-size width="475" height="139"/>
@@ -30,7 +23,6 @@
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="1" anchor="8" fill="0" indent="0" use-parent-layout="false">
                 <preferred-size width="183" height="18"/>
               </grid>
-              <forms/>
             </constraints>
             <properties>
               <labelFor value="c171a"/>
@@ -39,10 +31,9 @@
           </component>
           <component id="8c24e" class="com.intellij.ui.components.JBLabel" binding="usingRunConfigLabel">
             <constraints>
-              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="1" anchor="8" fill="0" indent="0" use-parent-layout="false">
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="1" anchor="8" fill="0" indent="0" use-parent-layout="false">
                 <preferred-size width="183" height="29"/>
               </grid>
-              <forms/>
             </constraints>
             <properties>
               <labelFor value="b70a9"/>
@@ -51,10 +42,9 @@
           </component>
           <component id="6e260" class="com.intellij.ui.components.JBLabel" binding="argumentsLabel">
             <constraints>
-              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="1" anchor="8" fill="0" indent="0" use-parent-layout="false">
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="1" anchor="8" fill="0" indent="0" use-parent-layout="false">
                 <preferred-size width="183" height="18"/>
               </grid>
-              <forms/>
             </constraints>
             <properties>
               <anchor value=""/>
@@ -63,8 +53,7 @@
           </component>
           <component id="c171a" class="javax.swing.JComboBox" binding="inferInstallationComboBox">
             <constraints>
-              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
-              <forms/>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <model>
@@ -75,25 +64,21 @@
           </component>
           <component id="b70a9" class="javax.swing.JComboBox" binding="usingRunConfigComboBox" default-binding="true">
             <constraints>
-              <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                <preferred-size width="98" height="29"/>
-              </grid>
-              <forms/>
+              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties/>
           </component>
-          <component id="8282d" class="com.intellij.ui.components.JBTextField" binding="inferArgumentsTextField">
+          <component id="27d1a" class="com.intellij.ui.components.fields.ExpandableTextField" binding="additionalArgsTextField">
             <constraints>
-              <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
-                <minimum-size width="400" height="-1"/>
-              </grid>
-              <forms/>
+              <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
-            <properties>
-              <horizontalAlignment value="10"/>
-              <text value=""/>
-            </properties>
+            <properties/>
           </component>
+          <vspacer id="2e1f2">
+            <constraints>
+              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+            </constraints>
+          </vspacer>
         </children>
       </grid>
     </children>

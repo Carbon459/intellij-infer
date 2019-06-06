@@ -1,6 +1,5 @@
 package de.thl.intellijinfer.run;
 
-import com.intellij.execution.BeforeRunTaskProvider;
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.configurations.CommandLineState;
 import com.intellij.execution.configurations.GeneralCommandLine;
@@ -27,7 +26,7 @@ public class InferRunState extends CommandLineState {
     @NotNull
     @Override
     protected ProcessHandler startProcess() throws ExecutionException {
-        final String runCmd = runCfg.getRunCmd();
+        final String runCmd = "infer run " + runCfg.getAdditionalArgs() + " " +  runCfg.getBuildCmd();
         if(runCmd == null) throw new ExecutionException("Infer Execution not possible: Unable to get Run Command");
         log.info("Running Infer with Command: " + runCmd);
         System.out.println("Running Process: " + runCmd);
