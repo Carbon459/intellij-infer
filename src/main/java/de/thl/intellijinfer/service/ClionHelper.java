@@ -1,29 +1,24 @@
 package de.thl.intellijinfer.service;
 
-import com.intellij.execution.ExecutionException;
-import com.intellij.execution.ExecutionManager;
-import com.intellij.execution.RunManager;
-import com.intellij.execution.RunnerAndConfigurationSettings;
-import com.intellij.execution.actions.ConfigurationContext;
-import com.intellij.execution.actions.RunConfigurationProducer;
-import com.intellij.execution.executors.DefaultDebugExecutor;
+import com.intellij.execution.*;
+import com.intellij.execution.configurations.RunConfiguration;
 import com.intellij.execution.executors.DefaultRunExecutor;
-import com.intellij.execution.impl.RunnerAndConfigurationSettingsImpl;
 import com.intellij.execution.runners.ExecutionEnvironmentBuilder;
-import com.intellij.ide.highlighter.JavaFileType;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.openapi.externalSystem.service.execution.ExternalSystemBeforeRunTask;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.search.FileTypeIndex;
-import com.intellij.psi.search.FilenameIndex;
-import com.intellij.psi.search.GlobalSearchScope;
-import com.intellij.util.indexing.FileBasedIndex;
+import com.intellij.openapi.util.Key;
 import com.jetbrains.cidr.cpp.execution.CMakeAppRunConfiguration;
-import com.jetbrains.cidr.cpp.execution.CMakeTargetRunConfigurationProducer;
+import com.jetbrains.cidr.cpp.execution.CMakeBeforeRunTaskProviderMixin;
+import com.jetbrains.cidr.cpp.execution.CMakeBuildBeforeRunTaskProvider;
+import com.jetbrains.cidr.cpp.execution.external.run.CLionExternalBuildBeforeRunTask;
+import com.jetbrains.cidr.cpp.execution.external.run.CLionExternalBuildBeforeRunTaskProvider;
+import de.thl.intellijinfer.run.CMakeBeforeRunTaskProvider;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
+import java.util.List;
 
 public class ClionHelper {
     private static final Logger log = Logger.getInstance("#de.thl.intellijinfer.service.ClionHelper");
@@ -37,16 +32,13 @@ public class ClionHelper {
         return ServiceManager.getService(project, ClionHelper.class);
     }
 
-    public String getAllCFiles() {
-        StringBuilder sb = new StringBuilder();
-
-        Collection<VirtualFile> files = FilenameIndex.getAllFilesByExt(project, ".c");
-        for (VirtualFile virtualFile : files) {
-            sb.append(virtualFile.getCanonicalPath() + " ");
-        }
-
-
-        return sb.toString();
+    public void createCMakeBeforeRunTask(RunConfiguration inferRc, RunConfiguration cmakeRc) {
+        CMakeAppRunConfiguration clonedRc = (CMakeAppRunConfiguration) cmakeRc.clone();
+        clonedRc.setProgramParameters("-DCMAKE_EXPORT_COMPILE_COMMANDS=1");
+        BeforeRunTask task = new CMakeBeforeRunTaskProvider(this.project).createTask(cmakeRc);
+        List<BeforeRunTask> beforeRunTasks = RunManagerEx.getInstanceEx(this.project).getBeforeRunTasks(inferRc);
+        beforeRunTasks.add(task);
+        RunManagerEx.getInstanceEx(this.project).setBeforeRunTasks(inferRc, beforeRunTasks, true);
     }
 
     public void runCMake(CMakeAppRunConfiguration cmake) throws ExecutionException {
@@ -55,4 +47,6 @@ public class ClionHelper {
         ExecutionEnvironmentBuilder.create(project, DefaultRunExecutor.getRunExecutorInstance(), cmake).buildAndExecute();
         cmake.setProgramParameters(oldParams);
     }
+
+
 }

@@ -108,7 +108,6 @@ public class InferLauncher {
                 break;
             case CLANG:
                 sb.append("infer run -- clang -o ");
-                sb.append(ClionHelper.getInstance(project).getAllCFiles());
                 break;
             case CMAKE:
                 sb.append("infer run --compilation-database cmake-build-debug/compile_commands.json");

@@ -1,8 +1,6 @@
 package de.thl.intellijinfer.run;
 
-import com.intellij.execution.ExecutionException;
-import com.intellij.execution.Executor;
-import com.intellij.execution.RunManager;
+import com.intellij.execution.*;
 import com.intellij.execution.configurations.*;
 import com.intellij.execution.runners.ExecutionEnvironment;
 import com.intellij.openapi.diagnostic.Logger;
@@ -11,11 +9,14 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.InvalidDataException;
 import com.intellij.openapi.util.JDOMExternalizerUtil;
 import com.intellij.openapi.util.WriteExternalException;
+import de.thl.intellijinfer.service.ClionHelper;
 import de.thl.intellijinfer.ui.RunConfigurationEditor;
 import de.thl.intellijinfer.util.BuildToolUtil;
 import org.jdom.Element;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class InferRunConfiguration extends RunConfigurationBase {
     private static final Logger log = Logger.getInstance("#de.thl.intellijinfer.run.InferRunConfiguration");
@@ -29,6 +30,7 @@ public class InferRunConfiguration extends RunConfigurationBase {
 
     private String additionalArgs;
     private RunConfiguration selectedRunConfig;
+
     private Project project;
 
     protected InferRunConfiguration(Project project, ConfigurationFactory factory, String name) {
@@ -42,12 +44,14 @@ public class InferRunConfiguration extends RunConfigurationBase {
                 this.loadRunConfigInstance();
             } catch(InterruptedException ex) {log.warn("Thread Interrupted: Not Loading the selected run config automatically");}
         }).start();
+
     }
 
     @NotNull
     @Override
     public SettingsEditor<? extends RunConfiguration> getConfigurationEditor() {
         loadRunConfigInstance();
+        ClionHelper.getInstance(this.project).createCMakeBeforeRunTask(this, this.selectedRunConfig);
         return new RunConfigurationEditor();
     }
 
@@ -60,6 +64,7 @@ public class InferRunConfiguration extends RunConfigurationBase {
     @Override
     public RunProfileState getState(@NotNull Executor executor, @NotNull ExecutionEnvironment executionEnvironment) throws ExecutionException {
         loadRunConfigInstance();
+
         return new InferRunState(this, executionEnvironment);
     }
     @Override

@@ -31,6 +31,7 @@
         <projectService serviceImplementation="de.thl.intellijinfer.service.InferLauncher"/>
         <projectService serviceImplementation="de.thl.intellijinfer.service.ResultParser"/>
         <configurationType implementation="de.thl.intellijinfer.run.InferConfigurationType"/>
+        <!--<stepsBeforeRunProvider implementation="de.thl.intellijinfer.run.CMakeBeforeRunTaskProvider"/>-->
     </extensions>
 
     <actions>
