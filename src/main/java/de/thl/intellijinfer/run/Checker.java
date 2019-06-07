@@ -4,37 +4,39 @@ import de.thl.intellijinfer.config.InferVersion;
 
 public enum Checker {
     //DEFAULT SINCE VERSION 0.16.0
-    ANNOTATION_REACHABILITY("annotation-reachability", true, new InferVersion(0, 16, 0)),
-    BIABDUCTION("biabduction", true, new InferVersion(0, 16, 0)),
-    FRAGMENT_RETAINS_VIEW("fragment-retains-view", true, new InferVersion(0, 16, 0)),
-    IMMUTABLE_CAST("immutable-cast", true, new InferVersion(0, 16, 0)),
-    LINTERS("linters", true, new InferVersion(0, 16, 0)),
-    LIVENESS("liveness", true, new InferVersion(0, 16, 0)),
-    OWNERSHIP("ownership", true, new InferVersion(0, 16, 0)),
-    PRINTF_ARGS("printf-args", true, new InferVersion(0, 16, 0)),
-    RACERD("racerd", true, new InferVersion(0, 16, 0)),
-    SIOF("siof", true, new InferVersion(0, 16, 0)),
-    UNINIT("uninit", true, new InferVersion(0, 16, 0)),
+    ANNOTATION_REACHABILITY("annotation-reachability", Category.DEFAULT, new InferVersion(0, 16, 0)),
+    BIABDUCTION("biabduction", Category.DEFAULT, new InferVersion(0, 16, 0)),
+    FRAGMENT_RETAINS_VIEW("fragment-retains-view", Category.DEFAULT, new InferVersion(0, 16, 0)),
+    IMMUTABLE_CAST("immutable-cast", Category.DEFAULT, new InferVersion(0, 16, 0)),
+    LINTERS("linters", Category.DEFAULT, new InferVersion(0, 16, 0)),
+    LIVENESS("liveness", Category.DEFAULT, new InferVersion(0, 16, 0)),
+    OWNERSHIP("ownership", Category.DEFAULT, new InferVersion(0, 16, 0)),
+    PRINTF_ARGS("printf-args", Category.DEFAULT, new InferVersion(0, 16, 0)),
+    RACERD("racerd", Category.DEFAULT, new InferVersion(0, 16, 0)),
+    SIOF("siof", Category.DEFAULT, new InferVersion(0, 16, 0)),
+    UNINIT("uninit", Category.DEFAULT, new InferVersion(0, 16, 0)),
 
     //OPTIONAL SINCE VERSION 0.16.0
-    ERADICATE("eradicate", false, new InferVersion(0, 16, 0)),
-    COST("cost", false, new InferVersion(0, 16, 0)),
-    CHECK_NULLABLE("check-nullable", false, new InferVersion(0, 16, 0)),
-    BUFFEROVERRUN("bufferoverrun", false, new InferVersion(0, 16, 0)),
-    QUANDRY("quandary", false, new InferVersion(0, 16, 0)),
-    STARVATION("starvation", false, new InferVersion(0, 16, 0)),
-    SUGGEST_NULLABLE("suggest-nullable", false, new InferVersion(0, 16, 0)),
+    ERADICATE("eradicate", Category.OPTIONAL, new InferVersion(0, 16, 0)),
+    COST("cost", Category.OPTIONAL, new InferVersion(0, 16, 0)),
+    CHECK_NULLABLE("check-nullable", Category.OPTIONAL, new InferVersion(0, 16, 0)),
+    BUFFEROVERRUN("bufferoverrun", Category.OPTIONAL, new InferVersion(0, 16, 0)),
+    QUANDRY("quandary", Category.OPTIONAL, new InferVersion(0, 16, 0)),
+    STARVATION("starvation", Category.OPTIONAL, new InferVersion(0, 16, 0)),
+    SUGGEST_NULLABLE("suggest-nullable", Category.OPTIONAL, new InferVersion(0, 16, 0)),
 
     //EXPERIMENTAL SINCE VERSION 0.16.0
-    LITHO("--litho", false, new InferVersion(0, 16, 0));
+    LITHO("litho", Category.EXPERIMENTAL, new InferVersion(0, 16, 0));
+
+    enum Category {DEFAULT, OPTIONAL, EXPERIMENTAL}
 
     private String argument;
-    private Boolean defaultChecker;
+    private Category category;
     private InferVersion sinceVersion;
 
-    Checker(String arg, Boolean defaultChecker, InferVersion sinceVersion) {
+    Checker(String arg, Category category, InferVersion sinceVersion) {
         this.argument = arg;
-        this.defaultChecker = defaultChecker;
+        this.category = category;
         this.sinceVersion = sinceVersion;
     }
 
@@ -44,8 +46,11 @@ public enum Checker {
     public String getDeactivationArgument() {
         return "--no-" + this.argument;
     }
+    public InferVersion getSinceVersion() {
+        return sinceVersion;
+    }
 
     public Boolean isDefault() {
-        return this.defaultChecker;
+        return this.category == Category.DEFAULT;
     }
 }
