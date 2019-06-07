@@ -17,6 +17,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.search.FileTypeIndex;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.jetbrains.cidr.cpp.cmake.workspace.CMakeWorkspace;
+import de.thl.intellijinfer.config.InferVersion;
 
 import java.util.ArrayList;
 import java.util.Arrays;

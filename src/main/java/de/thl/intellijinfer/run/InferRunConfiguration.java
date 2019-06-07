@@ -12,7 +12,6 @@ import com.intellij.openapi.util.WriteExternalException;
 import com.intellij.util.PlatformUtils;
 import de.thl.intellijinfer.service.CLionHelper;
 import de.thl.intellijinfer.ui.RunConfigurationEditor;
-import de.thl.intellijinfer.util.BuildToolUtil;
 import org.jdom.Element;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -24,17 +23,18 @@ public class InferRunConfiguration extends RunConfigurationBase {
     public static final String SELECTED_RUN_CONFIG_TYPE = PREFIX + "SELECTED_RUN_CONFIG_TYPE";
     public static final String ADDITIONAL_ARGUMENTS = PREFIX + "ADDITIONAL_ARGUMENTS";
 
+    private InferLaunchOptions launchOptions;
+    private Project project;
+
     private String selectedRunConfigName;
     private String selectedRunConfigType;
 
-    private String additionalArgs;
-    private RunConfiguration selectedRunConfig;
 
-    private Project project;
 
     protected InferRunConfiguration(Project project, ConfigurationFactory factory, String name) {
         super(project, factory, name);
         this.project = project;
+        this.launchOptions = new InferLaunchOptions();
 
         //Make sure that the selected run configuration is shown as valid after loading the project, even if it is not run or changed (which would trigger the loading beforehand)
         new Thread(() -> {
@@ -56,7 +56,7 @@ public class InferRunConfiguration extends RunConfigurationBase {
 
     @Override
     public void checkConfiguration() throws RuntimeConfigurationException {
-        if(selectedRunConfig == null) throw new RuntimeConfigurationException("No Run Configuration Selected");
+        if(launchOptions.getSelectedRunConfig() == null) throw new RuntimeConfigurationException("No Run Configuration Selected");
     }
 
     @Nullable
@@ -70,25 +70,25 @@ public class InferRunConfiguration extends RunConfigurationBase {
         super.readExternal(element);
         this.selectedRunConfigName = JDOMExternalizerUtil.readField(element, SELECTED_RUN_CONFIG_NAME);
         this.selectedRunConfigType = JDOMExternalizerUtil.readField(element, SELECTED_RUN_CONFIG_TYPE);
-        this.additionalArgs = JDOMExternalizerUtil.readField(element, ADDITIONAL_ARGUMENTS);
+        this.launchOptions.setAdditionalArgs(JDOMExternalizerUtil.readField(element, ADDITIONAL_ARGUMENTS));
     }
 
     @Override
     public void writeExternal(@NotNull Element element) throws WriteExternalException {
         super.writeExternal(element);
-        if(this.getSelectedRunConfig() != null) {
-            JDOMExternalizerUtil.writeField(element, SELECTED_RUN_CONFIG_NAME, this.getSelectedRunConfig().getName());
-            JDOMExternalizerUtil.writeField(element, SELECTED_RUN_CONFIG_TYPE, this.getSelectedRunConfig().getType().getDisplayName());
+        if(this.launchOptions.getSelectedRunConfig() != null) {
+            JDOMExternalizerUtil.writeField(element, SELECTED_RUN_CONFIG_NAME, this.launchOptions.getSelectedRunConfig().getName());
+            JDOMExternalizerUtil.writeField(element, SELECTED_RUN_CONFIG_TYPE, this.launchOptions.getSelectedRunConfig().getType().getDisplayName());
         }
-        JDOMExternalizerUtil.writeField(element, ADDITIONAL_ARGUMENTS, this.additionalArgs);
+        JDOMExternalizerUtil.writeField(element, ADDITIONAL_ARGUMENTS, this.launchOptions.getAdditionalArgs());
     }
 
     //später als in readexternal ausgeführt da beim laden noch nicht alle run configs bestehen. name ist pro type einmalig
     private void loadRunConfigInstance() {
-        if(this.selectedRunConfig != null) return;
+        if(launchOptions.getSelectedRunConfig() != null) return;
         for(RunConfiguration rc : RunManager.getInstance(project).getAllConfigurationsList()) {
             if(rc.getType().getDisplayName().equals(this.selectedRunConfigType) && rc.getName().equals(this.selectedRunConfigName)) {
-                this.setSelectedRunConfig(rc);
+                this.launchOptions.setSelectedRunConfig(rc);
             }
         }
         try {
@@ -98,22 +98,12 @@ public class InferRunConfiguration extends RunConfigurationBase {
         }
     }
 
-    public String getBuildCmd() {
-        return BuildToolUtil.getBuildCmd(selectedRunConfig);
+    public String getInferLaunchCmd() {
+        return this.launchOptions.buildInferLaunchCmd();
     }
 
-    public RunConfiguration getSelectedRunConfig() {
-        return selectedRunConfig;
+    public InferLaunchOptions getLaunchOptions() {
+        return this.launchOptions;
     }
-    public void setSelectedRunConfig(RunConfiguration rc) {
-        this.selectedRunConfig = rc;
-    }
-    public String getAdditionalArgs() {
-        return additionalArgs;
-    }
-    public void setAdditionalArgs(String additionalArgs) {
-        this.additionalArgs = additionalArgs;
-    }
-
 
 }

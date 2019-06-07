@@ -26,7 +26,7 @@ public class InferRunState extends CommandLineState {
     @NotNull
     @Override
     protected ProcessHandler startProcess() throws ExecutionException {
-        final String runCmd = "infer run " + runCfg.getAdditionalArgs() + " " +  runCfg.getBuildCmd();
+        final String runCmd = runCfg.getInferLaunchCmd();
         if(runCmd == null) throw new ExecutionException("Infer Execution not possible: Unable to get Run Command");
         log.info("Running Infer with Command: " + runCmd);
         System.out.println("Running Process: " + runCmd);
