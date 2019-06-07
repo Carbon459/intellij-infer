@@ -10,7 +10,7 @@ import com.intellij.openapi.util.InvalidDataException;
 import com.intellij.openapi.util.JDOMExternalizerUtil;
 import com.intellij.openapi.util.WriteExternalException;
 import com.intellij.util.PlatformUtils;
-import de.thl.intellijinfer.service.ClionHelper;
+import de.thl.intellijinfer.service.CLionHelper;
 import de.thl.intellijinfer.ui.RunConfigurationEditor;
 import de.thl.intellijinfer.util.BuildToolUtil;
 import org.jdom.Element;
@@ -44,7 +44,7 @@ public class InferRunConfiguration extends RunConfigurationBase {
             } catch(InterruptedException ex) {log.warn("Thread Interrupted: Not Loading the selected run config automatically");}
         }).start();
 
-        if(PlatformUtils.isCLion()) ClionHelper.getInstance(this.project).generateCompileCommands();
+        if(PlatformUtils.isCLion()) CLionHelper.getInstance(this.project).generateCompileCommands();
     }
 
     @NotNull

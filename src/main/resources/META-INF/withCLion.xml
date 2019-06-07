@@ -1,5 +1,5 @@
 <idea-plugin>
     <extensions defaultExtensionNs="com.intellij">
-        <projectService serviceImplementation="de.thl.intellijinfer.service.ClionHelper"/>
+        <projectService serviceImplementation="de.thl.intellijinfer.service.CLionHelper"/>
     </extensions>
 </idea-plugin>

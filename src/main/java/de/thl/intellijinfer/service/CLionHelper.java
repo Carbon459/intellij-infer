@@ -1,7 +1,5 @@
 package de.thl.intellijinfer.service;
 
-import com.intellij.execution.*;
-import com.intellij.execution.configurations.RunConfiguration;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
@@ -12,16 +10,16 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClionHelper {
-    private static final Logger log = Logger.getInstance("#de.thl.intellijinfer.service.ClionHelper");
+public class CLionHelper {
+    private static final Logger log = Logger.getInstance("#de.thl.intellijinfer.service.CLionHelper");
     private Project project;
 
-    public ClionHelper(Project project) {
+    public CLionHelper(Project project) {
         this.project = project;
     }
 
-    public static ClionHelper getInstance(@NotNull Project project) {
-        return ServiceManager.getService(project, ClionHelper.class);
+    public static CLionHelper getInstance(@NotNull Project project) {
+        return ServiceManager.getService(project, CLionHelper.class);
     }
 
     public void generateCompileCommands() {
