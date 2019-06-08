@@ -18,6 +18,12 @@ public class InferLaunchOptions {
     public String buildInferLaunchCmd() {
         StringBuilder sb = new StringBuilder("infer run ");
         sb.append(additionalArgs).append(" ");
+        for(Checker checker : selectedCheckers) {
+            sb.append(checker.getActivationArgument()).append(" ");
+        }
+        for(Checker checker : Checker.getMissingCheckers(selectedCheckers)) {
+            sb.append(checker.getDeactivationArgument()).append(" ");
+        }
         sb.append(BuildToolUtil.getBuildCmd(this.usingRunConfig));
         return sb.toString();
     }
