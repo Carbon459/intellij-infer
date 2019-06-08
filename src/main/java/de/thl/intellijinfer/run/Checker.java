@@ -2,6 +2,9 @@ package de.thl.intellijinfer.run;
 
 import de.thl.intellijinfer.config.InferVersion;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public enum Checker {
     //DEFAULT SINCE VERSION 0.16.0
     ANNOTATION_REACHABILITY("annotation-reachability", Category.DEFAULT, new InferVersion(0, 16, 0)),
@@ -52,5 +55,20 @@ public enum Checker {
 
     public Boolean isDefault() {
         return this.category == Category.DEFAULT;
+    }
+
+    public static List<Checker> getDefaultCheckers() {
+        List<Checker> defaultChecker = new ArrayList<>();
+        for(Checker checker : Checker.values()) {
+            if(checker.isDefault()) defaultChecker.add(checker);
+        }
+        return defaultChecker;
+    }
+    public static List<Checker> getMissingCheckers(List<Checker> checkers) {
+        List<Checker> missingCheckers = new ArrayList<>();
+        for(Checker checker : Checker.values()) {
+            if(!checkers.contains(checker)) missingCheckers.add(checker);
+        }
+        return missingCheckers;
     }
 }

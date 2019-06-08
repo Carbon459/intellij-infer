@@ -16,12 +16,18 @@ import org.jdom.Element;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class InferRunConfiguration extends RunConfigurationBase {
     private static final Logger log = Logger.getInstance("#de.thl.intellijinfer.run.InferRunConfiguration");
     public static final String PREFIX = "INTELLIJ_INFER-";
     public static final String SELECTED_RUN_CONFIG_NAME = PREFIX + "SELECTED_RUN_CONFIG_NAME";
     public static final String SELECTED_RUN_CONFIG_TYPE = PREFIX + "SELECTED_RUN_CONFIG_TYPE";
     public static final String ADDITIONAL_ARGUMENTS = PREFIX + "ADDITIONAL_ARGUMENTS";
+    public static final String CHECKERS = PREFIX + "CHECKERS";
 
     private InferLaunchOptions launchOptions;
     private Project project;
@@ -71,6 +77,17 @@ public class InferRunConfiguration extends RunConfigurationBase {
         this.selectedRunConfigName = JDOMExternalizerUtil.readField(element, SELECTED_RUN_CONFIG_NAME);
         this.selectedRunConfigType = JDOMExternalizerUtil.readField(element, SELECTED_RUN_CONFIG_TYPE);
         this.launchOptions.setAdditionalArgs(JDOMExternalizerUtil.readField(element, ADDITIONAL_ARGUMENTS));
+
+        final String checkerString = JDOMExternalizerUtil.readField(element, CHECKERS);
+        if(checkerString != null) {
+            List<Checker> newCheckerList = new ArrayList<>();
+            Pattern p = Pattern.compile( "\\w+" );
+            Matcher m = p.matcher(checkerString);
+            while(m.find()) {
+                newCheckerList.add(Checker.valueOf(m.group()));
+            }
+            this.launchOptions.setSelectedCheckers(newCheckerList);
+        }
     }
 
     @Override
@@ -81,6 +98,12 @@ public class InferRunConfiguration extends RunConfigurationBase {
             JDOMExternalizerUtil.writeField(element, SELECTED_RUN_CONFIG_TYPE, this.launchOptions.getSelectedRunConfig().getType().getDisplayName());
         }
         JDOMExternalizerUtil.writeField(element, ADDITIONAL_ARGUMENTS, this.launchOptions.getAdditionalArgs());
+
+        StringBuilder sb = new StringBuilder();
+        for(Checker checker : this.launchOptions.getSelectedCheckers()) {
+            sb.append(checker.toString()).append(" ");
+        }
+        JDOMExternalizerUtil.writeField(element, CHECKERS, sb.toString());
     }
 
     //später als in readexternal ausgeführt da beim laden noch nicht alle run configs bestehen. name ist pro type einmalig
