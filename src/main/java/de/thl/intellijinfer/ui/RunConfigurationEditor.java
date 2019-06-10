@@ -4,28 +4,23 @@ import com.intellij.execution.RunManager;
 import com.intellij.execution.configurations.RunConfiguration;
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.editor.SelectionModel;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.options.SettingsEditor;
 import com.intellij.openapi.ui.popup.JBPopupFactory;
-import com.intellij.openapi.ui.popup.JBPopupListener;
-import com.intellij.openapi.ui.popup.LightweightWindowEvent;
 import com.intellij.ui.AnActionButton;
 import com.intellij.ui.CollectionListModel;
 import com.intellij.ui.ToolbarDecorator;
+import com.intellij.ui.components.JBCheckBox;
 import com.intellij.ui.components.JBList;
 import com.intellij.ui.components.JBPanel;
 import com.intellij.ui.components.fields.ExpandableTextField;
 import de.thl.intellijinfer.run.Checker;
-import de.thl.intellijinfer.run.InferLaunchOptions;
 import de.thl.intellijinfer.util.BuildToolUtil;
 import de.thl.intellijinfer.run.InferRunConfiguration;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 public class RunConfigurationEditor extends SettingsEditor<InferRunConfiguration> {
@@ -34,6 +29,7 @@ public class RunConfigurationEditor extends SettingsEditor<InferRunConfiguration
     private JComboBox usingRunConfigComboBox;
     private ExpandableTextField additionalArgsTextField;
     private JBPanel checkersJBPanel;
+    private JBCheckBox reactiveModeJBCheckBox;
     private JBList checkersJBList;
     private CollectionListModel<Checker> clm;
 
@@ -61,6 +57,7 @@ public class RunConfigurationEditor extends SettingsEditor<InferRunConfiguration
         reloadRunConfigComboBoxList(inferRC);
         additionalArgsTextField.setText(inferRC.getLaunchOptions().getAdditionalArgs());
         this.clm.replaceAll(inferRC.getLaunchOptions().getSelectedCheckers());
+        this.reactiveModeJBCheckBox.setSelected(inferRC.getLaunchOptions().isReactiveMode());
     }
 
     @Override
@@ -68,6 +65,7 @@ public class RunConfigurationEditor extends SettingsEditor<InferRunConfiguration
         inferRC.getLaunchOptions().setSelectedRunConfig((RunConfiguration) usingRunConfigComboBox.getSelectedItem());
         inferRC.getLaunchOptions().setAdditionalArgs(additionalArgsTextField.getText());
         inferRC.getLaunchOptions().setSelectedCheckers(this.clm.toList());
+        inferRC.getLaunchOptions().setReactiveMode(this.reactiveModeJBCheckBox.isSelected());
     }
 
     @NotNull
@@ -87,7 +85,7 @@ public class RunConfigurationEditor extends SettingsEditor<InferRunConfiguration
 
         JBPopupFactory.getInstance()
                 .createPopupChooserBuilder(notSelectedCheckers)
-                .setTitle("Choose Checker")
+                .setTitle("Add Checker")
                 .setItemChosenCallback((selectedChecker) -> this.clm.add(selectedChecker))
                 .createPopup().show(button.getPreferredPopupPoint());
 

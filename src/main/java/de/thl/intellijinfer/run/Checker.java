@@ -31,9 +31,9 @@ public enum Checker {
     //EXPERIMENTAL SINCE VERSION 0.16.0
     LITHO("litho", Category.EXPERIMENTAL, new InferVersion(0, 16, 0)),                                      //Experimental checkers supporting the Litho framework
     NULLSAFE("nullsafe", Category.EXPERIMENTAL, new InferVersion(0, 16, 0)),                                //nullable type checker (incomplete: use --eradicate for now)
-    PULSE("pulse", Category.EXPERIMENTAL, new InferVersion(0, 16, 0)),                                      //[EXPERIMENTAL] C++ lifetime analysis
-    PURITY("purity", Category.EXPERIMENTAL, new InferVersion(0, 16, 0)),                                    //[EXPERIMENTAL] Purity analysis
-    QUANDARY_BO("quandaryBO", Category.EXPERIMENTAL, new InferVersion(0,16,0));                             //[EXPERIMENTAL] The quandaryBO tainted buffer access
+    PULSE("pulse", Category.EXPERIMENTAL, new InferVersion(0, 16, 0)),                                      //C++ lifetime analysis
+    PURITY("purity", Category.EXPERIMENTAL, new InferVersion(0, 16, 0)),                                    //Purity analysis
+    QUANDARY_BO("quandaryBO", Category.EXPERIMENTAL, new InferVersion(0,16,0));                             //The quandaryBO tainted buffer access
 
     enum Category {DEFAULT, OPTIONAL, EXPERIMENTAL}
 
@@ -56,9 +56,23 @@ public enum Checker {
     public InferVersion getSinceVersion() {
         return sinceVersion;
     }
-
     public Boolean isDefault() {
         return this.category == Category.DEFAULT;
+    }
+    public String getName() {
+        return super.toString();
+    }
+
+    public String toString() {
+        switch(this.category) {
+            case DEFAULT:
+                return "[Default] " + super.toString();
+            case OPTIONAL:
+                return "[Optional] " + super.toString();
+            case EXPERIMENTAL:
+                return "[Experimental] " + super.toString();
+        }
+        return super.toString();
     }
 
     public static List<Checker> getDefaultCheckers() {
@@ -66,6 +80,7 @@ public enum Checker {
         for(Checker checker : Checker.values()) {
             if(checker.isDefault()) defaultChecker.add(checker);
         }
+
         return defaultChecker;
     }
     public static List<Checker> getMissingCheckers(List<Checker> checkers) {

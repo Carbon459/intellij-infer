@@ -31,6 +31,7 @@ public class InferRunState extends CommandLineState {
         log.info("Running Infer with Command: " + runCmd);
         System.out.println("Running Process: " + runCmd);
         GeneralCommandLine commandLine = new GeneralCommandLine("/bin/sh", "-c", runCmd);
+        //GeneralCommandLine commandLine = new GeneralCommandLine("cmd.exe", "/c", "exit");
         commandLine.setWorkDirectory(new File(runCfg.getProject().getBasePath()));
         ProcessHandler ph = new ColoredProcessHandler(commandLine);
         return ph;

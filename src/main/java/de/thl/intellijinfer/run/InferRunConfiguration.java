@@ -28,6 +28,7 @@ public class InferRunConfiguration extends RunConfigurationBase {
     public static final String SELECTED_RUN_CONFIG_TYPE = PREFIX + "SELECTED_RUN_CONFIG_TYPE";
     public static final String ADDITIONAL_ARGUMENTS = PREFIX + "ADDITIONAL_ARGUMENTS";
     public static final String CHECKERS = PREFIX + "CHECKERS";
+    public static final String REACTIVE_MODE = PREFIX + "REACTIVE_MODE";
 
     private InferLaunchOptions launchOptions;
     private Project project;
@@ -42,7 +43,7 @@ public class InferRunConfiguration extends RunConfigurationBase {
         this.project = project;
         this.launchOptions = new InferLaunchOptions();
 
-        //Make sure that the selected run configuration is shown as valid after loading the project, even if it is not run or changed (which would trigger the loading beforehand)
+        //Make sure that the selected run configuration is shown as valid after loading the project, even if it is not run or changed (which would trigger the validation beforehand)
         new Thread(() -> {
             try {
                 while(!project.isInitialized()) Thread.sleep(500);
@@ -77,6 +78,7 @@ public class InferRunConfiguration extends RunConfigurationBase {
         this.selectedRunConfigName = JDOMExternalizerUtil.readField(element, SELECTED_RUN_CONFIG_NAME);
         this.selectedRunConfigType = JDOMExternalizerUtil.readField(element, SELECTED_RUN_CONFIG_TYPE);
         this.launchOptions.setAdditionalArgs(JDOMExternalizerUtil.readField(element, ADDITIONAL_ARGUMENTS));
+        this.launchOptions.setReactiveMode(Boolean.valueOf(JDOMExternalizerUtil.readField(element, REACTIVE_MODE)));
 
         final String checkerString = JDOMExternalizerUtil.readField(element, CHECKERS);
         if(checkerString != null) {
@@ -98,10 +100,11 @@ public class InferRunConfiguration extends RunConfigurationBase {
             JDOMExternalizerUtil.writeField(element, SELECTED_RUN_CONFIG_TYPE, this.launchOptions.getSelectedRunConfig().getType().getDisplayName());
         }
         JDOMExternalizerUtil.writeField(element, ADDITIONAL_ARGUMENTS, this.launchOptions.getAdditionalArgs());
+        JDOMExternalizerUtil.writeField(element, REACTIVE_MODE, this.launchOptions.isReactiveMode().toString());
 
         StringBuilder sb = new StringBuilder();
         for(Checker checker : this.launchOptions.getSelectedCheckers()) {
-            sb.append(checker.toString()).append(" ");
+            sb.append(checker.getName()).append(" ");
         }
         JDOMExternalizerUtil.writeField(element, CHECKERS, sb.toString());
     }

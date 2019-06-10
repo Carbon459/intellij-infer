@@ -26,7 +26,7 @@
             </constraints>
             <properties>
               <labelFor value="c171a"/>
-              <text value="Infer Installation:"/>
+              <text value="Infer installation:"/>
             </properties>
           </component>
           <component id="8c24e" class="com.intellij.ui.components.JBLabel">
@@ -37,7 +37,7 @@
             </constraints>
             <properties>
               <labelFor value="b70a9"/>
-              <text value="Using Run Config:"/>
+              <text value="Using run config:"/>
             </properties>
           </component>
           <component id="6e260" class="com.intellij.ui.components.JBLabel">
@@ -48,7 +48,7 @@
             </constraints>
             <properties>
               <anchor value=""/>
-              <text value="Additional Arguments:"/>
+              <text value="Additional arguments:"/>
             </properties>
           </component>
           <component id="c171a" class="javax.swing.JComboBox" binding="inferInstallationComboBox">
@@ -102,6 +102,14 @@
               </grid>
             </constraints>
           </vspacer>
+          <component id="3030f" class="com.intellij.ui.components.JBCheckBox" binding="reactiveModeJBCheckBox">
+            <constraints>
+              <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Reactive Mode (Only analyze changed files)"/>
+            </properties>
+          </component>
         </children>
       </grid>
     </children>
