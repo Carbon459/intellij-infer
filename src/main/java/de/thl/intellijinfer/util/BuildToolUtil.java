@@ -32,6 +32,12 @@ public class BuildToolUtil {
             .put("CMakeRunConfiguration", (rc) -> "--compilation-database cmake-build-debug/compile_commands.json") //todo ordner anpassen
             .build();
 
+    /**
+     * Filters all unsupported Run Configurations from a List.
+     * See {@link BuildToolUtil#supportedRunConfigurations} for the List of supported Run Configurations.
+     * @param rcList The List of Run Configurations
+     * @return A new filtered List of Run Configurations
+     */
     public static List<RunConfiguration> filterUnknownRunConfigurations(List<RunConfiguration> rcList) {
         List<RunConfiguration> newRcList = new ArrayList<>();
         for(int i = 0; i < rcList.size(); i++) {
@@ -42,6 +48,11 @@ public class BuildToolUtil {
         return newRcList;
     }
 
+    /**
+     * Constructs the Run Configuration specific part of an infer launch command (the compiler or build managment tool part)
+     * @param rc The Run Configuration, for which the command should be constructed
+     * @return The launch command with a leading "--"
+     */
     public static String getBuildCmd(RunConfiguration rc) {
         if (rc == null) return null;
 

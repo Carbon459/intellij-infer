@@ -1,8 +1,8 @@
 package de.thl.intellijinfer.run;
 
-import com.intellij.compiler.server.BuildManager;
 import com.intellij.execution.configurations.RunConfiguration;
 import com.intellij.openapi.diagnostic.Logger;
+import de.thl.intellijinfer.service.FileChangeCollector;
 import de.thl.intellijinfer.util.BuildToolUtil;
 
 import java.io.IOException;
@@ -10,24 +10,30 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.List;
 
 public class InferLaunchOptions {
     private static final Logger log = Logger.getInstance("#de.thl.intellijinfer.run.InferLaunchOptions");
-    private final List<String> COMPILABLE_EXTENSIONS = Arrays.asList(".c", ".cpp", ".m", ".h", ".java");
 
+    //Saved Infer Configuration Options
     private RunConfiguration usingRunConfig;
     private String additionalArgs;
     private List<Checker> selectedCheckers;
     private Boolean reactiveMode;
 
+    private Boolean fullAnalysis;
+
     public InferLaunchOptions() {
         this.additionalArgs = "";
         this.selectedCheckers = Checker.getDefaultCheckers();
         this.reactiveMode = false;
+        this.fullAnalysis = false;
     }
 
+    /**
+     * Constructs the final infer launch command
+     * @return Infer Launch Command
+     */
     public String buildInferLaunchCmd() {
         StringBuilder sb = new StringBuilder("infer run ");
 
@@ -39,23 +45,20 @@ public class InferLaunchOptions {
             sb.append(checker.getDeactivationArgument()).append(" ");
         }
 
-        if(this.reactiveMode) { //todo sicherstellen das es vorher eine komplette analyse gab
-            List<String> changedFilesList = BuildManager.getInstance().getFilesChangedSinceLastCompilation(usingRunConfig.getProject());
-            //only keep compilable files
-            if(changedFilesList != null) {
-                changedFilesList.removeIf((file) -> COMPILABLE_EXTENSIONS.stream().noneMatch(file::endsWith));
-
-                System.out.println(Arrays.toString(changedFilesList.toArray()));
-                if(!changedFilesList.isEmpty()) {
-                    try {
-                        Path file = Paths.get(this.usingRunConfig.getProject().getBasePath() + "/changedfiles.txt");
-                        Files.write(file, changedFilesList, StandardCharsets.UTF_8);
-                        sb.append("--reactive --changed-files-index changedfiles.txt ");
-                    } catch (IOException ioe) {
-                        log.error(ioe);
-                    }
+        if(this.reactiveMode && this.fullAnalysis) {
+            if(!FileChangeCollector.changedFiles.isEmpty()) {
+                try {
+                    final Path file = Paths.get(this.usingRunConfig.getProject().getBasePath() + "/changedfiles.txt");
+                    Files.write(file, FileChangeCollector.changedFiles, StandardCharsets.UTF_8);
+                    sb.append("--reactive --changed-files-index changedfiles.txt ");
+                    FileChangeCollector.changedFiles.clear();
+                } catch (IOException ioe) {
+                    log.error(ioe);
                 }
             }
+
+        } else {
+            this.fullAnalysis = true;
         }
 
         sb.append(BuildToolUtil.getBuildCmd(this.usingRunConfig));
