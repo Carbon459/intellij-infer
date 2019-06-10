@@ -39,17 +39,22 @@ public class InferLaunchOptions {
             sb.append(checker.getDeactivationArgument()).append(" ");
         }
 
-        if(this.reactiveMode) {
+        if(this.reactiveMode) { //todo sicherstellen das es vorher eine komplette analyse gab
             List<String> changedFilesList = BuildManager.getInstance().getFilesChangedSinceLastCompilation(usingRunConfig.getProject());
             //only keep compilable files
-            changedFilesList.removeIf((file) -> !COMPILABLE_EXTENSIONS.stream().anyMatch((ext) -> file.endsWith(ext)));
-            System.out.println(Arrays.toString(changedFilesList.toArray()));
-            try {
-                Path file = Paths.get(this.usingRunConfig.getProject().getBasePath() + "/changedfiles.txt");
-                Files.write(file, changedFilesList, StandardCharsets.UTF_8);
-                sb.append("--reactive --changed-files-index changedfiles.txt ");
-            } catch(IOException ioe) {
-                log.error(ioe);
+            if(changedFilesList != null) {
+                changedFilesList.removeIf((file) -> COMPILABLE_EXTENSIONS.stream().noneMatch(file::endsWith));
+
+                System.out.println(Arrays.toString(changedFilesList.toArray()));
+                if(!changedFilesList.isEmpty()) {
+                    try {
+                        Path file = Paths.get(this.usingRunConfig.getProject().getBasePath() + "/changedfiles.txt");
+                        Files.write(file, changedFilesList, StandardCharsets.UTF_8);
+                        sb.append("--reactive --changed-files-index changedfiles.txt ");
+                    } catch (IOException ioe) {
+                        log.error(ioe);
+                    }
+                }
             }
         }
 

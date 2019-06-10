@@ -54,9 +54,10 @@ public class BuildToolUtil {
     }
 
     private static String getJavaCArgs(Project project) {
-        StringBuilder sb = new StringBuilder("-cp ");
+        StringBuilder sb = new StringBuilder("-cp \"");
         //Get all libraries
         Module[] modules = ModuleManager.getInstance(project).getModules();
+
         for (Module module : modules) {
             if(ModuleType.get(module).getId().equals("JAVA_MODULE")) {
                 ModuleRootManager.getInstance(module).orderEntries().forEachLibrary(library -> {
@@ -67,6 +68,7 @@ public class BuildToolUtil {
                 });
             }
         }
+        sb.append("\"");
 
         //Get all classes
         final FileType javaFileType = FileTypeManager.getInstance().findFileTypeByName("JAVA");
