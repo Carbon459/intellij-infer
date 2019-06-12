@@ -1,6 +1,6 @@
 package de.thl.intellijinfer.config;
 
-public class InferVersion implements Comparable<InferVersion>{
+public class InferVersion implements Comparable<InferVersion> {
     private int major;
     private int minor;
     private int patch;

@@ -23,12 +23,12 @@ import java.util.regex.Pattern;
 
 public class InferRunConfiguration extends RunConfigurationBase {
     private static final Logger log = Logger.getInstance("#de.thl.intellijinfer.run.InferRunConfiguration");
-    public static final String PREFIX = "INTELLIJ_INFER-";
-    public static final String SELECTED_RUN_CONFIG_NAME = PREFIX + "SELECTED_RUN_CONFIG_NAME";
-    public static final String SELECTED_RUN_CONFIG_TYPE = PREFIX + "SELECTED_RUN_CONFIG_TYPE";
-    public static final String ADDITIONAL_ARGUMENTS = PREFIX + "ADDITIONAL_ARGUMENTS";
-    public static final String CHECKERS = PREFIX + "CHECKERS";
-    public static final String REACTIVE_MODE = PREFIX + "REACTIVE_MODE";
+    private static final String PREFIX = "INTELLIJ_INFER-";
+    private static final String SELECTED_RUN_CONFIG_NAME = PREFIX + "SELECTED_RUN_CONFIG_NAME";
+    private static final String SELECTED_RUN_CONFIG_TYPE = PREFIX + "SELECTED_RUN_CONFIG_TYPE";
+    private static final String ADDITIONAL_ARGUMENTS = PREFIX + "ADDITIONAL_ARGUMENTS";
+    private static final String CHECKERS = PREFIX + "CHECKERS";
+    private static final String REACTIVE_MODE = PREFIX + "REACTIVE_MODE";
 
     private InferLaunchOptions launchOptions;
     private Project project;
@@ -124,7 +124,7 @@ public class InferRunConfiguration extends RunConfigurationBase {
         }
     }
 
-    public String getInferLaunchCmd() {
+    protected String getInferLaunchCmd() {
         return this.launchOptions.buildInferLaunchCmd();
     }
 

@@ -15,6 +15,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.search.FileTypeIndex;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.util.indexing.FileBasedIndex;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -51,17 +52,17 @@ public class BuildToolUtil {
     /**
      * Constructs the Run Configuration specific part of an infer launch command (the compiler or build managment tool part)
      * @param rc The Run Configuration, for which the command should be constructed
-     * @return The launch command with a leading "--"
+     * @return The launch command with a leading "--". If the RunConfiguration is null or not supported, the return value is an empty string.
      */
     public static String getBuildCmd(RunConfiguration rc) {
-        if (rc == null) return null;
+        if (rc == null) return "";
 
         if(supportedRunConfigurations.containsKey(rc.getType().getId())) {
            return supportedRunConfigurations.get(rc.getType().getId()).apply(rc);
         }
 
         log.error("Unknown Run Configuration Type: " + rc.getType().getId());
-        return null;
+        return "";
     }
 
     private static String getJavaCArgs(Project project) {

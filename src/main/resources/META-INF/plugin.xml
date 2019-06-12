@@ -1,10 +1,10 @@
 <idea-plugin>
     <id>de.thl.intellijinfer</id>
     <name>Infer Integration</name>
-    <vendor email="friedrich.hudinjan@stud.th-luebeck.de" url="http://www.th-luebeck.de">Friedrich Hudinjan</vendor>
+    <vendor email="friedrich.hudinjan@stud.th-luebeck.de">Friedrich Hudinjan</vendor>
 
     <description><![CDATA[
-    InteliJ Integration for Infer by Facebook Research
+    IntelliJ Integration for Infer by Facebook Research
     ]]></description>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html

@@ -1,0 +1,1 @@
+infer run  --biabduction --fragment-retains-view --linters --liveness --ownership --racerd --siof --uninit --no-annotation-reachability --no-bufferoverrun --no-class-loads --no-cost --no-eradicate --no-immutable-cast --no-loop-hoisting --no-printf-args --no-quandary --no-starvation --no-litho --no-nullsafe --no-pulse --no-purity --no-quandaryBO -- javac -d out/infer -cp ""
