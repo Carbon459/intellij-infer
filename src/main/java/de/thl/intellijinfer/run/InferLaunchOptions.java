@@ -21,7 +21,7 @@ public class InferLaunchOptions {
     private List<Checker> selectedCheckers;
     private Boolean reactiveMode;
 
-    private Boolean fullAnalysis;
+    private Boolean fullAnalysis; //if a full analysis was already done after loading the current project/creating the run config
 
     public InferLaunchOptions() {
         this.additionalArgs = "";
@@ -51,15 +51,14 @@ public class InferLaunchOptions {
                     final Path file = Paths.get(this.usingRunConfig.getProject().getBasePath() + "/changedfiles.txt");
                     Files.write(file, FileChangeCollector.changedFiles, StandardCharsets.UTF_8);
                     sb.append("--reactive --changed-files-index changedfiles.txt ");
-                    FileChangeCollector.changedFiles.clear();
                 } catch (IOException ioe) {
                     log.error(ioe);
                 }
             }
 
-        } else {
-            this.fullAnalysis = true;
         }
+        this.fullAnalysis = true;
+        FileChangeCollector.changedFiles.clear();
 
         sb.append(BuildToolUtil.getBuildCmd(this.usingRunConfig));
         return sb.toString();
