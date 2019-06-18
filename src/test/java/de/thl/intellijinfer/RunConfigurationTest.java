@@ -1,5 +1,6 @@
 package de.thl.intellijinfer;
 
+import com.intellij.execution.ExecutionException;
 import com.intellij.execution.application.ApplicationConfigurationType;
 import com.intellij.execution.configurations.RunConfiguration;
 import com.intellij.testFramework.PlatformTestUtil;
@@ -35,6 +36,9 @@ public class RunConfigurationTest extends LightPlatformCodeInsightFixtureTestCas
         } catch(IOException ex) {
             ex.printStackTrace();
             fail("Could not load expected file");
+        } catch(ExecutionException ex) {
+            ex.printStackTrace();
+            fail("No Run Configuration selected");
         }
     }
 
@@ -51,6 +55,9 @@ public class RunConfigurationTest extends LightPlatformCodeInsightFixtureTestCas
         } catch(IOException ex) {
             ex.printStackTrace();
             fail("Could not load expected file");
+        } catch(ExecutionException ex) {
+            ex.printStackTrace();
+            fail("No Run Configuration selected");
         }
     }
 

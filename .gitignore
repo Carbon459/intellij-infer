@@ -159,5 +159,5 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# Infer
+### Infer
 infer-out/

@@ -1,6 +1,7 @@
 package de.thl.intellijinfer.run;
 
 import de.thl.intellijinfer.config.InferVersion;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +76,8 @@ public enum Checker {
         return super.toString();
     }
 
-    public static List<Checker> getDefaultCheckers() {
+    @NotNull
+    public static List<Checker> getDefaultCheckers() { //todo versionsabhängig
         List<Checker> defaultChecker = new ArrayList<>();
         for(Checker checker : Checker.values()) {
             if(checker.isDefault()) defaultChecker.add(checker);
@@ -83,6 +85,8 @@ public enum Checker {
 
         return defaultChecker;
     }
+
+    @NotNull
     public static List<Checker> getMissingCheckers(List<Checker> checkers) {
         List<Checker> missingCheckers = new ArrayList<>();
         for(Checker checker : Checker.values()) {

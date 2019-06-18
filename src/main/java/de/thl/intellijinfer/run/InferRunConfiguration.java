@@ -124,7 +124,8 @@ public class InferRunConfiguration extends RunConfigurationBase {
         }
     }
 
-    protected String getInferLaunchCmd() {
+    @NotNull
+    protected String getInferLaunchCmd() throws ExecutionException {
         return this.launchOptions.buildInferLaunchCmd();
     }
 

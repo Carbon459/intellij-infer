@@ -1,9 +1,13 @@
 package de.thl.intellijinfer.run;
 
+import com.intellij.execution.ExecutionException;
 import com.intellij.execution.configurations.RunConfiguration;
 import com.intellij.openapi.diagnostic.Logger;
+import de.thl.intellijinfer.config.InferInstallation;
+import de.thl.intellijinfer.config.InferVersion;
 import de.thl.intellijinfer.service.FileChangeCollector;
 import de.thl.intellijinfer.util.BuildToolUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -15,15 +19,18 @@ import java.util.List;
 public class InferLaunchOptions {
     private static final Logger log = Logger.getInstance("#de.thl.intellijinfer.run.InferLaunchOptions");
 
+    private Boolean fullAnalysis;
+
     //Saved Infer Configuration Options
+    private InferInstallation installation;
     private RunConfiguration usingRunConfig;
     private String additionalArgs;
     private List<Checker> selectedCheckers;
     private Boolean reactiveMode;
 
-    private Boolean fullAnalysis;
 
     public InferLaunchOptions() {
+        this.installation = new InferInstallation("infer", new InferVersion(0,16,0)); //todo nicht konstant
         this.additionalArgs = "";
         this.selectedCheckers = Checker.getDefaultCheckers();
         this.reactiveMode = false;
@@ -34,10 +41,12 @@ public class InferLaunchOptions {
      * Constructs the final infer launch command
      * @return Infer Launch Command
      */
-    public String buildInferLaunchCmd() {
-        StringBuilder sb = new StringBuilder("infer run ");
+    @NotNull
+    public String buildInferLaunchCmd() throws ExecutionException {
+        if(this.usingRunConfig == null) throw new ExecutionException("Infer Execution failed: No Run Configuration selected");
+        StringBuilder sb = new StringBuilder(this.installation.getPath());
 
-        sb.append(additionalArgs).append(" ");
+        sb.append(" run ").append(additionalArgs).append(" ");
         for(Checker checker : selectedCheckers) {
             sb.append(checker.getActivationArgument()).append(" ");
         }
