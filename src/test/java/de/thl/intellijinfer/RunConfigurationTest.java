@@ -5,7 +5,7 @@ import com.intellij.execution.application.ApplicationConfigurationType;
 import com.intellij.execution.configurations.RunConfiguration;
 import com.intellij.testFramework.PlatformTestUtil;
 import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCase;
-import de.thl.intellijinfer.run.Checker;
+import de.thl.intellijinfer.model.Checker;
 import de.thl.intellijinfer.run.InferConfigurationType;
 import de.thl.intellijinfer.run.InferRunConfiguration;
 

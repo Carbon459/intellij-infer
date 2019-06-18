@@ -14,7 +14,7 @@ import com.intellij.ui.components.JBCheckBox;
 import com.intellij.ui.components.JBList;
 import com.intellij.ui.components.JBPanel;
 import com.intellij.ui.components.fields.ExpandableTextField;
-import de.thl.intellijinfer.run.Checker;
+import de.thl.intellijinfer.model.Checker;
 import de.thl.intellijinfer.util.BuildToolUtil;
 import de.thl.intellijinfer.run.InferRunConfiguration;
 import org.jetbrains.annotations.NotNull;

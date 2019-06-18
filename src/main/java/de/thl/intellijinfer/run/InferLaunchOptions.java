@@ -3,8 +3,9 @@ package de.thl.intellijinfer.run;
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.configurations.RunConfiguration;
 import com.intellij.openapi.diagnostic.Logger;
-import de.thl.intellijinfer.config.InferInstallation;
-import de.thl.intellijinfer.config.InferVersion;
+import de.thl.intellijinfer.model.Checker;
+import de.thl.intellijinfer.model.InferInstallation;
+import de.thl.intellijinfer.model.InferVersion;
 import de.thl.intellijinfer.service.FileChangeCollector;
 import de.thl.intellijinfer.util.BuildToolUtil;
 import org.jetbrains.annotations.NotNull;
@@ -19,7 +20,7 @@ import java.util.List;
 public class InferLaunchOptions {
     private static final Logger log = Logger.getInstance("#de.thl.intellijinfer.run.InferLaunchOptions");
 
-    private Boolean fullAnalysis;
+    private Boolean fullAnalysis; //if a full analysis was already done after loading the current project/creating the run config
 
     //Saved Infer Configuration Options
     private InferInstallation installation;
@@ -60,15 +61,14 @@ public class InferLaunchOptions {
                     final Path file = Paths.get(this.usingRunConfig.getProject().getBasePath() + "/changedfiles.txt");
                     Files.write(file, FileChangeCollector.changedFiles, StandardCharsets.UTF_8);
                     sb.append("--reactive --changed-files-index changedfiles.txt ");
-                    FileChangeCollector.changedFiles.clear();
                 } catch (IOException ioe) {
                     log.error(ioe);
                 }
             }
 
-        } else {
-            this.fullAnalysis = true;
         }
+        this.fullAnalysis = true;
+        FileChangeCollector.changedFiles.clear();
 
         sb.append(BuildToolUtil.getBuildCmd(this.usingRunConfig));
         return sb.toString();

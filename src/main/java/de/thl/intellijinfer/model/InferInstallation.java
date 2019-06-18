@@ -1,4 +1,4 @@
-package de.thl.intellijinfer.config;
+package de.thl.intellijinfer.model;
 
 public class InferInstallation {
     private String path;

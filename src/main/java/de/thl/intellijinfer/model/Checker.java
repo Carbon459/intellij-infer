@@ -1,6 +1,5 @@
-package de.thl.intellijinfer.run;
+package de.thl.intellijinfer.model;
 
-import de.thl.intellijinfer.config.InferVersion;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;

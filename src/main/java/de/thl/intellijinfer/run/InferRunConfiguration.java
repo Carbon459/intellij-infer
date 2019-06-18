@@ -10,6 +10,7 @@ import com.intellij.openapi.util.InvalidDataException;
 import com.intellij.openapi.util.JDOMExternalizerUtil;
 import com.intellij.openapi.util.WriteExternalException;
 import com.intellij.util.PlatformUtils;
+import de.thl.intellijinfer.model.Checker;
 import de.thl.intellijinfer.service.CLionHelper;
 import de.thl.intellijinfer.ui.RunConfigurationEditor;
 import org.jdom.Element;
