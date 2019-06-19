@@ -28,7 +28,7 @@ public class ResultParserTest extends LightPlatformCodeInsightFixtureTestCase {
         List<InferBug> bugList = null;
 
         try {
-            bugList = this.rp.getBugList(singleBugJsonPath);
+            bugList = this.rp.readBugList(singleBugJsonPath);
         } catch(IOException ex) {
             ex.printStackTrace();
             fail("Failed reading file " + singleBugJsonPath);
@@ -44,4 +44,5 @@ public class ResultParserTest extends LightPlatformCodeInsightFixtureTestCase {
         assertEquals(3, bug.getBugTrace().size());
         assertEquals(11, bug.getBugTrace().get(1).getLineNumber());
     }
+
 }

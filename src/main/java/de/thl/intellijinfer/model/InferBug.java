@@ -208,6 +208,11 @@ public class InferBug {
         this.censoredReason = censoredReason;
     }
 
+    @Override
+    public String toString() {
+        return String.format("%s: %s", getBugType(), getQualifier());
+    }
+
     public class BugTrace {
 
         @SerializedName("level")
@@ -273,5 +278,9 @@ public class InferBug {
             this.description = description;
         }
 
+        @Override
+        public String toString() {
+            return String.format("%s Line %d Column %d %s", getFilename(), getLineNumber(), getColumnNumber(), getDescription());
+        }
     }
 }

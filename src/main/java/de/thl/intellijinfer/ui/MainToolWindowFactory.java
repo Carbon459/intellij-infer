@@ -9,7 +9,7 @@ import com.intellij.ui.content.ContentFactory;
 public class MainToolWindowFactory implements ToolWindowFactory {
     @Override
     public void createToolWindowContent(Project project, ToolWindow toolWindow) {
-        MainToolWindow myToolWindow = new MainToolWindow(toolWindow);
+        MainToolWindow myToolWindow = new MainToolWindow(toolWindow, project);
         ContentFactory contentFactory = ContentFactory.SERVICE.getInstance();
         Content content = contentFactory.createContent(myToolWindow.getContent(), "", false);
         toolWindow.getContentManager().addContent(content);
