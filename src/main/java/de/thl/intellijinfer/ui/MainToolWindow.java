@@ -1,21 +1,17 @@
 package de.thl.intellijinfer.ui;
 
-import com.intellij.icons.AllIcons;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.LogicalPosition;
 import com.intellij.openapi.editor.ScrollType;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.IconLoader;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.search.FilenameIndex;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.ui.ColoredTreeCellRenderer;
-import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.treeStructure.Tree;
-import com.intellij.util.IconUtil;
 import de.thl.intellijinfer.model.InferBug;
 import de.thl.intellijinfer.service.ResultParser;
 import org.jetbrains.annotations.NotNull;
@@ -44,7 +40,10 @@ public class MainToolWindow {
         ResultParser.getInstance(project).addPropertyChangeListener(new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
-                if(evt.getNewValue() != null ) setBugTree((Map<String, List<InferBug>>)evt.getNewValue());
+                if(evt.getNewValue() != null && evt.getPropertyName().equals("bugsPerFile")) {
+                    // noinspection unchecked
+                    drawBugTree((Map<String, List<InferBug>>)evt.getNewValue());
+                }
             }
         });
 
@@ -52,8 +51,7 @@ public class MainToolWindow {
             @Override
             public void customizeCellRenderer(@NotNull JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
                 append(value.toString());
-                if(value instanceof InferBug)
-                setIcon(AllIcons.General.Add);
+                //todo andere darstellung?
             }
         });
 
@@ -97,7 +95,7 @@ public class MainToolWindow {
      * Draws the given bugMap to the Infer Tool Window
      * @param bugMap keys are filenames, while the values are lists of infer bugs
      */
-    public void setBugTree(Map<String, List<InferBug>> bugMap) {
+    private void drawBugTree(Map<String, List<InferBug>> bugMap) {
         if(bugMap == null) return;
 
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("Infer Analysis Result:");

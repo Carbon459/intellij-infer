@@ -26,16 +26,16 @@ import java.util.List;
 public class RunConfigurationEditor extends SettingsEditor<InferRunConfiguration> {
     private JPanel mainPanel;
     private JComboBox inferInstallationComboBox;
-    private JComboBox usingRunConfigComboBox;
+    private JComboBox<RunConfiguration> usingRunConfigComboBox;
     private ExpandableTextField additionalArgsTextField;
     private JBPanel checkersJBPanel;
     private JBCheckBox reactiveModeJBCheckBox;
-    private JBList checkersJBList;
+    private JBList<Checker> checkersJBList;
     private CollectionListModel<Checker> clm;
 
     public RunConfigurationEditor() {
         this.clm = new CollectionListModel<>();
-        this.checkersJBList = new JBList(this.clm);
+        this.checkersJBList = new JBList<>(this.clm);
         this.checkersJBList.setEmptyText("No Checkers selected");
 
         ToolbarDecorator td = ToolbarDecorator
@@ -76,7 +76,10 @@ public class RunConfigurationEditor extends SettingsEditor<InferRunConfiguration
 
     private void reloadRunConfigComboBoxList(InferRunConfiguration inferRC) {
         List<RunConfiguration> runConfigList = RunManager.getInstance(inferRC.getProject()).getAllConfigurationsList();
-        usingRunConfigComboBox.setModel(new DefaultComboBoxModel(BuildToolUtil.filterUnknownRunConfigurations(runConfigList).toArray()));
+        usingRunConfigComboBox.setModel(
+                new DefaultComboBoxModel<>(
+                        (RunConfiguration[]) BuildToolUtil.filterUnknownRunConfigurations(runConfigList).toArray()
+                ));
         if(inferRC.getLaunchOptions().getSelectedRunConfig() != null) usingRunConfigComboBox.setSelectedItem(inferRC.getLaunchOptions().getSelectedRunConfig());
     }
 
@@ -90,6 +93,7 @@ public class RunConfigurationEditor extends SettingsEditor<InferRunConfiguration
                 .createPopup().show(button.getPreferredPopupPoint());
 
     }
+
     private void checkersRemoveAction(final AnActionButton button) {
         final List<Checker> selectedCheckers = this.checkersJBList.getSelectedValuesList();
         for(Checker checker : selectedCheckers) {
