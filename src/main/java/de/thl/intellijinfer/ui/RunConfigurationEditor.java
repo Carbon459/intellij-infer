@@ -78,7 +78,7 @@ public class RunConfigurationEditor extends SettingsEditor<InferRunConfiguration
         List<RunConfiguration> runConfigList = RunManager.getInstance(inferRC.getProject()).getAllConfigurationsList();
         usingRunConfigComboBox.setModel(
                 new DefaultComboBoxModel<>(
-                        (RunConfiguration[]) BuildToolUtil.filterUnknownRunConfigurations(runConfigList).toArray()
+                        BuildToolUtil.filterUnknownRunConfigurations(runConfigList).toArray(new RunConfiguration[0])
                 ));
         if(inferRC.getLaunchOptions().getSelectedRunConfig() != null) usingRunConfigComboBox.setSelectedItem(inferRC.getLaunchOptions().getSelectedRunConfig());
     }
