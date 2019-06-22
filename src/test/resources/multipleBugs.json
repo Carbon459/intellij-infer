@@ -1,0 +1,372 @@
+[
+   {
+      "bug_type":"NULL_DEREFERENCE",
+      "qualifier":"pointer `max` last assigned on line 28 could be null and is dereferenced at line 29, column 12.",
+      "severity":"ERROR",
+      "line":29,
+      "column":12,
+      "procedure":"simple_null_pointer",
+      "procedure_start_line":27,
+      "file":"main.c",
+      "bug_trace":[
+         {
+            "level":0,
+            "filename":"main.c",
+            "line_number":27,
+            "column_number":1,
+            "description":"start of procedure simple_null_pointer()"
+         },
+         {
+            "level":0,
+            "filename":"main.c",
+            "line_number":28,
+            "column_number":5,
+            "description":""
+         },
+         {
+            "level":0,
+            "filename":"main.c",
+            "line_number":29,
+            "column_number":5,
+            "description":""
+         }
+      ],
+      "key":"main.c|simple_null_pointer|NULL_DEREFERENCE",
+      "node_key":"b26607722771b3b8c64c410865f47a74",
+      "hash":"73b325de5b046a3a62babcc1a01b04d2",
+      "bug_type_hum":"Null Dereference",
+      "censored_reason":""
+   },
+   {
+      "bug_type":"PURE_FUNCTION",
+      "qualifier":"Side-effect free function simple_null_pointer.",
+      "severity":"ERROR",
+      "line":27,
+      "column":1,
+      "procedure":"simple_null_pointer",
+      "procedure_start_line":27,
+      "file":"main.c",
+      "bug_trace":[
+         {
+            "level":0,
+            "filename":"main.c",
+            "line_number":27,
+            "column_number":1,
+            "description":"Side-effect free function simple_null_pointer"
+         }
+      ],
+      "key":"main.c|simple_null_pointer|PURE_FUNCTION",
+      "hash":"9d40cbbced7eab2d6775e8e403ff56da",
+      "bug_type_hum":"Pure Function",
+      "censored_reason":""
+   },
+   {
+      "bug_type":"PURE_FUNCTION",
+      "qualifier":"Side-effect free function Person_create.",
+      "severity":"ERROR",
+      "line":32,
+      "column":1,
+      "procedure":"Person_create",
+      "procedure_start_line":32,
+      "file":"test.c",
+      "bug_trace":[
+         {
+            "level":0,
+            "filename":"test.c",
+            "line_number":32,
+            "column_number":1,
+            "description":"Side-effect free function Person_create"
+         }
+      ],
+      "key":"test.c|Person_create|PURE_FUNCTION",
+      "hash":"622d44295a82c54925c4fe9c8062436b",
+      "bug_type_hum":"Pure Function",
+      "censored_reason":""
+   },
+   {
+      "bug_type":"PURE_FUNCTION",
+      "qualifier":"Side-effect free function get_age.",
+      "severity":"ERROR",
+      "line":37,
+      "column":1,
+      "procedure":"get_age",
+      "procedure_start_line":37,
+      "file":"test.c",
+      "bug_trace":[
+         {
+            "level":0,
+            "filename":"test.c",
+            "line_number":37,
+            "column_number":1,
+            "description":"Side-effect free function get_age"
+         }
+      ],
+      "key":"test.c|get_age|PURE_FUNCTION",
+      "hash":"97803bd3f075d3c0b91534e6cb241198",
+      "bug_type_hum":"Pure Function",
+      "censored_reason":""
+   },
+   {
+      "bug_type":"NULL_DEREFERENCE",
+      "qualifier":"pointer `joe` last assigned on line 40 could be null and is dereferenced by call to `get_age()` at line 41, column 12.",
+      "severity":"ERROR",
+      "line":41,
+      "column":12,
+      "procedure":"null_pointer_interproc",
+      "procedure_start_line":39,
+      "file":"test.c",
+      "bug_trace":[
+         {
+            "level":0,
+            "filename":"test.c",
+            "line_number":39,
+            "column_number":1,
+            "description":"start of procedure null_pointer_interproc()"
+         },
+         {
+            "level":0,
+            "filename":"test.c",
+            "line_number":40,
+            "column_number":5,
+            "description":""
+         },
+         {
+            "level":1,
+            "filename":"test.c",
+            "line_number":32,
+            "column_number":1,
+            "description":"start of procedure Person_create()"
+         },
+         {
+            "level":1,
+            "filename":"test.c",
+            "line_number":33,
+            "column_number":5,
+            "description":""
+         },
+         {
+            "level":1,
+            "filename":"test.c",
+            "line_number":34,
+            "column_number":5,
+            "description":""
+         },
+         {
+            "level":1,
+            "filename":"test.c",
+            "line_number":35,
+            "column_number":1,
+            "description":"return from a call to Person_create"
+         },
+         {
+            "level":0,
+            "filename":"test.c",
+            "line_number":41,
+            "column_number":5,
+            "description":""
+         },
+         {
+            "level":1,
+            "filename":"test.c",
+            "line_number":37,
+            "column_number":1,
+            "description":"start of procedure get_age()"
+         },
+         {
+            "level":1,
+            "filename":"test.c",
+            "line_number":37,
+            "column_number":35,
+            "description":""
+         }
+      ],
+      "key":"test.c|null_pointer_interproc|NULL_DEREFERENCE",
+      "node_key":"f39d3b8fc8f4616aa9cd6a71f42f64f9",
+      "hash":"070be876675e15aa2a60f2ae242cd98c",
+      "bug_type_hum":"Null Dereference",
+      "censored_reason":""
+   },
+   {
+      "bug_type":"PURE_FUNCTION",
+      "qualifier":"Side-effect free function null_pointer_interproc.",
+      "severity":"ERROR",
+      "line":39,
+      "column":1,
+      "procedure":"null_pointer_interproc",
+      "procedure_start_line":39,
+      "file":"test.c",
+      "bug_trace":[
+         {
+            "level":0,
+            "filename":"test.c",
+            "line_number":39,
+            "column_number":1,
+            "description":"Side-effect free function null_pointer_interproc"
+         }
+      ],
+      "key":"test.c|null_pointer_interproc|PURE_FUNCTION",
+      "hash":"e544a2793d38178f56b691293ab13d30",
+      "bug_type_hum":"Pure Function",
+      "censored_reason":""
+   },
+   {
+      "bug_type":"RESOURCE_LEAK",
+      "qualifier":"resource acquired by call to `open()` at line 45, column 14 is not released after line 49, column 9.",
+      "severity":"ERROR",
+      "line":49,
+      "column":9,
+      "procedure":"fileNotClosed",
+      "procedure_start_line":44,
+      "file":"test.c",
+      "bug_trace":[
+         {
+            "level":0,
+            "filename":"test.c",
+            "line_number":44,
+            "column_number":1,
+            "description":"start of procedure fileNotClosed()"
+         },
+         {
+            "level":0,
+            "filename":"test.c",
+            "line_number":45,
+            "column_number":5,
+            "description":""
+         },
+         {
+            "level":0,
+            "filename":"test.c",
+            "line_number":46,
+            "column_number":9,
+            "description":"Taking true branch"
+         },
+         {
+            "level":0,
+            "filename":"test.c",
+            "line_number":49,
+            "column_number":9,
+            "description":""
+         }
+      ],
+      "key":"test.c|fileNotClosed|RESOURCE_LEAK",
+      "node_key":"b17611a3ea8ffb87b644989e1d3cd7b0",
+      "hash":"9a9461b7d1b9978f470934ed1701f454",
+      "bug_type_hum":"Resource Leak",
+      "censored_reason":""
+   },
+   {
+      "bug_type":"DEAD_STORE",
+      "qualifier":"The value written to &p (type int*) is never used.",
+      "severity":"ERROR",
+      "line":55,
+      "column":5,
+      "procedure":"simple_leak",
+      "procedure_start_line":53,
+      "file":"test.c",
+      "bug_trace":[
+         {
+            "level":0,
+            "filename":"test.c",
+            "line_number":55,
+            "column_number":5,
+            "description":"Write of unused value"
+         }
+      ],
+      "key":"test.c|simple_leak|DEAD_STORE",
+      "hash":"a6793788d29eee1ae77bed4c9ed4524e",
+      "bug_type_hum":"Dead Store",
+      "censored_reason":""
+   },
+   {
+      "bug_type":"MEMORY_LEAK",
+      "qualifier":"memory dynamically allocated by call to `malloc()` at line 55, column 15 is not reachable after line 55, column 5.",
+      "severity":"ERROR",
+      "line":55,
+      "column":5,
+      "procedure":"simple_leak",
+      "procedure_start_line":53,
+      "file":"test.c",
+      "bug_trace":[
+         {
+            "level":0,
+            "filename":"test.c",
+            "line_number":53,
+            "column_number":1,
+            "description":"start of procedure simple_leak()"
+         },
+         {
+            "level":0,
+            "filename":"test.c",
+            "line_number":55,
+            "column_number":5,
+            "description":""
+         }
+      ],
+      "key":"test.c|simple_leak|MEMORY_LEAK",
+      "node_key":"0d0eb7ce2e66fed6d805df91cfe647df",
+      "hash":"b0948e400edfaf7c998385272497bfd6",
+      "bug_type_hum":"Memory Leak",
+      "censored_reason":""
+   },
+   {
+      "bug_type":"PURE_FUNCTION",
+      "qualifier":"Side-effect free function simple_leak.",
+      "severity":"ERROR",
+      "line":53,
+      "column":1,
+      "procedure":"simple_leak",
+      "procedure_start_line":53,
+      "file":"test.c",
+      "bug_trace":[
+         {
+            "level":0,
+            "filename":"test.c",
+            "line_number":53,
+            "column_number":1,
+            "description":"Side-effect free function simple_leak"
+         }
+      ],
+      "key":"test.c|simple_leak|PURE_FUNCTION",
+      "hash":"0864d536dbcba65f5fa9413fece43cbe",
+      "bug_type_hum":"Pure Function",
+      "censored_reason":""
+   },
+   {
+      "bug_type":"MEMORY_LEAK",
+      "qualifier":"memory dynamically allocated by call to `malloc()` at line 60, column 15 is not reachable after line 61, column 5.",
+      "severity":"ERROR",
+      "line":61,
+      "column":5,
+      "procedure":"common_realloc_leak",
+      "procedure_start_line":58,
+      "file":"test.c",
+      "bug_trace":[
+         {
+            "level":0,
+            "filename":"test.c",
+            "line_number":58,
+            "column_number":1,
+            "description":"start of procedure common_realloc_leak()"
+         },
+         {
+            "level":0,
+            "filename":"test.c",
+            "line_number":60,
+            "column_number":5,
+            "description":""
+         },
+         {
+            "level":0,
+            "filename":"test.c",
+            "line_number":61,
+            "column_number":5,
+            "description":""
+         }
+      ],
+      "key":"test.c|common_realloc_leak|MEMORY_LEAK",
+      "node_key":"6f41963942ede5d589339d5dfb640df3",
+      "hash":"2ac9aa4f7902d8cd362b783a0550bc16",
+      "bug_type_hum":"Memory Leak",
+      "censored_reason":""
+   }
+]

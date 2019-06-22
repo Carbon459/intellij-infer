@@ -7,15 +7,24 @@
     <properties/>
     <border type="none"/>
     <children>
-      <component id="50d37" class="com.intellij.ui.treeStructure.Tree" binding="issueList">
+      <scrollpane id="2a16e" class="com.intellij.ui.components.JBScrollPane" default-binding="true">
         <constraints border-constraint="Center"/>
         <properties>
-          <editable value="false"/>
+          <horizontalScrollBarPolicy value="30"/>
         </properties>
-        <clientProperties>
-          <JTree.lineStyle class="java.lang.String" value=""/>
-        </clientProperties>
-      </component>
+        <border type="none"/>
+        <children>
+          <component id="50d37" class="com.intellij.ui.treeStructure.Tree" binding="issueList">
+            <constraints/>
+            <properties>
+              <editable value="false"/>
+            </properties>
+            <clientProperties>
+              <JTree.lineStyle class="java.lang.String" value=""/>
+            </clientProperties>
+          </component>
+        </children>
+      </scrollpane>
     </children>
   </grid>
 </form>
