@@ -7,7 +7,7 @@ import de.thl.intellijinfer.service.ResultParser;
 
 
 public class RunAction extends AnAction {
-    private static final Logger log = Logger.getInstance("#de.thl.intellijinfer.actions.RunAction");
+    private static final Logger log = Logger.getInstance(RunAction.class);
     public RunAction() {
         super("Run");
     }

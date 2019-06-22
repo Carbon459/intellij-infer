@@ -23,7 +23,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class InferRunConfiguration extends RunConfigurationBase {
-    private static final Logger log = Logger.getInstance("#de.thl.intellijinfer.run.InferRunConfiguration");
+    private static final Logger log = Logger.getInstance(InferRunConfiguration.class);
     private static final String PREFIX = "INTELLIJ_INFER-";
     private static final String SELECTED_RUN_CONFIG_NAME = PREFIX + "SELECTED_RUN_CONFIG_NAME";
     private static final String SELECTED_RUN_CONFIG_TYPE = PREFIX + "SELECTED_RUN_CONFIG_TYPE";
@@ -39,7 +39,7 @@ public class InferRunConfiguration extends RunConfigurationBase {
 
 
 
-    protected InferRunConfiguration(Project project, ConfigurationFactory factory, String name) {
+    InferRunConfiguration(Project project, ConfigurationFactory factory, String name) {
         super(project, factory, name);
         this.project = project;
         this.launchOptions = new InferLaunchOptions();

@@ -15,16 +15,12 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.search.FileTypeIndex;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.util.indexing.FileBasedIndex;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
 public class BuildToolUtil {
-    private static final Logger log = Logger.getInstance("#de.thl.intellijinfer.util.BuildToolUtil");
+    private static final Logger log = Logger.getInstance(BuildToolUtil.class);
 
     private static final Map<String, Function<RunConfiguration, String>> supportedRunConfigurations = ImmutableMap.<String, Function<RunConfiguration, String>>builder()
             .put("Application", (rc) -> "-- javac -d out/infer " + getJavaCArgs(rc.getProject()))
@@ -32,6 +28,7 @@ public class BuildToolUtil {
             .put("GradleRunConfiguration", (rc) -> "-- ./gradlew build")
             .put("CMakeRunConfiguration", (rc) -> "--compilation-database cmake-build-debug/compile_commands.json") //todo ordner anpassen
             .build();
+    public static final List<String> COMPILABLE_EXTENSIONS = Arrays.asList(".c", ".cpp", ".m", ".h", ".java");
 
     /**
      * Filters all unsupported Run Configurations from a List.

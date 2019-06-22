@@ -18,7 +18,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 public class InferLaunchOptions {
-    private static final Logger log = Logger.getInstance("#de.thl.intellijinfer.run.InferLaunchOptions");
+    private static final Logger log = Logger.getInstance(InferLaunchOptions.class);
 
     private Boolean fullAnalysis; //if a full analysis was already done after loading the current project/creating the run config
 
@@ -30,7 +30,7 @@ public class InferLaunchOptions {
     private Boolean reactiveMode;
 
 
-    public InferLaunchOptions() {
+    InferLaunchOptions() {
         this.installation = new InferInstallation("infer", new InferVersion(0,16,0)); //todo nicht konstant
         this.additionalArgs = "";
         this.selectedCheckers = Checker.getDefaultCheckers();

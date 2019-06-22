@@ -2,10 +2,10 @@ package de.thl.intellijinfer.service;
 
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.fileEditor.FileDocumentManagerListener;
+import de.thl.intellijinfer.util.BuildToolUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,7 +13,6 @@ import java.util.regex.Pattern;
 //info:  List<String> changedFilesList = BuildManager.getInstance().getFilesChangedSinceLastCompilation(usingRunConfig.getProject()); gibt es, aber ungewünschtes verhalten (reset nur bei echter kompilierung)
 public class FileChangeCollector implements  FileDocumentManagerListener{
     public static List<String> changedFiles = new ArrayList<>();
-    private final List<String> COMPILABLE_EXTENSIONS = Arrays.asList(".c", ".cpp", ".m", ".h", ".java");
 
     /**
      * Listener for Document saving events. Collects all changed compilable files into a list.
@@ -24,7 +23,7 @@ public class FileChangeCollector implements  FileDocumentManagerListener{
         Matcher m = r.matcher(document.toString());
 
         if (m.find()) {
-            if(m.group(0) != null && COMPILABLE_EXTENSIONS.stream().anyMatch((ext) -> m.group(0).endsWith(ext))) {
+            if(m.group(0) != null && BuildToolUtil.COMPILABLE_EXTENSIONS.stream().anyMatch((ext) -> m.group(0).endsWith(ext))) {
                 changedFiles.add(m.group(0));
             }
         }

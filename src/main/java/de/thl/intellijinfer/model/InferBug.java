@@ -37,7 +37,7 @@ public class InferBug {
     private String file;
     @SerializedName("bug_trace")
     @Expose
-    private List<BugTrace> bugTrace = new ArrayList<BugTrace>();
+    private List<BugTrace> bugTrace = new ArrayList<>();
     @SerializedName("key")
     @Expose
     private String key;
@@ -61,23 +61,6 @@ public class InferBug {
     public InferBug() {
     }
 
-    /**
-     * 
-     * @param censoredReason
-     * @param bugTrace
-     * @param hash
-     * @param bugTypeHum
-     * @param line
-     * @param qualifier
-     * @param severity
-     * @param bugType
-     * @param file
-     * @param column
-     * @param procedureStartLine
-     * @param procedure
-     * @param key
-     * @param nodeKey
-     */
     public InferBug(String bugType, String qualifier, String severity, int line, int column, String procedure, int procedureStartLine, String file, List<BugTrace> bugTrace, String key, String nodeKey, String hash, String bugTypeHum, String censoredReason) {
         super();
         this.bugType = bugType;
@@ -210,7 +193,7 @@ public class InferBug {
 
     @Override
     public String toString() {
-        return String.format("%s: %s", getBugType(), getQualifier());
+        return String.format("%d:%d - %s: %s", getLine(), getColumn(), getBugType(), getQualifier());
     }
 
     public class BugTrace {
@@ -280,7 +263,7 @@ public class InferBug {
 
         @Override
         public String toString() {
-            return String.format("%s Line %d Column %d %s", getFilename(), getLineNumber(), getColumnNumber(), getDescription());
+            return String.format("%d:%d - %s %s", getLineNumber(), getColumnNumber(), getFilename(), getDescription());
         }
     }
 }

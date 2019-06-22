@@ -12,12 +12,12 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 
 public class InferRunState extends CommandLineState {
-    private static final Logger log = Logger.getInstance("#de.thl.intellijinfer.run.InferRunState");
+    private static final Logger log = Logger.getInstance(InferRunState.class);
 
     private ExecutionEnvironment ee;
     private InferRunConfiguration runCfg;
 
-    protected InferRunState(InferRunConfiguration runCfg, ExecutionEnvironment environment) {
+    InferRunState(InferRunConfiguration runCfg, ExecutionEnvironment environment) {
         super(environment);
         this.ee = environment;
         this.runCfg = runCfg;
@@ -33,6 +33,7 @@ public class InferRunState extends CommandLineState {
         //GeneralCommandLine commandLine = new GeneralCommandLine("cmd.exe", "/c", "exit");
         commandLine.setWorkDirectory(new File(runCfg.getProject().getBasePath()));
         ProcessHandler ph = new ColoredProcessHandler(commandLine);
+        ph.addProcessListener(new InferProcessListener(this.ee.getProject()));
         return ph;
     }
 

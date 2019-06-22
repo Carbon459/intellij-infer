@@ -51,4 +51,13 @@ public class ResultParserTest extends LightPlatformCodeInsightFixtureTestCase {
         assertEquals(9, bugs.size());
     }
 
+    public void testEmptyBugs() {
+        final String jsonPath = getTestDataPath() + "emptyBugs.json";
+
+        Map<String, List<InferBug>> bugList = this.rp.parse(jsonPath);
+
+        assertNotNull(bugList);
+        assertEquals(0, bugList.size());
+    }
+
 }

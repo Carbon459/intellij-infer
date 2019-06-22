@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CLionHelper {
-    private static final Logger log = Logger.getInstance("#de.thl.intellijinfer.service.CLionHelper");
+    private static final Logger log = Logger.getInstance(CLionHelper.class);
     private Project project;
 
     public CLionHelper(Project project) {

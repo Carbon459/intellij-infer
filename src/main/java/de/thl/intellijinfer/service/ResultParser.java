@@ -18,7 +18,7 @@ import java.nio.file.Paths;
 import java.util.*;
 
 public class ResultParser {
-    private static final Logger log = Logger.getInstance("#de.thl.intellijinfer.service.ResultParser");
+    private static final Logger log = Logger.getInstance(ResultParser.class);
     private Project project;
 
     private Map<String, List<InferBug>> bugsPerFile;
@@ -73,7 +73,7 @@ public class ResultParser {
                 map.get(bug.getFile()).add(bug);
             }
             else {
-                final List<InferBug> list = new ArrayList<InferBug>();
+                final List<InferBug> list = new ArrayList<>();
                 list.add(bug);
                 map.put(bug.getFile(), list);
             }
@@ -86,7 +86,7 @@ public class ResultParser {
         return bugsPerFile;
     }
 
-    public void setBugsPerFile(Map<String, List<InferBug>> bugsPerFile) {
+    private void setBugsPerFile(Map<String, List<InferBug>> bugsPerFile) {
         Map<String, List<InferBug>> oldMap = this.bugsPerFile;
         this.bugsPerFile = bugsPerFile;
         changes.firePropertyChange("bugsPerFile", oldMap, bugsPerFile);
