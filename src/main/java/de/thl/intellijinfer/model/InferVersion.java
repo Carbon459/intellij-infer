@@ -1,9 +1,13 @@
 package de.thl.intellijinfer.model;
 
-public class InferVersion implements Comparable<InferVersion> {
+import java.io.Serializable;
+
+public class InferVersion implements Comparable<InferVersion>, Serializable {
     private int major;
     private int minor;
     private int patch;
+
+    public InferVersion() {}
 
     public InferVersion(int major, int minor, int patch) {
         this.major = major;

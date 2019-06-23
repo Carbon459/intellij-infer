@@ -15,10 +15,11 @@
     <!-- Plugin's application components -->
     <application-components>
         <component>
-            <!-- Component's interface class -->
             <interface-class>de.thl.intellijinfer.config.ConfigComponent</interface-class>
-            <!-- Component's implementation class -->
             <implementation-class>de.thl.intellijinfer.config.ConfigComponentImpl</implementation-class>
+        </component>
+        <component>
+            <implementation-class>de.thl.intellijinfer.config.GlobalSettings</implementation-class>
         </component>
     </application-components>
     <extensions defaultExtensionNs="com.intellij">
@@ -26,6 +27,7 @@
         <projectService serviceImplementation="de.thl.intellijinfer.service.ResultParser"/>
         <configurationType implementation="de.thl.intellijinfer.run.InferConfigurationType"/>
         <fileDocumentManagerListener implementation="de.thl.intellijinfer.service.FileChangeCollector"/>
+        <applicationConfigurable provider="de.thl.intellijinfer.config.PluginConfigurableProvider" id="Infer" displayName="Infer"/>
     </extensions>
 
     <actions>
