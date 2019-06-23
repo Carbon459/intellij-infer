@@ -3,7 +3,7 @@ package de.thl.intellijinfer.model;
 import java.io.Serializable;
 
 public class InferInstallation implements Serializable {
-    private String path;
+    private String path = "/";
     private InferVersion version;
     private boolean confirmedWorking;
 

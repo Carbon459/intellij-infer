@@ -2,11 +2,14 @@ package de.thl.intellijinfer.config;
 
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
+import de.thl.intellijinfer.model.InferInstallation;
+import de.thl.intellijinfer.model.InferVersion;
 import de.thl.intellijinfer.ui.SettingsForm;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
+import java.io.File;
 
 public class PluginConfigurable implements Configurable {
     private GlobalSettings settings;
@@ -22,41 +25,38 @@ public class PluginConfigurable implements Configurable {
         return "Infer";
     }
 
-    /**
-     * Creates new Swing form that enables user to configure the settings.
-     * Usually this method is called on the EDT, so it should not take a long time.
-     * <p>
-     * Also this place is designed to allocate resources (subscriptions/listeners etc.)
-     *
-     * @return new Swing form to show, or {@code null} if it cannot be created
-     * @see #disposeUIResources
-     */
     @Nullable
     @Override
     public JComponent createComponent() {
-        if(this.form == null) this.form = new SettingsForm();
+        if(this.form == null) {
+            this.form = new SettingsForm();
+            reset();
+        }
         return this.form.getMainPanel();
     }
 
-    /**
-     * Indicates whether the Swing form was modified or not.
-     * This method is called very often, so it should not take a long time.
-     *
-     * @return {@code true} if the settings were modified, {@code false} otherwise
-     */
     @Override
     public boolean isModified() {
+        if(this.form != null) return this.form.isModified();
         return false;
     }
 
-    /**
-     * Stores the settings from the Swing form to the configurable component.
-     * This method is called on EDT upon user's request.
-     *
-     * @throws ConfigurationException if values cannot be applied
-     */
     @Override
     public void apply() throws ConfigurationException {
+        if(this.form == null) return;
+        this.form.setModified(false);
 
+        final File inferDir = new File(this.form.getPath());
+        if(!inferDir.exists()) throw new ConfigurationException("Directory does not exist");
+        if(!inferDir.isDirectory()) throw new ConfigurationException("Given path is not a directory");
+
+        this.settings.setInstallation(new InferInstallation(this.form.getPath(), new InferVersion(0,16,0)));
     }
+
+    @Override
+    public void reset() {
+        this.form.setPath(this.settings.getInstallation().getPath());
+        this.form.setModified(false);
+    }
+
 }
