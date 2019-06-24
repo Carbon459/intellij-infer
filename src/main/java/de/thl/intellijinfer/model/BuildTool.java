@@ -20,10 +20,10 @@ import com.intellij.util.indexing.FileBasedIndex;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.attribute.PosixFilePermission;
+import java.util.*;
 import java.util.function.Function;
 
 public enum BuildTool {
@@ -108,10 +108,26 @@ public enum BuildTool {
     }
 
     private static String getMavenCmd(RunConfiguration rc) {
-        if(PluginManager.isPluginInstalled(PluginId.getId("org.jetbrains.idea.maven")))
-            return "-- " +
-                    (new File(PluginManager.getPlugin(PluginId.getId("org.jetbrains.idea.maven")).getPath(), "/lib/maven3/bin/mvn").toString())
-                    + " package";
+        if(PluginManager.isPluginInstalled(PluginId.getId("org.jetbrains.idea.maven"))) {
+            final File mavenBinary = new File(PluginManager.getPlugin(PluginId.getId("org.jetbrains.idea.maven")).getPath(), "/lib/maven3/bin/mvn");
+
+            //Make sure that the maven binary is executable from everywhere
+            Set<PosixFilePermission> perms = new HashSet<>();
+            perms.add(PosixFilePermission.OWNER_READ);
+            perms.add(PosixFilePermission.OWNER_WRITE);
+            perms.add(PosixFilePermission.OWNER_EXECUTE);
+            perms.add(PosixFilePermission.GROUP_READ);
+            perms.add(PosixFilePermission.GROUP_EXECUTE);
+            perms.add(PosixFilePermission.OTHERS_READ);
+            perms.add(PosixFilePermission.OTHERS_EXECUTE);
+            try {
+                Files.setPosixFilePermissions(mavenBinary.toPath(), perms);
+            } catch(IOException ex) {
+                log.warn("Could not change permission for the maven binary", ex);
+            }
+
+            return "-- " + mavenBinary.toString() + " package";
+        }
         else return "-- mvn package";
     }
 

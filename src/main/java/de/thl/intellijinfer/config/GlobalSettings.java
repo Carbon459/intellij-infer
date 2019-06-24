@@ -18,7 +18,7 @@ public class GlobalSettings implements PersistentStateComponent<GlobalSettings> 
     //@com.intellij.util.xmlb.annotations.Transient damit nicht serialisiert wird
 
     @Property
-    private List<InferInstallation> installations = new LinkedList<>(Arrays.asList(new InferInstallation("test", new InferVersion(0,1,2)), new InferInstallation("test2", new InferVersion(0,2,3))));
+    private List<InferInstallation> installations = new LinkedList<>(Arrays.asList(new InferInstallation("infer", new InferVersion(0,1,2)), new InferInstallation("test2", new InferVersion(0,2,3))));
 
 
     public boolean addInstallation(String path) {

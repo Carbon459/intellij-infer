@@ -32,7 +32,7 @@ public class SettingsForm {
         pathChooser.addActionListener(e -> FileChooser.chooseFile(
                 FileChooserDescriptorFactory.createSingleFolderDescriptor(),
                 ProjectUtil.guessCurrentProject(mainPanel),
-                LocalFileSystem.getInstance().findFileByPath(pathChooser.getText()),
+                LocalFileSystem.getInstance().findFileByPath(pathChooser.getText().isEmpty() ? "/" : pathChooser.getText()), //where the file chooser starts
                 (dir) -> pathChooser.setText(dir.getPath())));
 
         pathChooser.getTextField().getDocument().addDocumentListener(new DocumentListener() {
