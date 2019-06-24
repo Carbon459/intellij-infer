@@ -14,6 +14,18 @@ public class InferInstallation implements Serializable {
         this.version = version;
     }
 
+    /**
+     * Checks if this Installation is valid and gets the version.
+     * @return If the Installation is valid
+     */
+    public boolean confirm() {
+        //todo confirm installation and get version
+
+
+
+        return this.confirmedWorking;
+    }
+
     public String toString() {
         return path + " " + version;
     }
@@ -31,8 +43,5 @@ public class InferInstallation implements Serializable {
     }
     public boolean isConfirmedWorking() {
         return confirmedWorking;
-    }
-    public void setConfirmedWorking(boolean confirmedWorking) {
-        this.confirmedWorking = confirmedWorking;
     }
 }

@@ -6,11 +6,15 @@ import com.intellij.openapi.project.ProjectUtil;
 import com.intellij.openapi.ui.TextFieldWithBrowseButton;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.ui.components.JBLabel;
+import de.thl.intellijinfer.config.GlobalSettings;
+import de.thl.intellijinfer.model.InferInstallation;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -20,6 +24,7 @@ public class SettingsForm {
     private JPanel mainPanel;
     private TextFieldWithBrowseButton pathChooser;
     private JBLabel getInferHereJBLabel;
+    private JButton addAndCheckInstallationButton;
 
     private boolean modified = false;
 
@@ -43,6 +48,12 @@ public class SettingsForm {
                 try {
                     Desktop.getDesktop().browse(URI.create("https://fbinfer.com/docs/getting-started.html"));
                 } catch (IOException ex) {}
+            }
+        });
+        addAndCheckInstallationButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GlobalSettings.getInstance().addInstallation(pathChooser.getText());
             }
         });
     }

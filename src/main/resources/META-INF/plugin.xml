@@ -4,7 +4,13 @@
     <vendor email="friedrich.hudinjan@stud.th-luebeck.de">Friedrich Hudinjan</vendor>
 
     <description><![CDATA[
-    IntelliJ Integration for Infer by Facebook Research
+    An Integration of the <a href="https://fbinfer.com/">Infer static analyzer</a> for the IntelliJ Platform.
+    The following features are available:<br>
+    <ul>
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+    </ul>
     ]]></description>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
@@ -12,7 +18,6 @@
     <depends>com.intellij.modules.lang</depends>
     <depends optional="true" config-file="withCLion.xml">com.intellij.modules.clion</depends>
 
-    <!-- Plugin's application components -->
     <application-components>
         <component>
             <interface-class>de.thl.intellijinfer.config.ConfigComponent</interface-class>
@@ -23,11 +28,13 @@
         </component>
     </application-components>
     <extensions defaultExtensionNs="com.intellij">
+        <!--suppress PluginXmlValidity -->
         <toolWindow id="Infer" icon="toolWindowIcon.svg" secondary="false" anchor="bottom" factoryClass="de.thl.intellijinfer.ui.MainToolWindowFactory"/>
         <projectService serviceImplementation="de.thl.intellijinfer.service.ResultParser"/>
         <configurationType implementation="de.thl.intellijinfer.run.InferConfigurationType"/>
         <fileDocumentManagerListener implementation="de.thl.intellijinfer.service.FileChangeCollector"/>
         <applicationConfigurable provider="de.thl.intellijinfer.config.PluginConfigurableProvider" id="Infer" displayName="Infer"/>
+        <applicationService serviceImplementation="de.thl.intellijinfer.service.InstallationChecker"/>
     </extensions>
 
     <actions>

@@ -14,8 +14,10 @@ import com.intellij.ui.components.JBCheckBox;
 import com.intellij.ui.components.JBList;
 import com.intellij.ui.components.JBPanel;
 import com.intellij.ui.components.fields.ExpandableTextField;
+import de.thl.intellijinfer.config.GlobalSettings;
+import de.thl.intellijinfer.model.BuildTool;
 import de.thl.intellijinfer.model.Checker;
-import de.thl.intellijinfer.util.BuildToolUtil;
+import de.thl.intellijinfer.model.InferInstallation;
 import de.thl.intellijinfer.run.InferRunConfiguration;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,7 +27,7 @@ import java.util.List;
 
 public class RunConfigurationEditor extends SettingsEditor<InferRunConfiguration> {
     private JPanel mainPanel;
-    private JComboBox inferInstallationComboBox;
+    private JComboBox<InferInstallation> inferInstallationComboBox;
     private JComboBox<RunConfiguration> usingRunConfigComboBox;
     private ExpandableTextField additionalArgsTextField;
     private JBPanel checkersJBPanel;
@@ -58,10 +60,23 @@ public class RunConfigurationEditor extends SettingsEditor<InferRunConfiguration
         additionalArgsTextField.setText(inferRC.getLaunchOptions().getAdditionalArgs());
         this.clm.replaceAll(inferRC.getLaunchOptions().getSelectedCheckers());
         this.reactiveModeJBCheckBox.setSelected(inferRC.getLaunchOptions().isReactiveMode());
+
+        inferInstallationComboBox.setModel(
+                new DefaultComboBoxModel<>(
+                        GlobalSettings.getInstance().getInstallations().toArray(new InferInstallation[0])
+                ));
+        inferInstallationComboBox.setEnabled(true);
+
+        if(inferInstallationComboBox.getItemCount() > 0 || inferRC.getLaunchOptions().getSelectedInstallation() != null) {
+            inferInstallationComboBox.setSelectedItem(inferRC.getLaunchOptions().getSelectedInstallation());
+        }
+        if(inferInstallationComboBox.getItemCount() == 0) inferInstallationComboBox.setEnabled(false);
+
     }
 
     @Override
     protected void applyEditorTo(InferRunConfiguration inferRC) throws ConfigurationException {
+        if(this.inferInstallationComboBox.isEnabled()) inferRC.getLaunchOptions().setSelectedInstallation((InferInstallation) this.inferInstallationComboBox.getSelectedItem());
         inferRC.getLaunchOptions().setSelectedRunConfig((RunConfiguration) usingRunConfigComboBox.getSelectedItem());
         inferRC.getLaunchOptions().setAdditionalArgs(additionalArgsTextField.getText());
         inferRC.getLaunchOptions().setSelectedCheckers(this.clm.toList());
@@ -78,7 +93,7 @@ public class RunConfigurationEditor extends SettingsEditor<InferRunConfiguration
         List<RunConfiguration> runConfigList = RunManager.getInstance(inferRC.getProject()).getAllConfigurationsList();
         usingRunConfigComboBox.setModel(
                 new DefaultComboBoxModel<>(
-                        BuildToolUtil.filterUnknownRunConfigurations(runConfigList).toArray(new RunConfiguration[0])
+                        BuildTool.filterUnknownRunConfigurations(runConfigList).toArray(new RunConfiguration[0])
                 ));
         if(inferRC.getLaunchOptions().getSelectedRunConfig() != null) usingRunConfigComboBox.setSelectedItem(inferRC.getLaunchOptions().getSelectedRunConfig());
     }

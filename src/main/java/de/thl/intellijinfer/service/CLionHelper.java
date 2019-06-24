@@ -32,6 +32,7 @@ public class CLionHelper {
         CMakeWorkspace.getInstance(project).getSettings().setProfiles(list);
         CMakeWorkspace.getInstance(project).getSettings().setAutoReloadEnabled(true);
         CMakeWorkspace.getInstance(project).scheduleReload(true);
+
     }
 
 }

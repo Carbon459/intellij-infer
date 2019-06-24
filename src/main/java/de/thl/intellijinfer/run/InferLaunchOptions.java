@@ -3,11 +3,11 @@ package de.thl.intellijinfer.run;
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.configurations.RunConfiguration;
 import com.intellij.openapi.diagnostic.Logger;
+import de.thl.intellijinfer.model.BuildTool;
 import de.thl.intellijinfer.model.Checker;
 import de.thl.intellijinfer.model.InferInstallation;
 import de.thl.intellijinfer.model.InferVersion;
 import de.thl.intellijinfer.service.FileChangeCollector;
-import de.thl.intellijinfer.util.BuildToolUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -23,7 +23,7 @@ public class InferLaunchOptions {
     private Boolean fullAnalysis; //if a full analysis was already done after loading the current project/creating the run config
 
     //Saved Infer Configuration Options
-    private InferInstallation installation;
+    private InferInstallation selectedInstallation;
     private RunConfiguration usingRunConfig;
     private String additionalArgs;
     private List<Checker> selectedCheckers;
@@ -31,7 +31,7 @@ public class InferLaunchOptions {
 
 
     InferLaunchOptions() {
-        this.installation = new InferInstallation("infer", new InferVersion(0,16,0)); //todo nicht konstant
+        this.selectedInstallation = new InferInstallation("infer", new InferVersion(0,16,0)); //todo nicht konstant
         this.additionalArgs = "";
         this.selectedCheckers = Checker.getDefaultCheckers();
         this.reactiveMode = false;
@@ -45,7 +45,7 @@ public class InferLaunchOptions {
     @NotNull
     public String buildInferLaunchCmd() throws ExecutionException {
         if(this.usingRunConfig == null) throw new ExecutionException("Infer Execution failed: No Run Configuration selected");
-        StringBuilder sb = new StringBuilder(this.installation.getPath());
+        StringBuilder sb = new StringBuilder(this.selectedInstallation.getPath());
 
         sb.append(" run ").append(additionalArgs).append(" ");
         for(Checker checker : selectedCheckers) {
@@ -70,7 +70,7 @@ public class InferLaunchOptions {
         this.fullAnalysis = true;
         FileChangeCollector.changedFiles.clear();
 
-        sb.append(BuildToolUtil.getBuildCmd(this.usingRunConfig));
+        sb.append(BuildTool.getBuildCmd(this.usingRunConfig));
         return sb.toString();
     }
 
@@ -97,5 +97,11 @@ public class InferLaunchOptions {
     }
     public void setReactiveMode(Boolean reactiveMode) {
         this.reactiveMode = reactiveMode;
+    }
+    public InferInstallation getSelectedInstallation() {
+        return selectedInstallation;
+    }
+    public void setSelectedInstallation(InferInstallation selectedInstallation) {
+        this.selectedInstallation = selectedInstallation;
     }
 }

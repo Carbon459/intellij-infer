@@ -9,12 +9,29 @@ import de.thl.intellijinfer.model.InferVersion;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+
 @State(name = "InferApplicationSettings", storages = {@Storage("$APP_CONFIG$/infer.xml")})
 public class GlobalSettings implements PersistentStateComponent<GlobalSettings> {
     //@com.intellij.util.xmlb.annotations.Transient damit nicht serialisiert wird
 
     @Property
-    private InferInstallation installation = new InferInstallation("/", new InferVersion(0,0,0));
+    private List<InferInstallation> installations = new LinkedList<>(Arrays.asList(new InferInstallation("test", new InferVersion(0,1,2)), new InferInstallation("test2", new InferVersion(0,2,3))));
+
+
+    public boolean addInstallation(String path) {
+        InferInstallation ii = new InferInstallation(path, new InferVersion(0,0,0));
+        if(ii.confirm()) {
+            installations.add(ii);
+            return true;
+        }
+        return false;
+    }
+
+
+
 
     public static GlobalSettings getInstance() {
         return ApplicationManager.getApplication().getComponent(GlobalSettings.class);
@@ -32,11 +49,11 @@ public class GlobalSettings implements PersistentStateComponent<GlobalSettings> 
     }
 
     @NotNull
-    public InferInstallation getInstallation() {
-        return installation;
+    public List<InferInstallation> getInstallations() {
+        return installations;
     }
 
-    public void setInstallation(InferInstallation installation) {
-        this.installation = installation;
+    public void setInstallations(List<InferInstallation> installations) {
+        this.installations = installations;
     }
 }

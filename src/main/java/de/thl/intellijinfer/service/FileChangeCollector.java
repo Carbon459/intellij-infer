@@ -2,7 +2,7 @@ package de.thl.intellijinfer.service;
 
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.fileEditor.FileDocumentManagerListener;
-import de.thl.intellijinfer.util.BuildToolUtil;
+import de.thl.intellijinfer.model.BuildTool;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public class FileChangeCollector implements  FileDocumentManagerListener{
         Matcher m = r.matcher(document.toString());
 
         if (m.find()) {
-            if(m.group(0) != null && BuildToolUtil.COMPILABLE_EXTENSIONS.stream().anyMatch((ext) -> m.group(0).endsWith(ext))) {
+            if(m.group(0) != null && BuildTool.COMPILABLE_EXTENSIONS.stream().anyMatch((ext) -> m.group(0).endsWith(ext))) {
                 changedFiles.add(m.group(0));
             }
         }

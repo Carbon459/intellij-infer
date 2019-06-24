@@ -1,6 +1,7 @@
 package de.thl.intellijinfer.model;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class InferVersion implements Comparable<InferVersion>, Serializable {
     private int major;
@@ -19,6 +20,7 @@ public class InferVersion implements Comparable<InferVersion>, Serializable {
         return "v" + major + "." + minor + "." + patch;
     }
 
+    @Override
     public int compareTo(InferVersion iv) {
         if (this.major != iv.getMajor()) {
             return Integer.compare(this.major,iv.getMajor());
@@ -31,6 +33,22 @@ public class InferVersion implements Comparable<InferVersion>, Serializable {
         }
         return 0;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        InferVersion that = (InferVersion) o;
+        return major == that.major &&
+                minor == that.minor &&
+                patch == that.patch;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(major, minor, patch);
+    }
+
 
     public int getMajor() {
         return major;

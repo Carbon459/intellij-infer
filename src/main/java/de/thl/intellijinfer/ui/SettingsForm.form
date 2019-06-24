@@ -11,7 +11,7 @@
       <grid id="b97f3" class="com.intellij.ui.components.JBPanel" default-binding="true" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
-          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties/>
         <border type="none"/>
@@ -37,26 +37,32 @@
           </component>
         </children>
       </grid>
-      <vspacer id="a4a4d">
+      <component id="31de5" class="javax.swing.JButton" binding="addAndCheckInstallationButton" default-binding="true">
         <constraints>
-          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-        </constraints>
-      </vspacer>
-      <component id="bc232" class="com.intellij.ui.TitledSeparator">
-        <constraints>
-          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="New Infer installation"/>
+          <text value="Add and Check Installation"/>
+        </properties>
+      </component>
+      <component id="bc232" class="com.intellij.ui.TitledSeparator">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <foreground color="-4473925"/>
+          <text value="New Infer Installation"/>
         </properties>
       </component>
       <component id="cc90a" class="com.intellij.ui.components.JBLabel" binding="getInferHereJBLabel" default-binding="true">
         <constraints>
-          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="1" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="1" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <font swing-font="Label.font"/>
           <foreground color="-16366163"/>
+          <horizontalAlignment value="10"/>
+          <horizontalTextPosition value="11"/>
           <opaque value="false"/>
           <text value="Get Infer here"/>
         </properties>

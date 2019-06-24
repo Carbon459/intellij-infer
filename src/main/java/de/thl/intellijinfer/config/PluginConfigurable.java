@@ -50,12 +50,12 @@ public class PluginConfigurable implements Configurable {
         if(!inferDir.exists()) throw new ConfigurationException("Directory does not exist");
         if(!inferDir.isDirectory()) throw new ConfigurationException("Given path is not a directory");
 
-        this.settings.setInstallation(new InferInstallation(this.form.getPath(), new InferVersion(0,16,0)));
+        //this.settings.setSelectedInstallation(new InferInstallation(this.form.getPath(), new InferVersion(0,16,0)));
     }
 
     @Override
     public void reset() {
-        this.form.setPath(this.settings.getInstallation().getPath());
+        //this.form.setPath(this.settings.getSelectedInstallation().getPath());
         this.form.setModified(false);
     }
 
