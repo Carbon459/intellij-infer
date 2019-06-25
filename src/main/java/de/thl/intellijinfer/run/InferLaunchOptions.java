@@ -1,13 +1,18 @@
 package de.thl.intellijinfer.run;
 
+import com.intellij.AppTopics;
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.configurations.RunConfiguration;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.openapi.editor.Document;
+import com.intellij.openapi.fileEditor.FileDocumentManagerListener;
+import com.intellij.util.messages.MessageBus;
+import com.intellij.util.messages.MessageBusConnection;
+import de.thl.intellijinfer.config.GlobalSettings;
 import de.thl.intellijinfer.model.BuildTool;
 import de.thl.intellijinfer.model.Checker;
 import de.thl.intellijinfer.model.InferInstallation;
-import de.thl.intellijinfer.model.InferVersion;
-import de.thl.intellijinfer.service.FileChangeCollector;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -15,10 +20,18 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class InferLaunchOptions {
     private static final Logger log = Logger.getInstance(InferLaunchOptions.class);
+
+    //Tracks changed files for use with the reactive mode
+    private FileDocumentManagerListener changeListener;
+    public List<String> changedFiles = new ArrayList<>();
+
 
     private Boolean fullAnalysis; //if a full analysis was already done after loading the current project/creating the run config
 
@@ -31,11 +44,12 @@ public class InferLaunchOptions {
 
 
     InferLaunchOptions() {
-        this.selectedInstallation = null;
+        this.selectedInstallation = GlobalSettings.getInstance().getDefaultInstallation();
         this.additionalArgs = "";
         this.selectedCheckers = Checker.getDefaultCheckers();
         this.reactiveMode = false;
         this.fullAnalysis = false;
+        createChangeFileListener();
     }
 
     /**
@@ -45,9 +59,14 @@ public class InferLaunchOptions {
     @NotNull
     public String buildInferLaunchCmd() throws ExecutionException {
         if(this.usingRunConfig == null) throw new ExecutionException("Infer Execution failed: No Run Configuration selected");
+        if(this.selectedInstallation == null) throw new ExecutionException("Infer Execution failed: No Installation selected");
+
         StringBuilder sb = new StringBuilder(this.selectedInstallation.getPath());
 
+        //Additional Arguments
         sb.append(" run ").append(additionalArgs).append(" ");
+
+        //Checkers
         for(Checker checker : selectedCheckers) {
             sb.append(checker.getActivationArgument()).append(" ");
         }
@@ -55,11 +74,12 @@ public class InferLaunchOptions {
             sb.append(checker.getDeactivationArgument()).append(" ");
         }
 
+        //Reactive Mode
         if(this.reactiveMode && this.fullAnalysis) {
-            if(!FileChangeCollector.changedFiles.isEmpty()) {
+            if(!changedFiles.isEmpty()) {
                 try {
                     final Path file = Paths.get(this.usingRunConfig.getProject().getBasePath() + "/changedfiles.txt");
-                    Files.write(file, FileChangeCollector.changedFiles, StandardCharsets.UTF_8);
+                    Files.write(file, changedFiles, StandardCharsets.UTF_8);
                     sb.append("--reactive --changed-files-index changedfiles.txt ");
                 } catch (IOException ioe) {
                     log.error(ioe);
@@ -68,10 +88,35 @@ public class InferLaunchOptions {
 
         }
         this.fullAnalysis = true;
-        FileChangeCollector.changedFiles.clear();
+        changedFiles.clear();
 
+        //Build Tool
         sb.append(BuildTool.getBuildCmd(this.usingRunConfig));
+
         return sb.toString();
+    }
+
+    /**
+     * Creates a Listener (if one doesnt already exists), which collects all changed files, which are of a compilable type
+     * @see BuildTool#COMPILABLE_EXTENSIONS
+     */
+    private void createChangeFileListener() {
+        if(changeListener != null) return;
+        changeListener = new FileDocumentManagerListener() {
+            public void beforeDocumentSaving(@NotNull Document document) {
+                Pattern r = Pattern.compile("(?<=DocumentImpl\\[file://).*?(?=\\])"); //Matches everything between "DocumentImpl[file://" and "]"
+                Matcher m = r.matcher(document.toString());
+
+                if (m.find()) {
+                    if(m.group(0) != null && BuildTool.COMPILABLE_EXTENSIONS.stream().anyMatch((ext) -> m.group(0).endsWith(ext))) {
+                        changedFiles.add(m.group(0));
+                    }
+                }
+            }
+        };
+        MessageBus bus = ApplicationManager.getApplication().getMessageBus();
+        MessageBusConnection connection = bus.connect();
+        connection.subscribe(AppTopics.FILE_DOCUMENT_SYNC, changeListener);
     }
 
     public RunConfiguration getSelectedRunConfig() {

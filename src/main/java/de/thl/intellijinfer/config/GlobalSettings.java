@@ -17,6 +17,8 @@ public class GlobalSettings implements PersistentStateComponent<GlobalSettings> 
 
     @Property
     private List<InferInstallation> installations = new ArrayList<>();
+    @Property
+    private boolean showConsole = false;
 
 
     public boolean addInstallation(String path, boolean isDefault) {
@@ -31,6 +33,13 @@ public class GlobalSettings implements PersistentStateComponent<GlobalSettings> 
         return false;
     }
 
+    /**
+     * Gets the default Installation
+     * @return Default Installation. Returns null when there is none.
+     */
+    public InferInstallation getDefaultInstallation() {
+        return this.getInstallations().stream().filter(InferInstallation::isDefaultInstall).findFirst().orElse(null);
+    }
 
 
 
@@ -56,5 +65,11 @@ public class GlobalSettings implements PersistentStateComponent<GlobalSettings> 
 
     public void setInstallations(List<InferInstallation> installations) {
         this.installations = installations;
+    }
+    public boolean isShowConsole() {
+        return showConsole;
+    }
+    public void setShowConsole(boolean showConsole) {
+        this.showConsole = showConsole;
     }
 }

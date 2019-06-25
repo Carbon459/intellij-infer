@@ -34,8 +34,7 @@ public class InferRunState extends CommandLineState {
         commandLine.setWorkDirectory(new File(runCfg.getProject().getBasePath()));
         ProcessHandler ph = new ColoredProcessHandler(commandLine);
         ph.addProcessListener(new InferProcessListener(this.ee.getProject()));
+
         return ph;
     }
-
-
 }

@@ -2,14 +2,11 @@ package de.thl.intellijinfer.config;
 
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
-import de.thl.intellijinfer.model.InferInstallation;
-import de.thl.intellijinfer.model.InferVersion;
 import de.thl.intellijinfer.ui.SettingsForm;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
-import java.io.File;
 
 public class PluginConfigurable implements Configurable {
     private GlobalSettings settings;
@@ -46,17 +43,18 @@ public class PluginConfigurable implements Configurable {
         if(this.form == null) return;
         this.form.setModified(false);
 
-        final File inferDir = new File(this.form.getPath());
-        if(!inferDir.exists()) throw new ConfigurationException("Directory does not exist");
-        if(!inferDir.isDirectory()) throw new ConfigurationException("Given path is not a directory");
+        this.settings.setShowConsole(this.form.isShowConsole());
 
-        //this.settings.setSelectedInstallation(new InferInstallation(this.form.getPath(), new InferVersion(0,16,0)));
+        /*final File inferDir = new File(this.form.getPath());
+        if(!inferDir.exists()) throw new ConfigurationException("Directory does not exist");
+        if(!inferDir.isDirectory()) throw new ConfigurationException("Given path is not a directory");*/
+
+
     }
 
     @Override
     public void reset() {
-        //this.form.setPath(this.settings.getSelectedInstallation().getPath());
+        this.form.setShowConsole(settings.isShowConsole());
         this.form.setModified(false);
     }
-
 }

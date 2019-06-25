@@ -31,7 +31,6 @@
         <toolWindow id="Infer" icon="toolWindowIcon.svg" secondary="false" anchor="bottom" factoryClass="de.thl.intellijinfer.ui.MainToolWindowFactory"/>
         <projectService serviceImplementation="de.thl.intellijinfer.service.ResultParser"/>
         <configurationType implementation="de.thl.intellijinfer.run.InferConfigurationType"/>
-        <fileDocumentManagerListener implementation="de.thl.intellijinfer.service.FileChangeCollector"/>
         <applicationConfigurable provider="de.thl.intellijinfer.config.PluginConfigurableProvider" id="Infer" displayName="Infer"/>
         <applicationService serviceImplementation="de.thl.intellijinfer.service.InstallationChecker"/>
     </extensions>

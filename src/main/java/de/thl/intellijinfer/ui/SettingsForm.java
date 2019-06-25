@@ -6,6 +6,7 @@ import com.intellij.openapi.project.ProjectUtil;
 import com.intellij.openapi.ui.TextFieldWithBrowseButton;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.ui.JBColor;
+import com.intellij.ui.components.JBCheckBox;
 import com.intellij.ui.components.JBLabel;
 import de.thl.intellijinfer.config.GlobalSettings;
 
@@ -13,8 +14,6 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -25,6 +24,7 @@ public class SettingsForm {
     private TextFieldWithBrowseButton pathChooser;
     private JBLabel getInferHereJBLabel;
     private JButton addAndCheckInstallationButton;
+    private JBCheckBox showInferConsoleJBCheckBox;
 
     private boolean modified = false;
 
@@ -52,12 +52,10 @@ public class SettingsForm {
                 } catch (IOException ex) {}
             }
         });
-        addAndCheckInstallationButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                GlobalSettings.getInstance().addInstallation(pathChooser.getText(), false);
-            }
-        });
+
+        addAndCheckInstallationButton.addActionListener(e -> GlobalSettings.getInstance().addInstallation(pathChooser.getText(), false));
+
+        showInferConsoleJBCheckBox.addActionListener(e -> modified = true);
     }
 
     public JPanel getMainPanel() {
@@ -75,5 +73,10 @@ public class SettingsForm {
     public void setPath(String path) {
         this.pathChooser.setText(path);
     }
-
+    public boolean isShowConsole() {
+        return showInferConsoleJBCheckBox.isSelected();
+    }
+    public void setShowConsole(boolean selected) {
+        showInferConsoleJBCheckBox.setSelected(selected);
+    }
 }

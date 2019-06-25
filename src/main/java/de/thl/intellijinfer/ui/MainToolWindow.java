@@ -8,10 +8,12 @@ import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
+import com.intellij.openapi.wm.ToolWindowManager;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.search.FilenameIndex;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.ui.treeStructure.Tree;
+import de.thl.intellijinfer.config.GlobalSettings;
 import de.thl.intellijinfer.model.InferBug;
 import de.thl.intellijinfer.service.ResultParser;
 
@@ -38,13 +40,10 @@ public class MainToolWindow {
 
         issueList.setModel(new DefaultTreeModel(new DefaultMutableTreeNode("No bug list to show")));
 
-        ResultParser.getInstance(project).addPropertyChangeListener(new PropertyChangeListener() {
-            @Override
-            @SuppressWarnings("unchecked")
-            public void propertyChange(PropertyChangeEvent evt) {
-                if(evt.getNewValue() != null && evt.getPropertyName().equals("bugsPerFile")) {
-                    drawBugTree((Map<String, List<InferBug>>)evt.getNewValue());
-                }
+        ResultParser.getInstance(project).addPropertyChangeListener(evt -> {
+            if(evt.getNewValue() != null && evt.getPropertyName().equals("bugsPerFile")) {
+                drawBugTree((Map<String, List<InferBug>>)evt.getNewValue());
+                if(!GlobalSettings.getInstance().isShowConsole()) ToolWindowManager.getInstance(project).getToolWindow("Infer").activate(null, false);
             }
         });
 
