@@ -34,19 +34,18 @@ public class ResultParser {
     }
 
     /**
-     * Parses a given infer result file. The result file has a default name of 'result.json'. The MainToolWindow is notified, so it can show the results.
+     * Parses a given infer result file. The result file has a default name of 'report.json'. The MainToolWindow is notified, so it can show the results.
      * @param resultPath The Path of the file in the json format
      * @return A Map of the rearranged Results. Mainly for testing purposes. Is null when the file doesnt exist.
      */
     @Nullable
     public Map<String, List<InferBug>> parse(String resultPath) {
         if(!Files.exists(new File(resultPath).toPath())) {
-            log.warn("result.json does not exist - aborting parsing");
+            log.warn("report.json does not exist - aborting parsing");
             return null;
         }
         try {
-            rearrangeBugList(
-                    readBugList(resultPath));
+            rearrangeBugList(readBugList(resultPath));
             return getBugsPerFile();
         } catch (IOException e) {
             log.error("Could not parse given result file", e);
@@ -55,21 +54,21 @@ public class ResultParser {
     }
 
     /**
-     * Reads a result.json from an Infer analysis and deserializes it into a list of InferBug objects
-     * @param jsonPath The Path of the result.json
+     * Reads a report.json from an Infer analysis and deserializes it into a list of InferBug objects
+     * @param jsonPath The Path of the report.json
      * @return A list of InferBugs
      * @throws IOException If the json file couldnt be read
      */
     private List<InferBug> readBugList(String jsonPath) throws IOException {
         final String json = new String(Files.readAllBytes(Paths.get(jsonPath)));
-        Type targetClassType = new TypeToken<ArrayList<InferBug>>(){}.getType();
+        final Type targetClassType = new TypeToken<ArrayList<InferBug>>(){}.getType();
         Collection<InferBug> targetCollection = new Gson().fromJson(json, targetClassType);
         return new ArrayList<>(targetCollection);
     }
 
     /**
      * Rearranges the buglist from the format infer delievers to a map with the filenames as keys and a list of bugs from that file as value
-     * @param bugList The buglist, deserialized from the infer result.json
+     * @param bugList The buglist, deserialized from the infer report.json
      */
     private void rearrangeBugList(List<InferBug> bugList) {
         Map<String, List<InferBug>> map = new HashMap<>();

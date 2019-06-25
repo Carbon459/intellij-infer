@@ -43,7 +43,6 @@ public class MainToolWindow {
         ResultParser.getInstance(project).addPropertyChangeListener(evt -> {
             if(evt.getNewValue() != null && evt.getPropertyName().equals("bugsPerFile")) {
                 drawBugTree((Map<String, List<InferBug>>)evt.getNewValue());
-                if(!GlobalSettings.getInstance().isShowConsole()) ToolWindowManager.getInstance(project).getToolWindow("Infer").activate(null, false);
             }
         });
 
