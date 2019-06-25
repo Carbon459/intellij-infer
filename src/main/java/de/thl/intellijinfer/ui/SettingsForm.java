@@ -5,9 +5,9 @@ import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
 import com.intellij.openapi.project.ProjectUtil;
 import com.intellij.openapi.ui.TextFieldWithBrowseButton;
 import com.intellij.openapi.vfs.LocalFileSystem;
+import com.intellij.ui.JBColor;
 import com.intellij.ui.components.JBLabel;
 import de.thl.intellijinfer.config.GlobalSettings;
-import de.thl.intellijinfer.model.InferInstallation;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -29,6 +29,8 @@ public class SettingsForm {
     private boolean modified = false;
 
     public SettingsForm() {
+        getInferHereJBLabel.setForeground(new JBColor(0x0645AD, 0x0652FF));
+
         pathChooser.addActionListener(e -> FileChooser.chooseFile(
                 FileChooserDescriptorFactory.createSingleFolderDescriptor(),
                 ProjectUtil.guessCurrentProject(mainPanel),
@@ -53,7 +55,7 @@ public class SettingsForm {
         addAndCheckInstallationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GlobalSettings.getInstance().addInstallation(pathChooser.getText());
+                GlobalSettings.getInstance().addInstallation(pathChooser.getText(), false);
             }
         });
     }

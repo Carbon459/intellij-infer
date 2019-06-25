@@ -1,29 +1,45 @@
 package de.thl.intellijinfer.model;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.io.Serializable;
 
 public class InferInstallation implements Serializable {
     private String path = "/";
     private InferVersion version;
     private boolean confirmedWorking;
+    private boolean defaultInstall = false;
 
     public InferInstallation() {}
 
-    public InferInstallation(String path, InferVersion version) {
+    private InferInstallation(String path, boolean defaultInstall) {
         this.path = path;
-        this.version = version;
+        this.defaultInstall = defaultInstall;
+    }
+
+
+    /**
+     * Creates a new Infer Installation and checks if its working.
+     * @param path The path of the root directory of the infer installation.
+     * @return An infer installation, or null if its not valid/working.
+     */
+    @Nullable
+    public static InferInstallation createInferInstallation(String path, boolean isDefault) {
+        InferInstallation ii = new InferInstallation(path, isDefault);
+        if(ii.confirm()) return ii;
+        return null;
     }
 
     /**
      * Checks if this Installation is valid and gets the version.
      * @return If the Installation is valid
      */
-    public boolean confirm() {
+    private boolean confirm() {
         //todo confirm installation and get version
+        this.version = new InferVersion(0,0,0);
 
-
-
-        return this.confirmedWorking;
+        return true;
+        //return this.confirmedWorking;
     }
 
     public String toString() {
@@ -43,5 +59,11 @@ public class InferInstallation implements Serializable {
     }
     public boolean isConfirmedWorking() {
         return confirmedWorking;
+    }
+    public boolean isDefaultInstall() {
+        return defaultInstall;
+    }
+    public void setDefaultInstall(boolean defaultInstall) {
+        this.defaultInstall = defaultInstall;
     }
 }

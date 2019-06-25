@@ -20,11 +20,10 @@
 
     <application-components>
         <component>
-            <interface-class>de.thl.intellijinfer.config.ConfigComponent</interface-class>
-            <implementation-class>de.thl.intellijinfer.config.ConfigComponentImpl</implementation-class>
+            <implementation-class>de.thl.intellijinfer.config.GlobalSettings</implementation-class>
         </component>
         <component>
-            <implementation-class>de.thl.intellijinfer.config.GlobalSettings</implementation-class>
+            <implementation-class>de.thl.intellijinfer.config.DefaultConfigComponent</implementation-class>
         </component>
     </application-components>
     <extensions defaultExtensionNs="com.intellij">

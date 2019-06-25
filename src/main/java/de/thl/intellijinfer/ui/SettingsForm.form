@@ -60,7 +60,7 @@
         </constraints>
         <properties>
           <font swing-font="Label.font"/>
-          <foreground color="-16366163"/>
+          <foreground color="-16362753"/>
           <horizontalAlignment value="10"/>
           <horizontalTextPosition value="11"/>
           <opaque value="false"/>

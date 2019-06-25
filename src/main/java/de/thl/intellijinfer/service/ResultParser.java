@@ -6,12 +6,12 @@ import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import de.thl.intellijinfer.model.InferBug;
-import de.thl.intellijinfer.model.InferVersion;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
@@ -36,10 +36,14 @@ public class ResultParser {
     /**
      * Parses a given infer result file. The result file has a default name of 'result.json'. The MainToolWindow is notified, so it can show the results.
      * @param resultPath The Path of the file in the json format
-     * @return A Map of the rearranged Results. Mainly for testing purposes.
+     * @return A Map of the rearranged Results. Mainly for testing purposes. Is null when the file doesnt exist.
      */
     @Nullable
     public Map<String, List<InferBug>> parse(String resultPath) {
+        if(!Files.exists(new File(resultPath).toPath())) {
+            log.warn("result.json does not exist - aborting parsing");
+            return null;
+        }
         try {
             rearrangeBugList(
                     readBugList(resultPath));

@@ -5,12 +5,10 @@ import com.intellij.openapi.components.*;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import com.intellij.util.xmlb.annotations.Property;
 import de.thl.intellijinfer.model.InferInstallation;
-import de.thl.intellijinfer.model.InferVersion;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 @State(name = "InferApplicationSettings", storages = {@Storage("$APP_CONFIG$/infer.xml")})
@@ -18,12 +16,15 @@ public class GlobalSettings implements PersistentStateComponent<GlobalSettings> 
     //@com.intellij.util.xmlb.annotations.Transient damit nicht serialisiert wird
 
     @Property
-    private List<InferInstallation> installations = new LinkedList<>(Arrays.asList(new InferInstallation("infer", new InferVersion(0,1,2)), new InferInstallation("test2", new InferVersion(0,2,3))));
+    private List<InferInstallation> installations = new ArrayList<>();
 
 
-    public boolean addInstallation(String path) {
-        InferInstallation ii = new InferInstallation(path, new InferVersion(0,0,0));
-        if(ii.confirm()) {
+    public boolean addInstallation(String path, boolean isDefault) {
+        //check if a default installation already exists
+        if(isDefault && this.getInstallations().stream().anyMatch(InferInstallation::isDefaultInstall)) return false;
+
+        InferInstallation ii = InferInstallation.createInferInstallation(path, isDefault);
+        if(ii != null) {
             installations.add(ii);
             return true;
         }

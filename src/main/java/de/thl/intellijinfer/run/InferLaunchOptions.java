@@ -31,7 +31,7 @@ public class InferLaunchOptions {
 
 
     InferLaunchOptions() {
-        this.selectedInstallation = new InferInstallation("infer", new InferVersion(0,16,0)); //todo nicht konstant
+        this.selectedInstallation = null;
         this.additionalArgs = "";
         this.selectedCheckers = Checker.getDefaultCheckers();
         this.reactiveMode = false;

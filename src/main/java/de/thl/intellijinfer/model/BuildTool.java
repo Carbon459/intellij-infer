@@ -60,7 +60,7 @@ public enum BuildTool {
     }
 
     /**
-     * Filters all unsupported Run Configurations from a List.
+     * Filters all Run Configurations for unsupported Build Tools from a List.
      * See {@link BuildTool} for the List of supported Run Configurations.
      * @param rcList The List of Run Configurations
      * @return A new filtered List of Run Configurations

@@ -1,10 +1,9 @@
 package de.thl.intellijinfer.config;
 
+import com.intellij.openapi.components.BaseComponent;
 import org.jetbrains.annotations.NotNull;
 
-public class ConfigComponentImpl implements ConfigComponent{
-    public void ConfigComponentImpl() {}
-
+public class DefaultConfigComponent implements BaseComponent {
     @NotNull
     @Override
     public String getComponentName() {
@@ -14,6 +13,7 @@ public class ConfigComponentImpl implements ConfigComponent{
     @Override
     public void initComponent() {
         System.out.println("--- IDE Start ---");
+        GlobalSettings.getInstance().addInstallation("infer", true);
     }
 
     @Override
