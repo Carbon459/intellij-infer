@@ -1,5 +1,7 @@
 package de.thl.intellijinfer.ui;
 
+import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.application.ModalityState;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.LogicalPosition;
@@ -55,34 +57,36 @@ public class MainToolWindow {
         });*/
 
         issueList.addTreeSelectionListener(e -> {
-            final Editor editor = FileEditorManager.getInstance(project).getSelectedTextEditor();
-            final DefaultMutableTreeNode node = (DefaultMutableTreeNode) issueList.getLastSelectedPathComponent();
+            ApplicationManager.getApplication().invokeAndWait(() -> {
+                final Editor editor = FileEditorManager.getInstance(project).getSelectedTextEditor();
+                final DefaultMutableTreeNode node = (DefaultMutableTreeNode) issueList.getLastSelectedPathComponent();
 
-            if(editor == null || node == null) return;
-            if(node.getUserObject() instanceof InferBug || node.getUserObject() instanceof InferBug.BugTrace) {
-                LogicalPosition pos;
-                String fileName;
+                if(editor == null || node == null) return;
+                if(node.getUserObject() instanceof InferBug || node.getUserObject() instanceof InferBug.BugTrace) {
+                    LogicalPosition pos;
+                    String fileName;
 
-                if(node.getUserObject() instanceof InferBug) {
-                    final InferBug bug = (InferBug) node.getUserObject();
-                    pos = new LogicalPosition(bug.getLine() - 1, bug.getColumn() - 1); // -1 because LogicalPosition starts to count at 0
-                    fileName = bug.getFile();
-                } else {
-                    final InferBug.BugTrace bug = (InferBug.BugTrace) node.getUserObject();
-                    pos = new LogicalPosition(bug.getLineNumber() - 1, bug.getColumnNumber() - 1);
-                    fileName = bug.getFilename();
+                    if(node.getUserObject() instanceof InferBug) {
+                        final InferBug bug = (InferBug) node.getUserObject();
+                        pos = new LogicalPosition(bug.getLine() - 1, bug.getColumn() - 1); // -1 because LogicalPosition starts to count at 0
+                        fileName = bug.getFile();
+                    } else {
+                        final InferBug.BugTrace bug = (InferBug.BugTrace) node.getUserObject();
+                        pos = new LogicalPosition(bug.getLineNumber() - 1, bug.getColumnNumber() - 1);
+                        fileName = bug.getFilename();
+                    }
+
+                    PsiFile[] fileArray = FilenameIndex.getFilesByName(project, fileName , GlobalSearchScope.projectScope(project));
+                    if(fileArray.length != 1) {
+                        log.warn("Could not find or to many selected file(s) to navigate to: " + fileName);
+                        return;
+                    }
+                    fileArray[0].navigate(true);
+
+                    editor.getCaretModel().moveToLogicalPosition(pos);
+                    editor.getScrollingModel().scrollTo(pos, ScrollType.CENTER);
                 }
-
-                PsiFile[] fileArray = FilenameIndex.getFilesByName(project, fileName , GlobalSearchScope.projectScope(project));
-                if(fileArray.length != 1) {
-                    log.warn("Could not find or to many selected file(s) to navigate to: " + fileName);
-                    return;
-                }
-                fileArray[0].navigate(true);
-
-                editor.getCaretModel().moveToLogicalPosition(pos);
-                editor.getScrollingModel().scrollTo(pos, ScrollType.CENTER);
-            }
+            }, ModalityState.any());
         });
     }
 
