@@ -136,6 +136,8 @@ public class InferBug {
     }
 
     public String getFile() {
+        //Making sure that the filename doesnt contain a path, we only want the filename
+        if(file.contains("/")) return file.substring(file.lastIndexOf("/") + 1);
         return file;
     }
 
@@ -230,6 +232,8 @@ public class InferBug {
         }
 
         public String getFilename() {
+            //Making sure that the filename doesnt contain a path, we only want the filename
+            if(filename.contains("/")) return filename.substring(filename.lastIndexOf("/") + 1);
             return filename;
         }
 

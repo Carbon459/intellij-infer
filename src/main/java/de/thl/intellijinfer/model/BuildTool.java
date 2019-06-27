@@ -104,6 +104,9 @@ public enum BuildTool {
             }
         }
 
+        //Create the directory for the compiled class files if it doesnt exist
+        new File(rc.getProject().getBasePath() + "/out/infer").mkdirs();
+
         return sb.toString();
     }
 

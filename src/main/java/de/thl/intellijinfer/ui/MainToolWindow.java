@@ -68,11 +68,15 @@ public class MainToolWindow {
 
                     if(node.getUserObject() instanceof InferBug) {
                         final InferBug bug = (InferBug) node.getUserObject();
-                        pos = new LogicalPosition(bug.getLine() - 1, bug.getColumn() - 1); // -1 because LogicalPosition starts to count at 0
+                        pos = new LogicalPosition(
+                                bug.getLine() > 0 ? bug.getLine() - 1 : 0,
+                                bug.getColumn() > 0 ? bug.getColumn() - 1 : 0); // -1 because LogicalPosition starts to count at 0
                         fileName = bug.getFile();
                     } else {
                         final InferBug.BugTrace bug = (InferBug.BugTrace) node.getUserObject();
-                        pos = new LogicalPosition(bug.getLineNumber() - 1, bug.getColumnNumber() - 1);
+                        pos = new LogicalPosition(
+                                bug.getLineNumber() > 0 ? bug.getLineNumber() - 1 : 0,
+                                bug.getColumnNumber() > 0 ? bug.getColumnNumber() - 1 : 0);
                         fileName = bug.getFilename();
                     }
 
