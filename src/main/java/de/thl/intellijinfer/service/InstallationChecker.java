@@ -1,29 +1,63 @@
 package de.thl.intellijinfer.service;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.intellij.openapi.components.ServiceManager;
 import de.thl.intellijinfer.model.InferVersion;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.concurrent.TimeUnit;
 
 public class InstallationChecker {
     public static InstallationChecker getInstance() {
         return ServiceManager.getService(InstallationChecker.class);
     }
 
-    public InferVersion checkInfer() {
-        //infer --version-json
-        String testJson = "{\n" +
-                "\"major\": 0,\n" +
-                "\"minor\": 16,\n" +
-                "\"patch\": 0,\n" +
-                "\"commit\": \"4a91616\",\n" +
-                "\"branch\": \"HEAD\",\n" +
-                "\"tag\": \"v0.16.0\"\n" +
-                "}";
+    private final long PROCESS_TIMEOUT = 500;
 
-        InferVersion version = new Gson().fromJson(testJson, InferVersion.class);
+    /**
+     * Checks if the Infer Installation at the given path is valid.
+     * @param path Full path to the infer binary
+     * @return The Version if the installation is valid, otherwise null
+     */
+    @Nullable
+    public InferVersion checkInfer(@NotNull String path) {
+        try {
+            Process inferProcess = new ProcessBuilder(path, "--version-json").start();
+            StringBuilder output = new StringBuilder();
 
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(inferProcess.getInputStream()));
 
+            String line;
+            while ((line = reader.readLine()) != null) {
+                output.append(line + "\n");
+            }
 
-        return version;
+            inferProcess.waitFor(PROCESS_TIMEOUT, TimeUnit.MILLISECONDS);
+
+            if (inferProcess.exitValue() == 0) {
+                return parseVersionJson(output.toString());
+            }
+        } catch(IOException | IllegalThreadStateException ex) {
+            return null;
+        } catch(InterruptedException ex) {
+            ex.printStackTrace();
+        }
+
+        return null;
+    }
+
+    @Nullable
+    public InferVersion parseVersionJson(@NotNull String json) {
+        try {
+            return new Gson().fromJson(json, InferVersion.class);
+        } catch(JsonSyntaxException ex) {
+            return null;
+        }
     }
 }

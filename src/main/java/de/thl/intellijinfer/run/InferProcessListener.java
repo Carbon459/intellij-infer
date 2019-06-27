@@ -2,6 +2,9 @@ package de.thl.intellijinfer.run;
 
 import com.intellij.execution.process.ProcessEvent;
 import com.intellij.execution.process.ProcessListener;
+import com.intellij.notification.Notification;
+import com.intellij.notification.NotificationType;
+import com.intellij.notification.Notifications;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.ModalityState;
 import com.intellij.openapi.diagnostic.Logger;
@@ -20,15 +23,19 @@ public class InferProcessListener implements ProcessListener {
 
     @Override
     public void processTerminated(@NotNull ProcessEvent event) {
-        if(event.getExitCode() == 0) {
+        //todo mehr fehler abhandeln und in eventlog schreiben
+        if(false) {//event.getExitCode() == 0) {
             log.info("Infer Process terminated successfully: Status Code 0");
+
             ResultParser.getInstance(project).parse(project.getBasePath() + "/infer-out/report.json");
 
+            //Open the Infer Tool Window, which needs to be done in an AWT Event Dispatcher Thread
             ApplicationManager.getApplication().invokeLater(() -> {
                 if(!GlobalSettings.getInstance().isShowConsole()) ToolWindowManager.getInstance(project).getToolWindow("Infer").activate(null, false);
             }, ModalityState.any());
         } else {
             log.warn("Infer Process terminated unsuccessfully: Status Code " + event.getExitCode());
+            Notifications.Bus.notify(new Notification("Infer", "Failure", "Infer terminated unsuccessfully", NotificationType.ERROR));
         }
     }
 

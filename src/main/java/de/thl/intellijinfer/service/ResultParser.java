@@ -34,7 +34,7 @@ public class ResultParser {
     }
 
     /**
-     * Parses a given infer result file. The result file has a default name of 'report.json'. The MainToolWindow is notified, so it can show the results.
+     * Parses a given infer result file, and saves it in the {@link ResultParser}. The result file has 'report.json' as the default name. The Infer ToolWindow is notified, so it can show the parsed results.
      * @param resultPath The Path of the file in the json format
      * @return A Map of the rearranged Results. Mainly for testing purposes. Is null when the file doesnt exist.
      */

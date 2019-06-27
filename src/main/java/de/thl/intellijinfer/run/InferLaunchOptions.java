@@ -98,7 +98,7 @@ public class InferLaunchOptions {
 
     /**
      * Creates a Listener (if one doesnt already exists), which collects all changed files, which are of a compilable type
-     * @see BuildTool#COMPILABLE_EXTENSIONS
+     * @see BuildTool#FILE_EXTENSIONS
      */
     private void createChangeFileListener() {
         if(changeListener != null) return;
@@ -108,7 +108,7 @@ public class InferLaunchOptions {
                 Matcher m = r.matcher(document.toString());
 
                 if (m.find()) {
-                    if(m.group(0) != null && BuildTool.COMPILABLE_EXTENSIONS.stream().anyMatch((ext) -> m.group(0).endsWith(ext))) {
+                    if(m.group(0) != null && BuildTool.FILE_EXTENSIONS.stream().anyMatch((ext) -> m.group(0).endsWith(ext))) {
                         changedFiles.add(m.group(0));
                     }
                 }

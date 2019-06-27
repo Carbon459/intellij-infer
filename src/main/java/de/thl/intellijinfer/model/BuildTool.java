@@ -33,7 +33,7 @@ public enum BuildTool {
     GRADLE("GradleRunConfiguration", BuildTool::getGradleCmd),
     CMAKE("CMakeRunConfiguration", BuildTool::getCmakeCmd);
 
-    public static final List<String> COMPILABLE_EXTENSIONS = Arrays.asList(".c", ".cpp", ".m", ".h", ".java");
+    public static final List<String> FILE_EXTENSIONS = Arrays.asList(".c", ".cpp", ".m", ".h", ".java");
 
     private String typeId;
     private Function<RunConfiguration, String> launchCmd;
