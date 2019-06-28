@@ -26,7 +26,7 @@
             </constraints>
             <properties>
               <labelFor value="c171a"/>
-              <text value="Infer installation:"/>
+              <text resource-bundle="strings" key="infer.installation"/>
             </properties>
           </component>
           <component id="8c24e" class="com.intellij.ui.components.JBLabel">
@@ -37,7 +37,7 @@
             </constraints>
             <properties>
               <labelFor value="b70a9"/>
-              <text value="Using run config:"/>
+              <text resource-bundle="strings" key="using.run.config"/>
             </properties>
           </component>
           <component id="6e260" class="com.intellij.ui.components.JBLabel">
@@ -48,7 +48,7 @@
             </constraints>
             <properties>
               <anchor value=""/>
-              <text value="Additional arguments:"/>
+              <text resource-bundle="strings" key="additional.arguments"/>
             </properties>
           </component>
           <component id="b70a9" class="javax.swing.JComboBox" binding="usingRunConfigComboBox" default-binding="true">
@@ -71,7 +71,7 @@
               </grid>
             </constraints>
             <properties>
-              <text value="Checkers:"/>
+              <text resource-bundle="strings" key="checkers"/>
             </properties>
           </component>
           <grid id="726ef" class="com.intellij.ui.components.JBPanel" binding="checkersJBPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
@@ -96,7 +96,7 @@
               <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Reactive Mode (Analyze changed files only)"/>
+              <text resource-bundle="strings" key="reactive.mode.analyze.changed.files.only"/>
             </properties>
           </component>
           <grid id="7de5a" class="com.intellij.ui.components.JBPanel" binding="installPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">

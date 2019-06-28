@@ -110,7 +110,10 @@ public class InferRunConfiguration extends RunConfigurationBase {
         JDOMExternalizerUtil.writeField(element, CHECKERS, sb.toString());
     }
 
-    //später als in readexternal ausgeführt da beim laden noch nicht alle run configs bestehen. name ist pro type einmalig
+    /**
+     * Looks for the Instance of the Run Configuration we need and loads it.
+     * Needs to be called at a later time than {@link #readExternal(Element)}, because not all Run Configurations are instantiated at that time.
+     */
     private void loadRunConfigInstance() {
         if(launchOptions.getSelectedRunConfig() != null) return;
         for(RunConfiguration rc : RunManager.getInstance(project).getAllConfigurationsList()) {

@@ -32,7 +32,7 @@
               </grid>
             </constraints>
             <properties>
-              <text value="Path"/>
+              <text resource-bundle="strings" key="path"/>
             </properties>
           </component>
         </children>
@@ -42,7 +42,7 @@
           <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Add and Check Installation"/>
+          <text resource-bundle="strings" key="add.and.check.installation"/>
         </properties>
       </component>
       <component id="bc232" class="com.intellij.ui.TitledSeparator">
@@ -51,7 +51,7 @@
         </constraints>
         <properties>
           <foreground color="-4473925"/>
-          <text value="New Infer Installation"/>
+          <text resource-bundle="strings" key="new.infer.installation"/>
         </properties>
       </component>
       <component id="cc90a" class="com.intellij.ui.components.JBLabel" binding="getInferHereJBLabel" default-binding="true">
@@ -64,7 +64,7 @@
           <horizontalAlignment value="10"/>
           <horizontalTextPosition value="11"/>
           <opaque value="false"/>
-          <text value="Get Infer here"/>
+          <text resource-bundle="strings" key="get.infer.here"/>
         </properties>
       </component>
       <component id="ed119" class="com.intellij.ui.components.JBCheckBox" binding="showInferConsoleJBCheckBox" default-binding="true">
@@ -72,7 +72,7 @@
           <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Show Infer Console"/>
+          <text resource-bundle="strings" key="show.infer.console"/>
         </properties>
       </component>
     </children>

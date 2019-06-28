@@ -27,6 +27,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class RunConfigurationEditor extends SettingsEditor<InferRunConfiguration> {
     private JPanel mainPanel;
@@ -42,14 +43,14 @@ public class RunConfigurationEditor extends SettingsEditor<InferRunConfiguration
     public RunConfigurationEditor() {
         this.clm = new CollectionListModel<>();
         this.checkersJBList = new JBList<>(this.clm);
-        this.checkersJBList.setEmptyText("No Checkers selected");
+        this.checkersJBList.setEmptyText(ResourceBundle.getBundle("strings").getString("no.checkers.selected"));
         this.installPanel.setLayout(new OverlayLayout(this.installPanel));
 
         ToolbarDecorator td = ToolbarDecorator
                 .createDecorator(checkersJBList)
                 .setAddAction(this::checkersAddAction)
                 .setRemoveAction(this::checkersRemoveAction)
-                .addExtraAction(new AnActionButton("Reset to Default", AllIcons.General.TodoDefault) {
+                .addExtraAction(new AnActionButton(ResourceBundle.getBundle("strings").getString("reset.to.default"), AllIcons.General.TodoDefault) {
                     @Override
                     public void actionPerformed(@NotNull AnActionEvent e) {
                         clm.replaceAll(Checker.getDefaultCheckers());
@@ -107,7 +108,7 @@ public class RunConfigurationEditor extends SettingsEditor<InferRunConfiguration
         if(inferInstallationComboBox.getItemCount() == 0) {
             //create the warning label only if it doesnt exist (= only one other component in the installPanel)
             if(installPanel.getComponentCount() == 1) {
-                final JBLabel warningLabel = new JBLabel("Warning: No valid Installation found. Click here to add one");
+                final JBLabel warningLabel = new JBLabel(ResourceBundle.getBundle("strings").getString("warning.no.valid.installation.found.click.here.to.add.one"));
                 warningLabel.setForeground(new JBColor(0x0764FF, 0x0652FF));
                 warningLabel.setHorizontalAlignment(SwingConstants.CENTER);
                 warningLabel.addMouseListener(new MouseAdapter() {

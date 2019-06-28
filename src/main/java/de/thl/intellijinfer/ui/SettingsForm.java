@@ -18,6 +18,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URI;
+import java.util.ResourceBundle;
 
 public class SettingsForm {
     private JPanel mainPanel;
@@ -48,7 +49,7 @@ public class SettingsForm {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 try {
-                    Desktop.getDesktop().browse(URI.create("https://fbinfer.com/docs/getting-started.html"));
+                    Desktop.getDesktop().browse(URI.create(ResourceBundle.getBundle("strings").getString("infer.getting.started")));
                 } catch (IOException ex) {}
             }
         });

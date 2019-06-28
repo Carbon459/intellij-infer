@@ -27,6 +27,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 public class MainToolWindow {
     private static final Logger log = Logger.getInstance(MainToolWindow.class);
@@ -40,7 +41,8 @@ public class MainToolWindow {
     MainToolWindow(ToolWindow toolWindow, Project project) {
         this.project = project;
 
-        issueList.setModel(new DefaultTreeModel(new DefaultMutableTreeNode("No bug list to show")));
+        issueList.getEmptyText().setText(ResourceBundle.getBundle("strings").getString("no.bug.list.to.show"));
+        issueList.setModel(new DefaultTreeModel(null));
 
         ResultParser.getInstance(project).addPropertyChangeListener(evt -> {
             if(evt.getNewValue() != null && evt.getPropertyName().equals("bugsPerFile")) {
@@ -105,11 +107,11 @@ public class MainToolWindow {
     private void drawBugTree(Map<String, List<InferBug>> bugMap) {
         if(bugMap == null) return;
 
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode("Infer Analysis Result: " + bugMap.values().stream().mapToInt(List::size).sum() + " Bug(s) found");
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode(String.format(ResourceBundle.getBundle("strings").getString("infer.analysis.result.bugs.found"), bugMap.values().stream().mapToInt(List::size).sum()));
 
         //todo effizienter
         for (Map.Entry<String, List<InferBug>> entry : bugMap.entrySet()) {
-            DefaultMutableTreeNode fileNode = new DefaultMutableTreeNode(String.format("%s: %d Bug(s) found", entry.getKey(), entry.getValue().size()));
+            DefaultMutableTreeNode fileNode = new DefaultMutableTreeNode(String.format(ResourceBundle.getBundle("strings").getString("bugs.found"), entry.getKey(), entry.getValue().size()));
             for(InferBug bug : entry.getValue()) {
                 DefaultMutableTreeNode bugNode = new DefaultMutableTreeNode(bug);
                 for(InferBug.BugTrace trace : bug.getBugTrace()) {
