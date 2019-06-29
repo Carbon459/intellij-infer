@@ -65,6 +65,8 @@ public class InferRunConfiguration extends RunConfigurationBase {
     @Override
     public void checkConfiguration() throws RuntimeConfigurationException {
         if(launchOptions.getSelectedRunConfig() == null) throw new RuntimeConfigurationException("No Run Configuration Selected");
+        if(launchOptions.getSelectedCheckers() == null || launchOptions.getSelectedCheckers().isEmpty()) throw new RuntimeConfigurationException("No Checker selected");
+        if(launchOptions.getSelectedInstallation() == null || !launchOptions.getSelectedInstallation().isConfirmedWorking()) throw new RuntimeConfigurationException("No selected Installation or the Installation is invalid");
     }
 
     @Nullable

@@ -21,6 +21,12 @@ public class GlobalSettings implements PersistentStateComponent<GlobalSettings> 
     private boolean showConsole = false;
 
 
+    /**
+     * Adds a InferInstallation to the global list, which is used by run configurations.
+     * @param path The path of the installation
+     * @param isDefault if the installation is a default installation
+     * @return true, if the installation was added successfully, otherwise false
+     */
     public boolean addInstallation(String path, boolean isDefault) {
         //check if a default installation already exists
         if(isDefault && this.getInstallations().stream().anyMatch(InferInstallation::isDefaultInstall)) return false;
@@ -37,6 +43,7 @@ public class GlobalSettings implements PersistentStateComponent<GlobalSettings> 
      * Gets the default Installation
      * @return Default Installation. Returns null when there is none.
      */
+    @Nullable
     public InferInstallation getDefaultInstallation() {
         return this.getInstallations().stream().filter(InferInstallation::isDefaultInstall).findFirst().orElse(null);
     }

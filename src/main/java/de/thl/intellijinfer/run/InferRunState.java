@@ -27,13 +27,18 @@ public class InferRunState extends CommandLineState {
     @Override
     protected ProcessHandler startProcess() throws ExecutionException {
         final String runCmd = runCfg.getInferLaunchCmd();
+
         log.info("Running Infer with Command: " + runCmd);
-        System.out.println("Running Process: " + runCmd);
-        //GeneralCommandLine commandLine = new GeneralCommandLine("/bin/sh", "-c", runCmd);
-        GeneralCommandLine commandLine = new GeneralCommandLine("cmd.exe", "/c", "ping -n 6 127.0.0.1 > nul");
+        System.out.println("Running Process: " + runCmd); //todo entfernen
+
+        GeneralCommandLine commandLine = new GeneralCommandLine("/bin/sh", "-c", runCmd);
+        //GeneralCommandLine commandLine = new GeneralCommandLine("cmd.exe", "/c", "ping -n 6 127.0.0.1 > nul");
+
+        if(runCfg.getProject().getBasePath() == null) throw new ExecutionException("Could not acquire the project base path");
         commandLine.setWorkDirectory(new File(runCfg.getProject().getBasePath()));
+
         ProcessHandler ph = new ColoredProcessHandler(commandLine);
-        ph.addProcessListener(new InferProcessListener(this.ee.getProject()));
+        ph.addProcessListener(new InferProcessListener(runCfg.getProject()));
 
         return ph;
     }

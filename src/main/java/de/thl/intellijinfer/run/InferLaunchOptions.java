@@ -60,6 +60,7 @@ public class InferLaunchOptions {
     public String buildInferLaunchCmd() throws ExecutionException {
         if(this.usingRunConfig == null) throw new ExecutionException("Infer Execution failed: No Run Configuration selected");
         if(this.selectedInstallation == null) throw new ExecutionException("Infer Execution failed: No Installation selected");
+        if(this.selectedCheckers == null || this.selectedCheckers.isEmpty()) throw new ExecutionException("Infer Execution failed: No Checkers selected");
 
         StringBuilder sb = new StringBuilder(this.selectedInstallation.getPath());
 

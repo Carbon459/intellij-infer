@@ -21,18 +21,22 @@ public class InferProcessListener implements ProcessListener {
 
     InferProcessListener(Project project) { this.project = project; }
 
+    /**
+     * Gets called when a Infer Process is terminated
+     * @param event Contains information about the terminated process
+     */
     @Override
     public void processTerminated(@NotNull ProcessEvent event) {
         //todo mehr fehler abhandeln und in eventlog schreiben
-        if(false) {//event.getExitCode() == 0) {
+        if(event.getExitCode() == 0) {
             log.info("Infer Process terminated successfully: Status Code 0");
 
             ResultParser.getInstance(project).parse(project.getBasePath() + "/infer-out/report.json");
 
             //Open the Infer Tool Window, which needs to be done in an AWT Event Dispatcher Thread
-            ApplicationManager.getApplication().invokeLater(() -> {
-                if(!GlobalSettings.getInstance().isShowConsole()) ToolWindowManager.getInstance(project).getToolWindow("Infer").activate(null, false);
-            }, ModalityState.any());
+            if(!GlobalSettings.getInstance().isShowConsole()) { //if the user wants the console to stay in focus, we dont want to open the infer tool window
+                ApplicationManager.getApplication().invokeLater(() -> ToolWindowManager.getInstance(project).getToolWindow("Infer").activate(null, false), ModalityState.any());
+            }
         } else {
             log.warn("Infer Process terminated unsuccessfully: Status Code " + event.getExitCode());
             Notifications.Bus.notify(new Notification("Infer", "Failure", "Infer terminated unsuccessfully", NotificationType.ERROR));

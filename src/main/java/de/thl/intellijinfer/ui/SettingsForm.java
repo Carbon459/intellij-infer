@@ -49,7 +49,7 @@ public class SettingsForm {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 try {
-                    Desktop.getDesktop().browse(URI.create(ResourceBundle.getBundle("strings").getString("infer.getting.started")));
+                    Desktop.getDesktop().browse(URI.create(ResourceBundle.getBundle("strings").getString("infer.getting.started.url")));
                 } catch (IOException ex) {}
             }
         });

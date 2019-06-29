@@ -10,6 +10,9 @@ public class InferInstallation implements Serializable {
     private boolean confirmedWorking;
     private boolean defaultInstall = false;
 
+    /**
+     * Dont use this Constructor! For deserializing use only.
+     */
     public InferInstallation() {}
 
     private InferInstallation(String path, boolean defaultInstall) {
@@ -21,6 +24,7 @@ public class InferInstallation implements Serializable {
     /**
      * Creates a new Infer Installation and checks if its working.
      * @param path The path of the root directory of the infer installation.
+     * @param isDefault if the installation which should be created is a default one
      * @return An infer installation, or null if its not valid/working.
      */
     @Nullable
@@ -37,6 +41,7 @@ public class InferInstallation implements Serializable {
     private boolean confirm() {
         //todo confirm installation and get version
         this.version = new InferVersion(0,0,0);
+        setConfirmedWorking(true);
 
         return true;
         //return this.confirmedWorking;
@@ -59,6 +64,9 @@ public class InferInstallation implements Serializable {
     }
     public boolean isConfirmedWorking() {
         return confirmedWorking;
+    }
+    public void setConfirmedWorking(boolean confirmedWorking) {
+        this.confirmedWorking = confirmedWorking;
     }
     public boolean isDefaultInstall() {
         return defaultInstall;
