@@ -71,7 +71,7 @@ public class InferLaunchOptions {
         for(Checker checker : selectedCheckers) {
             sb.append(checker.getActivationArgument()).append(" ");
         }
-        for(Checker checker : Checker.getMissingCheckers(selectedCheckers)) {
+        for(Checker checker : Checker.getMissingCheckers(selectedCheckers, this.selectedInstallation.getVersion())) {
             sb.append(checker.getDeactivationArgument()).append(" ");
         }
 

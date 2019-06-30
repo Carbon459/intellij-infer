@@ -1,6 +1,7 @@
 package de.thl.intellijinfer.service;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.diagnostic.Logger;
@@ -49,6 +50,8 @@ public class ResultParser {
             return getBugsPerFile();
         } catch (IOException e) {
             log.error("Could not parse given result file", e);
+        } catch(JsonSyntaxException e) {
+            log.error("Invalid JSON Syntax in Infer report file");
         }
         return null;
     }
@@ -59,7 +62,7 @@ public class ResultParser {
      * @return A list of InferBugs
      * @throws IOException If the json file couldnt be read
      */
-    private List<InferBug> readBugList(String jsonPath) throws IOException {
+    private List<InferBug> readBugList(String jsonPath) throws IOException, JsonSyntaxException {
         final String json = new String(Files.readAllBytes(Paths.get(jsonPath)));
         final Type targetClassType = new TypeToken<ArrayList<InferBug>>(){}.getType();
         Collection<InferBug> targetCollection = new Gson().fromJson(json, targetClassType);

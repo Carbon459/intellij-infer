@@ -16,6 +16,10 @@ public class InferVersion implements Comparable<InferVersion>, Serializable {
         this.patch = patch;
     }
 
+    public boolean isValid() {
+        return this.major > 0 || this.minor > 0 || this.patch > 0;
+    }
+
     public String toString() {
         return "v" + major + "." + minor + "." + patch;
     }
@@ -48,7 +52,6 @@ public class InferVersion implements Comparable<InferVersion>, Serializable {
     public int hashCode() {
         return Objects.hash(major, minor, patch);
     }
-
 
     public int getMajor() {
         return major;

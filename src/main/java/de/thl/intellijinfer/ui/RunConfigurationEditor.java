@@ -19,6 +19,7 @@ import de.thl.intellijinfer.config.PluginConfigurable;
 import de.thl.intellijinfer.model.BuildTool;
 import de.thl.intellijinfer.model.Checker;
 import de.thl.intellijinfer.model.InferInstallation;
+import de.thl.intellijinfer.model.InferVersion;
 import de.thl.intellijinfer.run.InferRunConfiguration;
 import org.jetbrains.annotations.NotNull;
 
@@ -129,7 +130,10 @@ public class RunConfigurationEditor extends SettingsEditor<InferRunConfiguration
     }
 
     private void checkersAddAction(final AnActionButton button) {
-        final List<Checker> notSelectedCheckers = Checker.getMissingCheckers(clm.getItems());
+        final InferVersion usingVersion = ((InferInstallation) inferInstallationComboBox.getSelectedItem()).getVersion().isValid() ?
+                ((InferInstallation) inferInstallationComboBox.getSelectedItem()).getVersion() :
+                new InferVersion(0, 15, 0); //fallback to oldest supported version if no valid version is selected
+        final List<Checker> notSelectedCheckers = Checker.getMissingCheckers(clm.getItems(), usingVersion);
 
         JBPopupFactory.getInstance()
                 .createPopupChooserBuilder(notSelectedCheckers)
