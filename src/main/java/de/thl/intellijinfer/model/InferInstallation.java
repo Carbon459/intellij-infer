@@ -1,10 +1,14 @@
 package de.thl.intellijinfer.model;
 
+import com.intellij.openapi.diagnostic.Logger;
+import de.thl.intellijinfer.service.InstallationChecker;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.Serializable;
 
 public class InferInstallation implements Serializable {
+    private static final Logger log = Logger.getInstance(InferInstallation.class);
+
     private String path = "/";
     private InferVersion version;
     private boolean confirmedWorking;
@@ -39,12 +43,13 @@ public class InferInstallation implements Serializable {
      * @return If the Installation is valid
      */
     private boolean confirm() {
-        //todo confirm installation and get version
-        this.version = new InferVersion(0,0,0);
-        setConfirmedWorking(true);
+        this.version = InstallationChecker.getInstance().checkInfer(this.getPath());
+        if(this.version != null) setConfirmedWorking(true);
 
-        return true;
-        //return this.confirmedWorking;
+        System.out.println("Confirmed Installation: " + confirmedWorking + ". Version: " + (this.version == null ? "null" : this.version.toString()));
+        log.info("Confirmed Infer Installation: " + confirmedWorking + ". Version: " + (this.version == null ? "null" : this.version.toString()));
+
+        return confirmedWorking;
     }
 
     public String toString() {

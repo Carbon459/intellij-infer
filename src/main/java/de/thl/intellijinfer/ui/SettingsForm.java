@@ -8,7 +8,9 @@ import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.ui.JBColor;
 import com.intellij.ui.components.JBCheckBox;
 import com.intellij.ui.components.JBLabel;
+import com.intellij.ui.components.JBList;
 import de.thl.intellijinfer.config.GlobalSettings;
+import de.thl.intellijinfer.model.InferInstallation;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -27,9 +29,15 @@ public class SettingsForm {
     private JButton addAndCheckInstallationButton;
     private JBCheckBox showInferConsoleJBCheckBox;
 
+    private JBList<InferInstallation> installationJBList;
+
     private boolean modified = false;
 
     public SettingsForm() {
+        installationJBList.getEmptyText().setText(ResourceBundle.getBundle("strings").getString("no.installation.to.show"));
+        installationJBList.setModel(new DefaultListModel<>());
+        refreshInstallationList();
+
         getInferHereJBLabel.setForeground(new JBColor(0x0645AD, 0x0652FF));
 
         pathChooser.addActionListener(e -> FileChooser.chooseFile(
@@ -54,10 +62,21 @@ public class SettingsForm {
             }
         });
 
-        addAndCheckInstallationButton.addActionListener(e -> GlobalSettings.getInstance().addInstallation(pathChooser.getText(), false));
+        addAndCheckInstallationButton.addActionListener(e -> {
+            GlobalSettings.getInstance().addInstallation(pathChooser.getText(), false);
+            refreshInstallationList();
+        });
 
         showInferConsoleJBCheckBox.addActionListener(e -> modified = true);
     }
+
+    private void refreshInstallationList() {
+        ((DefaultListModel<InferInstallation>) this.installationJBList.getModel()).clear();
+        for(InferInstallation ii : GlobalSettings.getInstance().getInstallations()) {
+            ((DefaultListModel<InferInstallation>) this.installationJBList.getModel()).addElement(ii);
+        }
+    }
+
 
     public JPanel getMainPanel() {
         return mainPanel;
@@ -80,4 +99,5 @@ public class SettingsForm {
     public void setShowConsole(boolean selected) {
         showInferConsoleJBCheckBox.setSelected(selected);
     }
+
 }

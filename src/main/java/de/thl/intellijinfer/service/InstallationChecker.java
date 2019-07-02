@@ -17,7 +17,7 @@ public class InstallationChecker {
         return ServiceManager.getService(InstallationChecker.class);
     }
 
-    private final long PROCESS_TIMEOUT = 500;
+    private static final long PROCESS_TIMEOUT = 500; //How long the check waits before it declares the binary the process started from as invalid (in ms)
 
     /**
      * Checks if the Infer Installation at the given path is valid.
@@ -43,7 +43,7 @@ public class InstallationChecker {
             if (inferProcess.exitValue() == 0) {
                 return parseVersionJson(output.toString());
             }
-        } catch(IOException | IllegalThreadStateException ex) {
+        } catch(IOException | IllegalThreadStateException ex) { //IllegalThreadStateException means the timeout elapsed without infer finishing returning the version
             return null;
         } catch(InterruptedException ex) {
             ex.printStackTrace();
