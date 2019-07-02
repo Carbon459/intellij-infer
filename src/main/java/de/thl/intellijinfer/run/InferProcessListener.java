@@ -15,6 +15,10 @@ import de.thl.intellijinfer.config.GlobalSettings;
 import de.thl.intellijinfer.service.ResultParser;
 import org.jetbrains.annotations.NotNull;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 public class InferProcessListener implements ProcessListener {
     private static final Logger log = Logger.getInstance(InferProcessListener.class);
     private Project project;
@@ -31,7 +35,10 @@ public class InferProcessListener implements ProcessListener {
         if(event.getExitCode() == 0) {
             log.info("Infer Process terminated successfully: Status Code 0");
 
-            ResultParser.getInstance(project).parse(project.getBasePath() + "/infer-out/report.json");
+            final Path path = Paths.get(project.getBasePath() + "/infer-out/report.json");
+            if(Files.exists(path))
+                ResultParser.getInstance(project).parse(path);
+            else log.error("report.json does not exist after Infer terminated successfully: Check the Infer log");
 
             //Open the Infer Tool Window, which needs to be done in an AWT Event Dispatcher Thread
             if(!GlobalSettings.getInstance().isShowConsole()) { //if the user wants the console to stay in focus, we dont want to open the infer tool window

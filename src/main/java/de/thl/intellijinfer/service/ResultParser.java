@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
@@ -40,8 +41,8 @@ public class ResultParser {
      * @return A Map of the rearranged Results. Mainly for testing purposes. Is null when the file doesnt exist.
      */
     @Nullable
-    public Map<String, List<InferBug>> parse(String resultPath) {
-        if(!Files.exists(new File(resultPath).toPath())) {
+    public Map<String, List<InferBug>> parse(Path resultPath) {
+        if(!Files.exists(resultPath)) {
             log.warn("report.json does not exist - aborting parsing");
             return null;
         }
@@ -62,8 +63,8 @@ public class ResultParser {
      * @return A list of InferBugs
      * @throws IOException If the json file couldnt be read
      */
-    private List<InferBug> readBugList(String jsonPath) throws IOException, JsonSyntaxException {
-        final String json = new String(Files.readAllBytes(Paths.get(jsonPath)));
+    private List<InferBug> readBugList(Path jsonPath) throws IOException, JsonSyntaxException {
+        final String json = new String(Files.readAllBytes(jsonPath));
         final Type targetClassType = new TypeToken<ArrayList<InferBug>>(){}.getType();
         Collection<InferBug> targetCollection = new Gson().fromJson(json, targetClassType);
         return new ArrayList<>(targetCollection);

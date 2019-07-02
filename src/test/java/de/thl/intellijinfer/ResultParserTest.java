@@ -4,6 +4,8 @@ import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCa
 import de.thl.intellijinfer.model.InferBug;
 import de.thl.intellijinfer.service.ResultParser;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 
@@ -23,7 +25,7 @@ public class ResultParserTest extends LightPlatformCodeInsightFixtureTestCase {
     }
 
     public void testParseSingleBug() {
-        final String jsonPath = getTestDataPath() + "singleBug.json";
+        final Path jsonPath = Paths.get(getTestDataPath() + "singleBug.json");
 
         Map<String, List<InferBug>> bugList = this.rp.parse(jsonPath);
         assertNotNull(bugList);
@@ -38,7 +40,7 @@ public class ResultParserTest extends LightPlatformCodeInsightFixtureTestCase {
     }
 
     public void testParseMultipleBugs() {
-        final String jsonPath = getTestDataPath() + "multipleBugs.json";
+        final Path jsonPath = Paths.get(getTestDataPath() + "multipleBugs.json");
 
         Map<String, List<InferBug>> bugList = this.rp.parse(jsonPath);
 
@@ -52,7 +54,7 @@ public class ResultParserTest extends LightPlatformCodeInsightFixtureTestCase {
     }
 
     public void testEmptyBugs() {
-        final String jsonPath = getTestDataPath() + "emptyBugs.json";
+        final Path jsonPath = Paths.get(getTestDataPath() + "emptyBugs.json");
 
         Map<String, List<InferBug>> bugList = this.rp.parse(jsonPath);
 
