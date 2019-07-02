@@ -34,7 +34,7 @@ public class ResultParserTest extends LightPlatformCodeInsightFixtureTestCase {
         assertEquals(12, bugs.get(0).getLine());
 
         assertEquals(3, bugs.get(0).getBugTrace().size());
-        assertEquals(11, bugs.get(0).getBugTrace().get(1).getLineNumber());
+        assertEquals(11, bugs.get(0).getBugTrace().get(1).getLine());
     }
 
     public void testParseMultipleBugs() {

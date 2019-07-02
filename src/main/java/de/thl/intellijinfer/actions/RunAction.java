@@ -3,7 +3,6 @@ package de.thl.intellijinfer.actions;
 import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
-import de.thl.intellijinfer.model.InferVersion;
 import de.thl.intellijinfer.service.ResultParser;
 
 public class RunAction extends AnAction {

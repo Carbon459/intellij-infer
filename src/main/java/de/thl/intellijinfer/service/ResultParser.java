@@ -76,13 +76,13 @@ public class ResultParser {
     private void rearrangeBugList(List<InferBug> bugList) {
         Map<String, List<InferBug>> map = new HashMap<>();
         for(InferBug bug : bugList) {
-            if(map.containsKey(bug.getFile())) {
-                map.get(bug.getFile()).add(bug);
+            if(map.containsKey(bug.getFileName())) {
+                map.get(bug.getFileName()).add(bug);
             }
             else {
                 final List<InferBug> list = new ArrayList<>();
                 list.add(bug);
-                map.put(bug.getFile(), list);
+                map.put(bug.getFileName(), list);
             }
         }
 
