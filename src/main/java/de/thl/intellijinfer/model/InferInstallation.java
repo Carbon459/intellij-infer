@@ -56,7 +56,8 @@ public class InferInstallation implements Serializable {
         return path + " " + version;
     }
     public String getPath() {
-        return path;
+        if(path.endsWith("infer")) return path;
+        return path + "/bin/infer";
     }
     public void setPath(String path) {
         this.path = path;

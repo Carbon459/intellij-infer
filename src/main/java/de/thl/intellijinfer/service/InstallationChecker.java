@@ -27,7 +27,7 @@ public class InstallationChecker {
     @Nullable
     public InferVersion checkInfer(@NotNull String path) {
         try {
-            Process inferProcess = new ProcessBuilder(path, "--version-json").start();
+            Process inferProcess = new ProcessBuilder(path , "--version-json").start();
             StringBuilder output = new StringBuilder();
 
             BufferedReader reader = new BufferedReader(

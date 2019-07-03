@@ -25,8 +25,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -59,6 +58,13 @@ public class RunConfigurationEditor extends SettingsEditor<InferRunConfiguration
                 })
                 .disableUpDownActions();
         checkersJBPanel.add(td.createPanel(), BorderLayout.CENTER);
+
+        //Reset the Checker list to default if installation was changed
+        inferInstallationComboBox.addItemListener(itemEvent -> {
+            if (itemEvent.getStateChange() == ItemEvent.SELECTED) {
+                clm.replaceAll(Checker.getDefaultCheckers());
+            }
+        });
     }
 
     @Override
