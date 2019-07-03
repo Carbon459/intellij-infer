@@ -110,7 +110,6 @@ public enum BuildTool {
         return sb.toString();
     }
 
-    //TODO für maven und gradle vorher cleanen, in doku erwähnen!
     private static String getMavenCmd(RunConfiguration rc) {
         if(PluginManager.isPluginInstalled(PluginId.getId("org.jetbrains.idea.maven"))) {
             final File mavenBinary = new File(PluginManager.getPlugin(PluginId.getId("org.jetbrains.idea.maven")).getPath(), "/lib/maven3/bin/mvn");
@@ -130,13 +129,13 @@ public enum BuildTool {
                 log.warn("Could not change permission for the maven binary", ex);
             }
 
-            return "-- " + mavenBinary.toString() + " package";
+            return "-- " + mavenBinary.toString() + " clean package";
         }
-        else return "-- mvn package";
+        else return "-- mvn clean package";
     }
 
     private static String getGradleCmd(RunConfiguration rc) {
-        return "-- ./gradlew build";
+        return "-- ./gradlew clean build";
     }
 
     private static String getCmakeCmd(RunConfiguration rc) {
