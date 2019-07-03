@@ -14,7 +14,7 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
-    compileOnly files("$gradle.gradleUserHomeDir/caches/modules-2/files-2.1/com.jetbrains.intellij.clion/clion/2019.1/99bb4a4caa12f0915f54e4b2d7a772df8d45f93d/clion-2019.1/lib/clion.jar")
+    compileOnly files("/home/carbon/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/191.6707.69/lib/clion.jar")
 }
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/

@@ -1,16 +1,26 @@
 package de.thl.intellijinfer.ui;
 
+import com.intellij.icons.AllIcons;
+import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.fileChooser.FileChooser;
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
 import com.intellij.openapi.project.ProjectUtil;
 import com.intellij.openapi.ui.TextFieldWithBrowseButton;
 import com.intellij.openapi.vfs.LocalFileSystem;
+import com.intellij.ui.AnActionButton;
 import com.intellij.ui.JBColor;
+import com.intellij.ui.ToolbarDecorator;
 import com.intellij.ui.components.JBCheckBox;
 import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBList;
+import com.intellij.ui.components.JBPanel;
+import com.intellij.uiDesigner.core.GridConstraints;
+import com.intellij.uiDesigner.core.GridLayoutManager;
+import com.intellij.util.ui.GridBag;
 import de.thl.intellijinfer.config.GlobalSettings;
+import de.thl.intellijinfer.model.Checker;
 import de.thl.intellijinfer.model.InferInstallation;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -28,16 +38,14 @@ public class SettingsForm {
     private JBLabel getInferHereJBLabel;
     private JButton addAndCheckInstallationButton;
     private JBCheckBox showInferConsoleJBCheckBox;
+    private JBPanel validInstallationsPanel;
+    private JPanel listWithToolBox;
 
     private JBList<InferInstallation> installationJBList;
 
     private boolean modified = false;
 
     public SettingsForm() {
-        installationJBList.getEmptyText().setText(ResourceBundle.getBundle("strings").getString("no.installation.to.show"));
-        installationJBList.setModel(new DefaultListModel<>());
-        refreshInstallationList();
-
         getInferHereJBLabel.setForeground(new JBColor(0x0645AD, 0x0652FF));
 
         pathChooser.addActionListener(e -> FileChooser.chooseFile(
@@ -77,6 +85,13 @@ public class SettingsForm {
         }
     }
 
+    private void showAddResult(boolean success) {
+        if(success) {
+            addAndCheckInstallationButton.setIcon(AllIcons.RunConfigurations.TestPassed);
+        } else {
+            addAndCheckInstallationButton.setIcon(AllIcons.RunConfigurations.TestFailed);
+        }
+    }
 
     public JPanel getMainPanel() {
         return mainPanel;
@@ -100,4 +115,27 @@ public class SettingsForm {
         showInferConsoleJBCheckBox.setSelected(selected);
     }
 
+    /**
+     * Creates UI components, which cannot be created by the ui designer
+     */
+    private void createUIComponents() {
+        installationJBList = new JBList<>();
+
+        ToolbarDecorator td = ToolbarDecorator
+                .createDecorator(installationJBList)
+                /*.setAddAction((e) -> {
+                    GlobalSettings.getInstance().addInstallation(pathChooser.getText(), false);
+                    refreshInstallationList();
+                })*/.disableAddAction()
+                .setRemoveAction((e) -> {
+                    GlobalSettings.getInstance().removeInstallation(installationJBList.getSelectedValue());
+                    refreshInstallationList();
+                })
+                .disableUpDownActions();
+        listWithToolBox = td.createPanel();
+
+        installationJBList.getEmptyText().setText(ResourceBundle.getBundle("strings").getString("no.installation.to.show"));
+        installationJBList.setModel(new DefaultListModel<>());
+        refreshInstallationList();
+    }
 }

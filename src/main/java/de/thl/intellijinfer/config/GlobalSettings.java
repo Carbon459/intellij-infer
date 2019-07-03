@@ -40,6 +40,14 @@ public class GlobalSettings implements PersistentStateComponent<GlobalSettings> 
     }
 
     /**
+     * Removes the given installation from the global list.
+     * @param ii the given installation
+     */
+    public void removeInstallation(InferInstallation ii) {
+        installations.remove(ii);
+    }
+
+    /**
      * Gets the default Installation
      * @return Default Installation. Returns null when there is none.
      */

@@ -24,7 +24,6 @@ import de.thl.intellijinfer.run.InferRunConfiguration;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -34,35 +33,19 @@ public class RunConfigurationEditor extends SettingsEditor<InferRunConfiguration
     private JComboBox<InferInstallation> inferInstallationComboBox;
     private JComboBox<RunConfiguration> usingRunConfigComboBox;
     private ExpandableTextField additionalArgsTextField;
-    private JBPanel checkersJBPanel;
     private JBCheckBox reactiveModeJBCheckBox;
     private JBPanel installPanel;
+    private JPanel checkersJPanel;
     private JBList<Checker> checkersJBList;
-    private CollectionListModel<Checker> clm;
+    private CollectionListModel<Checker> checkersListModel;
 
     public RunConfigurationEditor() {
-        this.clm = new CollectionListModel<>();
-        this.checkersJBList = new JBList<>(this.clm);
-        this.checkersJBList.setEmptyText(ResourceBundle.getBundle("strings").getString("no.checkers.selected"));
         this.installPanel.setLayout(new OverlayLayout(this.installPanel));
-
-        ToolbarDecorator td = ToolbarDecorator
-                .createDecorator(checkersJBList)
-                .setAddAction(this::checkersAddAction)
-                .setRemoveAction(this::checkersRemoveAction)
-                .addExtraAction(new AnActionButton(ResourceBundle.getBundle("strings").getString("reset.to.default"), AllIcons.General.TodoDefault) {
-                    @Override
-                    public void actionPerformed(@NotNull AnActionEvent e) {
-                        clm.replaceAll(Checker.getDefaultCheckers());
-                    }
-                })
-                .disableUpDownActions();
-        checkersJBPanel.add(td.createPanel(), BorderLayout.CENTER);
 
         //Reset the Checker list to default if installation was changed
         inferInstallationComboBox.addItemListener(itemEvent -> {
             if (itemEvent.getStateChange() == ItemEvent.SELECTED) {
-                clm.replaceAll(Checker.getDefaultCheckers());
+                checkersListModel.replaceAll(Checker.getDefaultCheckers());
             }
         });
     }
@@ -71,7 +54,7 @@ public class RunConfigurationEditor extends SettingsEditor<InferRunConfiguration
     protected void resetEditorFrom(@NotNull InferRunConfiguration inferRC) {
         reloadRunConfigComboBoxList(inferRC);
         additionalArgsTextField.setText(inferRC.getLaunchOptions().getAdditionalArgs());
-        this.clm.replaceAll(inferRC.getLaunchOptions().getSelectedCheckers());
+        this.checkersListModel.replaceAll(inferRC.getLaunchOptions().getSelectedCheckers());
         this.reactiveModeJBCheckBox.setSelected(inferRC.getLaunchOptions().isReactiveMode());
         reloadInstallationComboBox(inferRC);
     }
@@ -81,7 +64,7 @@ public class RunConfigurationEditor extends SettingsEditor<InferRunConfiguration
         if(this.inferInstallationComboBox.isEnabled()) inferRC.getLaunchOptions().setSelectedInstallation((InferInstallation) this.inferInstallationComboBox.getSelectedItem());
         inferRC.getLaunchOptions().setSelectedRunConfig((RunConfiguration) usingRunConfigComboBox.getSelectedItem());
         inferRC.getLaunchOptions().setAdditionalArgs(additionalArgsTextField.getText());
-        inferRC.getLaunchOptions().setSelectedCheckers(this.clm.toList());
+        inferRC.getLaunchOptions().setSelectedCheckers(this.checkersListModel.toList());
         inferRC.getLaunchOptions().setReactiveMode(this.reactiveModeJBCheckBox.isSelected());
     }
 
@@ -139,12 +122,12 @@ public class RunConfigurationEditor extends SettingsEditor<InferRunConfiguration
         final InferVersion usingVersion = ((InferInstallation) inferInstallationComboBox.getSelectedItem()).getVersion().isValid() ?
                 ((InferInstallation) inferInstallationComboBox.getSelectedItem()).getVersion() :
                 new InferVersion(0, 15, 0); //fallback to oldest supported version if no valid version is selected
-        final List<Checker> notSelectedCheckers = Checker.getMissingCheckers(clm.getItems(), usingVersion);
+        final List<Checker> notSelectedCheckers = Checker.getMissingCheckers(checkersListModel.getItems(), usingVersion);
 
         JBPopupFactory.getInstance()
                 .createPopupChooserBuilder(notSelectedCheckers)
                 .setTitle("Add Checker")
-                .setItemChosenCallback((selectedChecker) -> clm.add(selectedChecker))
+                .setItemChosenCallback((selectedChecker) -> checkersListModel.add(selectedChecker))
                 .createPopup().show(button.getPreferredPopupPoint());
 
     }
@@ -152,7 +135,29 @@ public class RunConfigurationEditor extends SettingsEditor<InferRunConfiguration
     private void checkersRemoveAction(final AnActionButton button) {
         final List<Checker> selectedCheckers = checkersJBList.getSelectedValuesList();
         for(Checker checker : selectedCheckers) {
-            clm.remove(checker);
+            checkersListModel.remove(checker);
         }
+    }
+
+    /**
+     * Creates UI components, which cannot be created by the ui designer
+     */
+    private void createUIComponents() {
+        this.checkersListModel = new CollectionListModel<>();
+        this.checkersJBList = new JBList<>(this.checkersListModel);
+        this.checkersJBList.setEmptyText(ResourceBundle.getBundle("strings").getString("no.checkers.selected"));
+
+        ToolbarDecorator td = ToolbarDecorator
+                .createDecorator(checkersJBList)
+                .setAddAction(this::checkersAddAction)
+                .setRemoveAction(this::checkersRemoveAction)
+                .addExtraAction(new AnActionButton(ResourceBundle.getBundle("strings").getString("reset.to.default"), AllIcons.General.TodoDefault) {
+                    @Override
+                    public void actionPerformed(@NotNull AnActionEvent e) {
+                        checkersListModel.replaceAll(Checker.getDefaultCheckers());
+                    }
+                })
+                .disableUpDownActions();
+        checkersJPanel = td.createPanel();
     }
 }
