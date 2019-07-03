@@ -110,6 +110,7 @@ public enum BuildTool {
         return sb.toString();
     }
 
+    //TODO für maven und gradle vorher cleanen, in doku erwähnen!
     private static String getMavenCmd(RunConfiguration rc) {
         if(PluginManager.isPluginInstalled(PluginId.getId("org.jetbrains.idea.maven"))) {
             final File mavenBinary = new File(PluginManager.getPlugin(PluginId.getId("org.jetbrains.idea.maven")).getPath(), "/lib/maven3/bin/mvn");

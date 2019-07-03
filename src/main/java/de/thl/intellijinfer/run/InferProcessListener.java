@@ -10,6 +10,7 @@ import com.intellij.openapi.application.ModalityState;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Key;
+import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowManager;
 import de.thl.intellijinfer.config.GlobalSettings;
 import de.thl.intellijinfer.service.ResultParser;
@@ -35,15 +36,17 @@ public class InferProcessListener implements ProcessListener {
         if(event.getExitCode() == 0) {
             log.info("Infer Process terminated successfully: Status Code 0");
 
-            final Path path = Paths.get(project.getBasePath() + "/infer-out/report.json");
-            if(Files.exists(path))
-                ResultParser.getInstance(project).parse(path);
-            else log.error("report.json does not exist after Infer terminated successfully: Check the Infer log");
-
             //Open the Infer Tool Window, which needs to be done in an AWT Event Dispatcher Thread
             if(!GlobalSettings.getInstance().isShowConsole()) { //if the user wants the console to stay in focus, we dont want to open the infer tool window
-                ApplicationManager.getApplication().invokeLater(() -> ToolWindowManager.getInstance(project).getToolWindow("Infer").activate(null, false), ModalityState.any());
+                ApplicationManager.getApplication().invokeAndWait(() -> {
+                    ToolWindowManager.getInstance(project).getToolWindow("Infer").activate(null, true);
+                });
             }
+
+            final Path reportPath = Paths.get(project.getBasePath() + "/infer-out/report.json");
+            if(Files.exists(reportPath)) ResultParser.getInstance(project).parse(reportPath);
+            else log.error("report.json does not exist after Infer terminated successfully: Check the Infer log");
+
         } else {
             log.warn("Infer Process terminated unsuccessfully: Status Code " + event.getExitCode());
             Notifications.Bus.notify(new Notification("Infer", "Failure", "Infer terminated unsuccessfully", NotificationType.ERROR));

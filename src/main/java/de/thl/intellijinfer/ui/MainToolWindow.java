@@ -2,25 +2,19 @@ package de.thl.intellijinfer.ui;
 
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.application.ModalityState;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.LogicalPosition;
 import com.intellij.openapi.editor.ScrollType;
 import com.intellij.openapi.fileEditor.FileEditorManager;
-import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.IconLoader;
 import com.intellij.openapi.wm.ToolWindow;
-import com.intellij.openapi.wm.ToolWindowManager;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.search.FilenameIndex;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.ui.ColoredTreeCellRenderer;
-import com.intellij.ui.JBColor;
 import com.intellij.ui.SimpleTextAttributes;
 import com.intellij.ui.treeStructure.Tree;
-import de.thl.intellijinfer.config.GlobalSettings;
 import de.thl.intellijinfer.model.InferBug;
 import de.thl.intellijinfer.model.ResultListEntry;
 import de.thl.intellijinfer.service.ResultParser;
@@ -30,9 +24,6 @@ import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
-import java.awt.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -58,6 +49,7 @@ public class MainToolWindow {
             }
         });
 
+        //Coloring
         issueList.setCellRenderer(new ColoredTreeCellRenderer() {
             @Override
             public void customizeCellRenderer(@NotNull JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
@@ -110,6 +102,8 @@ public class MainToolWindow {
                 editor.getCaretModel().moveToLogicalPosition(pos);
             }
         }));
+
+        drawBugTree(ResultParser.getInstance(project).getBugsPerFile());
     }
 
     public JPanel getContent() {

@@ -126,7 +126,7 @@ public class InferRunConfiguration extends RunConfigurationBase {
         try {
             this.checkConfiguration();
         } catch(RuntimeConfigurationException ex) {
-            log.warn("Selected Run Configuration Instance is invalid");
+            log.warn("Selected Run Configuration Instance is invalid: " + ex.getMessage());
         }
     }
 
