@@ -18,6 +18,8 @@
     <depends>com.intellij.modules.lang</depends>
     <depends optional="true" config-file="withCLion.xml">com.intellij.modules.clion</depends>
 
+    <idea-version since-build="191"/>
+
     <application-components>
         <component>
             <implementation-class>de.thl.intellijinfer.config.GlobalSettings</implementation-class>

@@ -13,6 +13,7 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.search.FilenameIndex;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.ui.ColoredTreeCellRenderer;
+import com.intellij.ui.JBColor;
 import com.intellij.ui.SimpleTextAttributes;
 import com.intellij.ui.treeStructure.Tree;
 import de.thl.intellijinfer.model.InferBug;
@@ -24,9 +25,12 @@ import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
+import java.awt.*;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+
+import static com.intellij.ui.SimpleTextAttributes.STYLE_PLAIN;
 
 public class MainToolWindow {
     private static final Logger log = Logger.getInstance(MainToolWindow.class);
@@ -56,9 +60,9 @@ public class MainToolWindow {
                 //is a bug or bugtrace (tree depth 3 or 4)
                 if(((DefaultMutableTreeNode)value).getUserObject() instanceof ResultListEntry) {
                     final ResultListEntry bug = (ResultListEntry) ((DefaultMutableTreeNode)value).getUserObject();
-                    append("Line: " + bug.getLine(), SimpleTextAttributes.SYNTHETIC_ATTRIBUTES);
-                    if(bug.getColumn() >= 0) //sometimes infer returns a -1 as column number
-                        append(" Column: " + bug.getColumn(), SimpleTextAttributes.SYNTHETIC_ATTRIBUTES);
+                    append("Line: " + bug.getLine(), new SimpleTextAttributes(STYLE_PLAIN, JBColor.blue));
+                    if(bug.getColumn() >= 0) //sometimes infer returns a -1 as column number, in which case we dont want to show it
+                        append(" Column: " + bug.getColumn(), new SimpleTextAttributes(STYLE_PLAIN, JBColor.blue));
                     append(" " + bug.toString());
                 }
                 //is the top most entry (tree depth 1)
@@ -68,7 +72,7 @@ public class MainToolWindow {
                 }
                 //filenames (tree depth 2)
                 else {
-                    append(value.toString(), SimpleTextAttributes.ERROR_ATTRIBUTES);
+                    append(value.toString(), new SimpleTextAttributes(STYLE_PLAIN, new JBColor(new Color(37,134,39), new Color(98, 150, 85))));
                 }
             }
         });
