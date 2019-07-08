@@ -32,7 +32,6 @@ public class InferProcessListener implements ProcessListener {
      */
     @Override
     public void processTerminated(@NotNull ProcessEvent event) {
-        //todo mehr fehler abhandeln und in eventlog schreiben
         if(event.getExitCode() == 0) {
             log.info("Infer Process terminated successfully: Status Code 0");
 

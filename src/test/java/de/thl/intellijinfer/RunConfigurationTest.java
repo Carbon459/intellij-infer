@@ -7,43 +7,38 @@ import com.intellij.testFramework.PlatformTestUtil;
 import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCase;
 import de.thl.intellijinfer.model.Checker;
 import de.thl.intellijinfer.model.InferInstallation;
-import de.thl.intellijinfer.model.InferVersion;
 import de.thl.intellijinfer.run.InferConfigurationType;
 import de.thl.intellijinfer.run.InferRunConfiguration;
+import org.junit.FixMethodOrder;
+import org.junit.runners.MethodSorters;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class RunConfigurationTest extends LightPlatformCodeInsightFixtureTestCase {
 
     private InferRunConfiguration irc;
+    private InferInstallation testInstall;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         this.irc = (InferRunConfiguration) new InferConfigurationType().getConfigurationFactories()[0].createTemplateConfiguration(getProject());
-
+        testInstall = TestUtil.createMockInstallation();
     }
     @Override
     protected String getTestDataPath() {
         return "src/test/resources/";
     }
 
-    public void testDefaultInferLaunchCmd() {
-        RunConfiguration javaRC = new ApplicationConfigurationType().getConfigurationFactories()[0].createTemplateConfiguration(getProject());
-        this.irc.getLaunchOptions().setSelectedRunConfig(javaRC);
 
-        InferInstallation ii = InferInstallation.createInferInstallation("infer", true);
-        ii.setVersion(new InferVersion(0, 16,0 ));
-        this.irc.getLaunchOptions().setSelectedInstallation(ii);
+
+    public void testInferLaunchDefault() {
+        createJavaRC();
 
         try {
-            final List<String> expected = Arrays.asList(PlatformTestUtil.loadFileText(getTestDataPath() + "defaultInferLaunchCmd.txt").split(" "));
-            final List<String> actual = Arrays.asList(this.irc.getLaunchOptions().buildInferLaunchCmd().split(" "));
-
-            assertTrue(expected.containsAll(actual) && actual.containsAll(expected));
+            TestUtil.assertEqualLaunchArgs(PlatformTestUtil.loadFileText(getTestDataPath() + "defaultInferLaunchCmd.txt"), this.irc.getLaunchOptions().buildInferLaunchCmd());
         } catch(IOException ex) {
             ex.printStackTrace();
             fail("Could not load expected file");
@@ -53,13 +48,8 @@ public class RunConfigurationTest extends LightPlatformCodeInsightFixtureTestCas
         }
     }
 
-    public void testModifiedInferLaunchCmd() {
-        RunConfiguration javaRC = new ApplicationConfigurationType().getConfigurationFactories()[0].createTemplateConfiguration(getProject());
-        this.irc.getLaunchOptions().setSelectedRunConfig(javaRC);
-
-        InferInstallation ii = InferInstallation.createInferInstallation("infer", true);
-        ii.setVersion(new InferVersion(0, 16,0 ));
-        this.irc.getLaunchOptions().setSelectedInstallation(ii);
+    public void testInferLaunchModified() {
+        createJavaRC();
 
         this.irc.getLaunchOptions().setAdditionalArgs("--debug");
 
@@ -68,10 +58,7 @@ public class RunConfigurationTest extends LightPlatformCodeInsightFixtureTestCas
         this.irc.getLaunchOptions().setSelectedCheckers(newCheckers);
 
         try {
-            final List<String> expected = Arrays.asList(PlatformTestUtil.loadFileText(getTestDataPath() + "modifiedInferLaunchCmd.txt").split(" "));
-            final List<String> actual = Arrays.asList(this.irc.getLaunchOptions().buildInferLaunchCmd().split(" "));
-
-            assertTrue(expected.containsAll(actual) && actual.containsAll(expected));
+            TestUtil.assertEqualLaunchArgs(PlatformTestUtil.loadFileText(getTestDataPath() + "modifiedInferLaunchCmd.txt"), this.irc.getLaunchOptions().buildInferLaunchCmd());
         } catch(IOException ex) {
             ex.printStackTrace();
             fail("Could not load expected file");
@@ -81,4 +68,10 @@ public class RunConfigurationTest extends LightPlatformCodeInsightFixtureTestCas
         }
     }
 
+    private void createJavaRC() {
+        if(this.irc.getLaunchOptions().getSelectedRunConfig() != null) return;
+        RunConfiguration javaRC = new ApplicationConfigurationType().getConfigurationFactories()[0].createTemplateConfiguration(getProject());
+        this.irc.getLaunchOptions().setSelectedRunConfig(javaRC);
+        this.irc.getLaunchOptions().setSelectedInstallation(testInstall);
+    }
 }

@@ -29,7 +29,6 @@ public class InferRunState extends CommandLineState {
         final String runCmd = runCfg.getInferLaunchCmd();
 
         log.info("Running Infer with Command: " + runCmd);
-        System.out.println("Running Process: " + runCmd); //todo entfernen
 
         GeneralCommandLine commandLine = new GeneralCommandLine("/bin/sh", "-c", runCmd);
         //GeneralCommandLine commandLine = new GeneralCommandLine("cmd.exe", "/c", "ping -n 6 127.0.0.1 > nul");

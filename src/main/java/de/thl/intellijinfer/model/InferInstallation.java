@@ -9,14 +9,11 @@ import java.io.Serializable;
 public class InferInstallation implements Serializable {
     private static final Logger log = Logger.getInstance(InferInstallation.class);
 
-    private String path = "/";
+    private String path = "infer";
     private InferVersion version;
     private boolean confirmedWorking;
     private boolean defaultInstall = false;
 
-    /**
-     * Dont use this Constructor! For deserializing use only.
-     */
     public InferInstallation() {}
 
     private InferInstallation(String path, boolean defaultInstall) {
@@ -40,14 +37,14 @@ public class InferInstallation implements Serializable {
 
     /**
      * Checks if this Installation is valid and gets the version.
-     * @return If the Installation is valid
+     * @return true, if there is a valid infer installation in {@link #path}
      */
     private boolean confirm() {
         this.version = InstallationChecker.getInstance().checkInfer(this.getPath());
         if(this.version != null) setConfirmedWorking(true);
 
-        System.out.println("Confirmed Installation: " + confirmedWorking + ". Version: " + (this.version == null ? "null" : this.version.toString()));
-        log.info("Confirmed Infer Installation: " + confirmedWorking + ". Version: " + (this.version == null ? "null" : this.version.toString()));
+        System.out.println(String.format("Confirmed Installation : %b Version: %s Path: %s Default: %b", confirmedWorking, (this.version == null ? "null" : this.version.toString()), path, defaultInstall));
+        log.info(String.format("Confirmed Infer Installation : %b Version: %s Path: %s Default: %b", confirmedWorking, (this.version == null ? "null" : this.version.toString()), path, defaultInstall));
 
         return confirmedWorking;
     }
@@ -56,9 +53,11 @@ public class InferInstallation implements Serializable {
         return path + " " + version;
     }
     public String getPath() {
-        if(path.endsWith("infer")) return path;
+        //make sure that the path is to a binary, not the directory of infer
+        if(path.endsWith("infer") || path.endsWith(".bat") || path.endsWith(".sh")) return path; // Exception: .bat and .sh endings are used for testing purposes, they shouldnt be changed
         return path + "/bin/infer";
     }
+
     public void setPath(String path) {
         this.path = path;
     }
