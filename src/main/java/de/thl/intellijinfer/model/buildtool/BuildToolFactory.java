@@ -1,6 +1,9 @@
 package de.thl.intellijinfer.model.buildtool;
 
 import com.intellij.openapi.project.Project;
+import com.intellij.psi.search.FilenameIndex;
+import com.intellij.psi.search.GlobalSearchScope;
+import com.intellij.util.PlatformUtils;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -15,13 +18,13 @@ public class BuildToolFactory {
     public static BuildTool createFromName(String name) {
         switch(name) {
             case "JavaC":
-                return new JavaC();
+                return JavaC.getInstance();
             case "Maven":
-                return new Maven();
+                return Maven.getInstance();
             case "Gradle":
-                return new Gradle();
+                return Gradle.getInstance();
             case "CMake":
-                return new CMake();
+                return CMake.getInstance();
             default:
                 return null;
         }
@@ -41,5 +44,25 @@ public class BuildToolFactory {
         }
 
         return buildTools;
+    }
+
+    /**
+     * Gets the preferred Build Tool for the Usage in a generated Run Configuration
+     * Automatic Build Tools like Maven and Gradle are always preferred to JavaC
+     * @return A BuildTool, which is preferred
+     */
+    public static BuildTool getPreferredBuildTool(Project project) {
+        if(PlatformUtils.isCLion()) return CMake.getInstance();
+        else {
+            if (FilenameIndex.getFilesByName(project, "pom.xml", GlobalSearchScope.projectScope(project)).length > 0) {
+                return Maven.getInstance();
+            }
+            else if (FilenameIndex.getFilesByName(project, "build.gradle", GlobalSearchScope.projectScope(project)).length > 0) {
+                return Gradle.getInstance();
+            }
+            else {
+                return JavaC.getInstance();
+            }
+        }
     }
 }

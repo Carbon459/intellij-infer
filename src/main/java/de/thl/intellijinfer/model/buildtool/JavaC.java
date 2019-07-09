@@ -22,6 +22,15 @@ public class JavaC extends BuildTool {
     private static final Logger log = Logger.getInstance(JavaC.class);
     private final String name = "JavaC";
 
+    private static JavaC instance;
+
+    public static JavaC getInstance() {
+        if(instance == null) instance = new JavaC();
+        return instance;
+    }
+
+    private JavaC() {}
+
     @Override
     public String getName() {
         return this.name;

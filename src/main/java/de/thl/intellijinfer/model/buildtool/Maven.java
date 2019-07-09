@@ -16,6 +16,15 @@ public class Maven extends BuildTool {
     private static final Logger log = Logger.getInstance(Maven.class);
     private final String name = "Maven";
 
+    private static Maven instance;
+
+    public static Maven getInstance() {
+        if(instance == null) instance = new Maven();
+        return instance;
+    }
+
+    private Maven() {}
+
     @Override
     public String getName() {
         return this.name;

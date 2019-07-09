@@ -85,14 +85,6 @@ public class SettingsForm {
         }
     }
 
-    private void showAddResult(boolean success) {
-        if(success) {
-            addAndCheckInstallationButton.setIcon(AllIcons.RunConfigurations.TestPassed);
-        } else {
-            addAndCheckInstallationButton.setIcon(AllIcons.RunConfigurations.TestFailed);
-        }
-    }
-
     public JPanel getMainPanel() {
         return mainPanel;
     }

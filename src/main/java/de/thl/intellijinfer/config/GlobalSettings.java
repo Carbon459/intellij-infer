@@ -64,6 +64,15 @@ public class GlobalSettings implements PersistentStateComponent<GlobalSettings> 
         return this.getInstallations().stream().anyMatch(InferInstallation::isConfirmedWorking);
     }
 
+    /**
+     * Gets a valid Infer Installation
+     * @return A valid Infer Installation, or null if there is none
+     */
+    @Nullable
+    public InferInstallation getAnyValidInstallation() {
+        return this.getInstallations().stream().filter(InferInstallation::isConfirmedWorking).findAny().orElse(null);
+    }
+
 
     public static GlobalSettings getInstance() {
         return ApplicationManager.getApplication().getComponent(GlobalSettings.class);

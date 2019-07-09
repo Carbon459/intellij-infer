@@ -9,6 +9,15 @@ public class Gradle extends BuildTool {
     private static final Logger log = Logger.getInstance(Gradle.class);
     private final String name = "Gradle";
 
+    private static Gradle instance;
+
+    public static Gradle getInstance() {
+        if(instance == null) instance = new Gradle();
+        return instance;
+    }
+
+    private Gradle() {}
+
     @Override
     public String getName() {
         return this.name;

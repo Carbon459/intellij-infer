@@ -40,9 +40,10 @@
     <actions>
         <group id="infer.menu" text="Infer" description="Infer Integration menu">
             <add-to-group group-id="MainMenu" anchor="last"/>
-            <action id="infer.textboxes" class="de.thl.intellijinfer.actions.RunAction" text="Run" description="Runs Infer">
-                <keyboard-shortcut keymap="$default" first-keystroke="control alt G" second-keystroke="C"/>
+            <action id="infer.runaction" class="de.thl.intellijinfer.actions.RunAction" text="Run" description="Runs Infer">
+                <keyboard-shortcut keymap="$default" first-keystroke="control alt G" second-keystroke="R"/>
             </action>
+            <action id="infer.settingsaction" class="de.thl.intellijinfer.actions.SettingsAction" text="Settings" description="Opens Infer Settings"/>
         </group>
     </actions>
 </idea-plugin>
