@@ -9,7 +9,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 
-public class ResultParserTest extends LightPlatformCodeInsightFixtureTestCase {
+public class ResultTest extends LightPlatformCodeInsightFixtureTestCase {
 
     private ResultParser rp;
 

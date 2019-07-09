@@ -14,6 +14,7 @@ import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.search.FilenameIndex;
 import com.intellij.psi.search.GlobalSearchScope;
+import de.thl.intellijinfer.config.GlobalSettings;
 import de.thl.intellijinfer.service.ResultParser;
 
 import java.nio.file.Paths;
@@ -27,10 +28,13 @@ public class RunAction extends AnAction {
     public void actionPerformed(AnActionEvent event) {
         Project project = event.getProject();
 
+        GlobalSettings.getInstance().hasValidInstallation();
+
+
         //ResultParser.getInstance(project).parse(Paths.get("C:\\Users\\Carbon\\IdeaProjects\\intelij-infer\\src\\test\\resources\\multipleBugs.json"));
         //if(BuildManager.getInstance().getFilesChangedSinceLastCompilation(project) != null) System.out.println(Arrays.toString(BuildManager.getInstance().getFilesChangedSinceLastCompilation(project).toArray()));
         //System.out.println(BuildManager.getInstance().getFilesChangedSinceLastCompilation(project));
-        Editor editor = FileEditorManager.getInstance(project).getSelectedTextEditor();
+        //Editor editor = FileEditorManager.getInstance(project).getSelectedTextEditor();
 
         //editor.getMarkupModel().addLineHighlighter(2, 20, new TextAttributes());
         /*RangeHighlighter rh = editor.getMarkupModel().addLineHighlighter(1, 20, null);

@@ -56,6 +56,13 @@ public class GlobalSettings implements PersistentStateComponent<GlobalSettings> 
         return this.getInstallations().stream().filter(InferInstallation::isDefaultInstall).findFirst().orElse(null);
     }
 
+    /**
+     * Returns if at least one valid Installation exists
+     * @return If a Installation exists, which is confirmed working
+     */
+    public boolean hasValidInstallation() {
+        return this.getInstallations().stream().anyMatch(InferInstallation::isConfirmedWorking);
+    }
 
 
     public static GlobalSettings getInstance() {

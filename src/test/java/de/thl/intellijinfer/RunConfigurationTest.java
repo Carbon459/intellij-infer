@@ -34,6 +34,10 @@ public class RunConfigurationTest extends LightPlatformCodeInsightFixtureTestCas
 
 
 
+    public void testAddRunConfig() {
+        createJavaRC();
+    }
+
     public void testInferLaunchDefault() {
         createJavaRC();
 
