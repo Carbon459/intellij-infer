@@ -11,6 +11,7 @@ import com.intellij.openapi.util.JDOMExternalizerUtil;
 import com.intellij.openapi.util.WriteExternalException;
 import com.intellij.util.PlatformUtils;
 import de.thl.intellijinfer.model.Checker;
+import de.thl.intellijinfer.model.InferLaunchOptions;
 import de.thl.intellijinfer.service.CLionHelper;
 import de.thl.intellijinfer.ui.RunConfigurationEditor;
 import org.jdom.Element;
@@ -73,6 +74,7 @@ public class InferRunConfiguration extends RunConfigurationBase {
                             .findFirst()
                             .orElse(null)
             );
+            if(this.launchOptions.getUsingBuildTool() == null) log.warn(String.format("Warning: Read Build Tool Name: %s. Could not find Name in available Build tools!", buildToolName));
         }
 
         this.launchOptions.setAdditionalArgs(JDOMExternalizerUtil.readField(element, ADDITIONAL_ARGUMENTS));

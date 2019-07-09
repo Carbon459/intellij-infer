@@ -1,4 +1,4 @@
-package de.thl.intellijinfer.run;
+package de.thl.intellijinfer.model;
 
 import com.intellij.AppTopics;
 import com.intellij.execution.ExecutionException;
@@ -11,8 +11,6 @@ import com.intellij.util.messages.MessageBus;
 import com.intellij.util.messages.MessageBusConnection;
 import de.thl.intellijinfer.config.GlobalSettings;
 import de.thl.intellijinfer.model.buildtool.BuildTool;
-import de.thl.intellijinfer.model.Checker;
-import de.thl.intellijinfer.model.InferInstallation;
 import de.thl.intellijinfer.model.buildtool.BuildToolFactory;
 import org.jetbrains.annotations.NotNull;
 
@@ -44,7 +42,7 @@ public class InferLaunchOptions {
     private Boolean reactiveMode;
 
 
-    InferLaunchOptions(Project project) {
+    public InferLaunchOptions(Project project) {
         this.selectedInstallation = GlobalSettings.getInstance().getDefaultInstallation();
         this.additionalArgs = "";
         this.selectedCheckers = Checker.getDefaultCheckers();
