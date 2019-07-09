@@ -18,7 +18,7 @@
     <depends>com.intellij.modules.lang</depends>
     <depends optional="true" config-file="withCLion.xml">com.intellij.modules.clion</depends>
 
-    <idea-version since-build="191.0"/>
+    <idea-version since-build="191.4242"/>
 
     <application-components>
         <component>
