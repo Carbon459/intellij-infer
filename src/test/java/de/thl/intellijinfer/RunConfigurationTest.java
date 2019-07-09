@@ -7,6 +7,7 @@ import com.intellij.testFramework.PlatformTestUtil;
 import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCase;
 import de.thl.intellijinfer.model.Checker;
 import de.thl.intellijinfer.model.InferInstallation;
+import de.thl.intellijinfer.model.buildtool.BuildToolFactory;
 import de.thl.intellijinfer.run.InferConfigurationType;
 import de.thl.intellijinfer.run.InferRunConfiguration;
 import org.junit.FixMethodOrder;
@@ -42,7 +43,7 @@ public class RunConfigurationTest extends LightPlatformCodeInsightFixtureTestCas
         createJavaRC();
 
         try {
-            TestUtil.assertEqualLaunchArgs(PlatformTestUtil.loadFileText(getTestDataPath() + "defaultInferLaunchCmd.txt"), this.irc.getLaunchOptions().buildInferLaunchCmd());
+            TestUtil.assertEqualLaunchArgs(PlatformTestUtil.loadFileText(getTestDataPath() + "defaultInferLaunchCmd.txt"), this.irc.getLaunchOptions().buildInferLaunchCmd(getProject()));
         } catch(IOException ex) {
             ex.printStackTrace();
             fail("Could not load expected file");
@@ -62,7 +63,7 @@ public class RunConfigurationTest extends LightPlatformCodeInsightFixtureTestCas
         this.irc.getLaunchOptions().setSelectedCheckers(newCheckers);
 
         try {
-            TestUtil.assertEqualLaunchArgs(PlatformTestUtil.loadFileText(getTestDataPath() + "modifiedInferLaunchCmd.txt"), this.irc.getLaunchOptions().buildInferLaunchCmd());
+            TestUtil.assertEqualLaunchArgs(PlatformTestUtil.loadFileText(getTestDataPath() + "modifiedInferLaunchCmd.txt"), this.irc.getLaunchOptions().buildInferLaunchCmd(getProject()));
         } catch(IOException ex) {
             ex.printStackTrace();
             fail("Could not load expected file");
@@ -73,9 +74,7 @@ public class RunConfigurationTest extends LightPlatformCodeInsightFixtureTestCas
     }
 
     private void createJavaRC() {
-        if(this.irc.getLaunchOptions().getSelectedRunConfig() != null) return;
-        RunConfiguration javaRC = new ApplicationConfigurationType().getConfigurationFactories()[0].createTemplateConfiguration(getProject());
-        this.irc.getLaunchOptions().setSelectedRunConfig(javaRC);
+        this.irc.getLaunchOptions().setUsingBuildTool(BuildToolFactory.createFromName("JavaC"));
         this.irc.getLaunchOptions().setSelectedInstallation(testInstall);
     }
 }
