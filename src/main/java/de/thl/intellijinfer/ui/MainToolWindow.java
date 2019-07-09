@@ -94,7 +94,7 @@ public class MainToolWindow {
                     log.warn("Could not find or to many selected file(s) to navigate to: " + fileName);
                     return;
                 }
-                fileArray[0].navigate(true);
+                fileArray[0].navigate(false);
 
                 editor = FileEditorManager.getInstance(project).getSelectedTextEditor(); //get the new editor because we just changed it
                 if(editor == null) {

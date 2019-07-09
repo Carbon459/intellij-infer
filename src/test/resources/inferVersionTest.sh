@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ "$1" -eq  "--version-json" ] 
+if [ "$1" ==  "--version-json" ] 
 	then
 	echo "{"
 	echo "\"major\": 0,"
