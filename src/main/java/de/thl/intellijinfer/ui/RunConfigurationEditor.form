@@ -47,7 +47,7 @@
               <text resource-bundle="strings" key="additional.arguments"/>
             </properties>
           </component>
-          <component id="b70a9" class="javax.swing.JComboBox" binding="usingRunConfigComboBox" default-binding="true">
+          <component id="b70a9" class="javax.swing.JComboBox" binding="usingBuildToolComboBox">
             <constraints>
               <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
