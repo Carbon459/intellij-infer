@@ -14,7 +14,7 @@ public class CMake extends BuildTool {
     }
 
     @Override
-    public String getBuildCmd(Project project) {
+    public String getBuildCmd(Project project) { //todo unterscheiden debug/release
         return "--compilation-database cmake-build-debug/compile_commands.json";
     }
 
