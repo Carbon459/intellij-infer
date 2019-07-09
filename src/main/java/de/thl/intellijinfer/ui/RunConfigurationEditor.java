@@ -20,6 +20,7 @@ import de.thl.intellijinfer.model.Checker;
 import de.thl.intellijinfer.model.InferInstallation;
 import de.thl.intellijinfer.model.InferVersion;
 import de.thl.intellijinfer.model.buildtool.BuildTool;
+import de.thl.intellijinfer.model.buildtool.BuildToolFactory;
 import de.thl.intellijinfer.run.InferRunConfiguration;
 import org.jetbrains.annotations.NotNull;
 
@@ -79,7 +80,8 @@ public class RunConfigurationEditor extends SettingsEditor<InferRunConfiguration
                 inferRC.getLaunchOptions().getAvailableBuildTools().toArray(new BuildTool[0])
         ));
 
-        if(inferRC.getLaunchOptions().getUsingBuildTool() != null) usingBuildToolComboBox.setSelectedItem(inferRC.getLaunchOptions().getUsingBuildTool());
+        if(inferRC.getLaunchOptions().getUsingBuildTool() == null) usingBuildToolComboBox.setSelectedItem(BuildToolFactory.getPreferredBuildTool(inferRC.getProject()));
+        else usingBuildToolComboBox.setSelectedItem(inferRC.getLaunchOptions().getUsingBuildTool());
     }
 
     private void reloadInstallationComboBox(InferRunConfiguration inferRC) {

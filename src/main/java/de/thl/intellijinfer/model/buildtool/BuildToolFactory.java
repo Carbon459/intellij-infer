@@ -52,17 +52,20 @@ public class BuildToolFactory {
      * @return A BuildTool, which is preferred
      */
     public static BuildTool getPreferredBuildTool(Project project) {
-        if(PlatformUtils.isCLion()) return CMake.getInstance();
+        BuildTool bt = null;
+        if(PlatformUtils.isCLion()) bt = CMake.getInstance();
         else {
             if (FilenameIndex.getFilesByName(project, "pom.xml", GlobalSearchScope.projectScope(project)).length > 0) {
-                return Maven.getInstance();
+                bt = Maven.getInstance();
             }
             else if (FilenameIndex.getFilesByName(project, "build.gradle", GlobalSearchScope.projectScope(project)).length > 0) {
-                return Gradle.getInstance();
+                bt = Gradle.getInstance();
             }
             else {
-                return JavaC.getInstance();
+                bt = JavaC.getInstance();
             }
         }
+        if(bt != null && bt.isUsable(project)) return bt;
+        return null;
     }
 }

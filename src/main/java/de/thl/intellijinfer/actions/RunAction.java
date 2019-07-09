@@ -3,16 +3,14 @@ package de.thl.intellijinfer.actions;
 import com.intellij.execution.ProgramRunnerUtil;
 import com.intellij.execution.RunManager;
 import com.intellij.execution.RunnerAndConfigurationSettings;
-import com.intellij.execution.configurations.ConfigurationFactory;
 import com.intellij.execution.executors.DefaultRunExecutor;
 import com.intellij.execution.impl.RunManagerImpl;
 import com.intellij.execution.impl.RunnerAndConfigurationSettingsImpl;
 import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.diagnostic.Logger;
 import de.thl.intellijinfer.config.GlobalSettings;
-import de.thl.intellijinfer.model.buildtool.BuildToolFactory;
+import de.thl.intellijinfer.run.InferConfigurationFactory;
 import de.thl.intellijinfer.run.InferConfigurationType;
-import de.thl.intellijinfer.run.InferRunConfiguration;
 
 public class RunAction extends AnAction {
     private static final Logger log = Logger.getInstance(RunAction.class);
@@ -37,7 +35,11 @@ public class RunAction extends AnAction {
         }
         //Generate a Config if we didnt find one
         if(rcs == null) {
-            rcs = generateInferRunConfig(runManager);
+            rcs = InferConfigurationFactory.createValidConfiguration(runManager, GENERATED_CONFIG_NAME);
+            if(rcs == null) {
+                log.error("Could not create Infer Run Configuration");
+                return;
+            }
             runManager.addConfiguration(rcs);
         }
 
@@ -46,19 +48,7 @@ public class RunAction extends AnAction {
         ProgramRunnerUtil.executeConfiguration(runnerAndConfigurationSettings, DefaultRunExecutor.getRunExecutorInstance());
     }
 
-    private RunnerAndConfigurationSettings generateInferRunConfig(RunManagerImpl runManager) {
-        final ConfigurationFactory inferFactory = runManager.getFactory("InferRunConfiguration", "Infer configuration factory");
-            if(inferFactory != null) {
-                RunnerAndConfigurationSettings rcs = runManager.createConfiguration(GENERATED_CONFIG_NAME, inferFactory);
 
-                InferRunConfiguration inferRC = (InferRunConfiguration) rcs.getConfiguration();
-                inferRC.getLaunchOptions().setUsingBuildTool(BuildToolFactory.getPreferredBuildTool(runManager.getProject()));
-                inferRC.getLaunchOptions().setSelectedInstallation(GlobalSettings.getInstance().getAnyValidInstallation());
-
-                return rcs;
-            }
-            return null;
-    }
 }
 
 
