@@ -21,7 +21,7 @@ public class BuildToolFactory {
     public static final List<String> FILE_EXTENSIONS = Arrays.asList(".c", ".cpp", ".m", ".h", ".java");
 
     @Nullable
-    public static BuildTool createFromName(String name) {
+    public static BuildTool getInstanceFromName(String name) {
         switch(name) {
             case "JavaC":
                 return JavaC.getInstance();
@@ -45,7 +45,7 @@ public class BuildToolFactory {
         List<BuildTool> buildTools = new ArrayList<>();
 
         for(String s : BUILD_TOOLS) {
-            final BuildTool bt = createFromName(s);
+            final BuildTool bt = getInstanceFromName(s);
             if(bt != null && bt.isUsable(project)) buildTools.add(bt);
         }
 

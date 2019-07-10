@@ -74,7 +74,7 @@ public class RunConfigurationTest extends LightPlatformCodeInsightFixtureTestCas
     }
 
     private void createJavaRC() {
-        this.irc.getLaunchOptions().setUsingBuildTool(BuildToolFactory.createFromName("JavaC"));
+        this.irc.getLaunchOptions().setUsingBuildTool(BuildToolFactory.getInstanceFromName("JavaC"));
         this.irc.getLaunchOptions().setSelectedInstallation(testInstall);
     }
 }

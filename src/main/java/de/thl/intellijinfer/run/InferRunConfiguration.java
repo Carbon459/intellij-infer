@@ -12,6 +12,7 @@ import com.intellij.openapi.util.WriteExternalException;
 import com.intellij.util.PlatformUtils;
 import de.thl.intellijinfer.model.Checker;
 import de.thl.intellijinfer.model.InferLaunchOptions;
+import de.thl.intellijinfer.model.buildtool.BuildToolFactory;
 import de.thl.intellijinfer.model.buildtool.CMake;
 import de.thl.intellijinfer.ui.RunConfigurationEditor;
 import org.jdom.Element;
@@ -66,15 +67,9 @@ public class InferRunConfiguration extends RunConfigurationBase {
         super.readExternal(element);
 
         final String buildToolName = JDOMExternalizerUtil.readField(element, BUILD_TOOL);
-        //get the correct instance of the buildtool
+
         if(buildToolName != null) {
-            this.launchOptions.setUsingBuildTool(
-                    launchOptions.getAvailableBuildTools().stream()
-                            .filter((x) -> x.getName().equals(buildToolName))
-                            .findFirst()
-                            .orElse(null)
-            );
-            if(this.launchOptions.getUsingBuildTool() == null) log.warn(String.format("Warning: Read Build Tool Name: %s. Could not find Name in available Build tools!", buildToolName));
+            this.launchOptions.setUsingBuildTool(BuildToolFactory.getInstanceFromName(buildToolName));
         }
 
         this.launchOptions.setAdditionalArgs(JDOMExternalizerUtil.readField(element, ADDITIONAL_ARGUMENTS));
