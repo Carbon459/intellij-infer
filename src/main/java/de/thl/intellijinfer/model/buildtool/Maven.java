@@ -32,7 +32,7 @@ public class Maven extends BuildTool {
 
     @Override
     public String getBuildCmd(Project project) {
-        if(PluginManager.isPluginInstalled(PluginId.getId("org.jetbrains.idea.maven"))) {
+        if(isUsable(project)) {
             final File mavenBinary = new File(PluginManager.getPlugin(PluginId.getId("org.jetbrains.idea.maven")).getPath(), "/lib/maven3/bin/mvn");
 
             //Make sure that the maven binary is executable from everywhere

@@ -25,7 +25,7 @@ public class Gradle extends BuildTool {
 
     @Override
     public String getBuildCmd(Project project) {
-        if(PluginManager.isPluginInstalled(PluginId.getId("org.jetbrains.idea.maven"))) {
+        if(isUsable(project)) {
             return "-- ./gradlew clean build";
         }
         return null;
