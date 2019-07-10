@@ -1,6 +1,8 @@
 package de.thl.intellijinfer.config;
 
 import com.intellij.openapi.components.BaseComponent;
+import com.intellij.util.PlatformUtils;
+import de.thl.intellijinfer.model.buildtool.CMake;
 import org.jetbrains.annotations.NotNull;
 
 public class DefaultConfigComponent implements BaseComponent {

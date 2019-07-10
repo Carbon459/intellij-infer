@@ -40,7 +40,7 @@ public class InferRunConfiguration extends RunConfigurationBase {
         this.project = project;
         this.launchOptions = new InferLaunchOptions(project);
 
-        if(PlatformUtils.isCLion()) CMake.getInstance().generateCompileCommands(project);
+        //if(PlatformUtils.isCLion()) CMake.getInstance().generateCompileCommands(project); todo
     }
 
     @NotNull

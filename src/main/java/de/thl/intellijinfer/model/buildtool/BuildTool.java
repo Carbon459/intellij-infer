@@ -1,5 +1,6 @@
 package de.thl.intellijinfer.model.buildtool;
 
+import com.intellij.execution.ExecutionException;
 import com.intellij.openapi.project.Project;
 
 public abstract class BuildTool {
@@ -14,7 +15,7 @@ public abstract class BuildTool {
      * @param project The project, where the Build Tool shall work
      * @return A Build Command
      */
-    public abstract String getBuildCmd(Project project);
+    public abstract String getBuildCmd(Project project) throws ExecutionException;
 
     /**
      * Gets if the Build Tool is usable in the given project

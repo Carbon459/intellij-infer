@@ -1,0 +1,7 @@
+<idea-plugin>
+    <project-components>
+        <component>
+            <implementation-class>de.thl.intellijinfer.CMakeProjectComponent</implementation-class>
+        </component>
+    </project-components>
+</idea-plugin>

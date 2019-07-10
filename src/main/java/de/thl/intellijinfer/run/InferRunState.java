@@ -7,6 +7,8 @@ import com.intellij.execution.process.ColoredProcessHandler;
 import com.intellij.execution.process.ProcessHandler;
 import com.intellij.execution.runners.ExecutionEnvironment;
 import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.util.PlatformUtils;
+import de.thl.intellijinfer.model.buildtool.CMake;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -26,6 +28,8 @@ public class InferRunState extends CommandLineState {
     @NotNull
     @Override
     protected ProcessHandler startProcess() throws ExecutionException {
+        if(PlatformUtils.isCLion()) CMake.generateCompileCommands(ee.getProject());
+
         final String runCmd = runCfg.getInferLaunchCmd();
 
         log.info("Running Infer with Command: " + runCmd);
@@ -38,7 +42,6 @@ public class InferRunState extends CommandLineState {
 
         ProcessHandler ph = new ColoredProcessHandler(commandLine);
         ph.addProcessListener(new InferProcessListener(runCfg.getProject()));
-
         return ph;
     }
 }
