@@ -11,8 +11,14 @@ import java.util.Arrays;
 import java.util.List;
 
 public class BuildToolFactory {
-    public static final List<String> FILE_EXTENSIONS = Arrays.asList(".c", ".cpp", ".m", ".h", ".java");
+    /**
+     * List of all supported Build Tools.
+     */
     private static final List<String> BUILD_TOOLS = Arrays.asList("JavaC", "Maven", "Gradle", "CMake");
+    /**
+     * A list of compilable File Extensions for the supported Languages
+     */
+    public static final List<String> FILE_EXTENSIONS = Arrays.asList(".c", ".cpp", ".m", ".h", ".java");
 
     @Nullable
     public static BuildTool createFromName(String name) {
@@ -49,7 +55,7 @@ public class BuildToolFactory {
     /**
      * Gets the preferred Build Tool for the Usage in a generated Run Configuration
      * Automatic Build Tools like Maven and Gradle are always preferred to JavaC
-     * @return A BuildTool, which is preferred
+     * @return A preferred BuildTool
      */
     public static BuildTool getPreferredBuildTool(Project project) {
         BuildTool bt = null;

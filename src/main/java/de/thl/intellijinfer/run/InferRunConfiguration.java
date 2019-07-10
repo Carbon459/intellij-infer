@@ -12,7 +12,7 @@ import com.intellij.openapi.util.WriteExternalException;
 import com.intellij.util.PlatformUtils;
 import de.thl.intellijinfer.model.Checker;
 import de.thl.intellijinfer.model.InferLaunchOptions;
-import de.thl.intellijinfer.service.CLionHelper;
+import de.thl.intellijinfer.model.buildtool.CMake;
 import de.thl.intellijinfer.ui.RunConfigurationEditor;
 import org.jdom.Element;
 import org.jetbrains.annotations.NotNull;
@@ -40,7 +40,7 @@ public class InferRunConfiguration extends RunConfigurationBase {
         this.project = project;
         this.launchOptions = new InferLaunchOptions(project);
 
-        if(PlatformUtils.isCLion()) CLionHelper.getInstance(this.project).generateCompileCommands();
+        if(PlatformUtils.isCLion()) CMake.getInstance().generateCompileCommands(project);
     }
 
     @NotNull

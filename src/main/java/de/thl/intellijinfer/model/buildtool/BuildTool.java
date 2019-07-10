@@ -21,7 +21,7 @@ public abstract class BuildTool {
      * @param project The given project
      * @return if the build tool is usable
      */
-    public abstract boolean isUsable(Project project); //todo für maven/gradle checken ob es maven/gradle projekte sind
+    public abstract boolean isUsable(Project project);
 
     @Override
     public String toString() {
