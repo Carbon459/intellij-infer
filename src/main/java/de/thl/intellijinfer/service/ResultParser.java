@@ -59,7 +59,7 @@ public class ResultParser {
      * Reads a report.json from an Infer analysis and deserializes it into a list of InferBug objects
      * @param jsonPath The Path of the report.json
      * @return A list of InferBugs
-     * @throws IOException If the json file couldnt be read
+     * @throws IOException If the json file couldn't be read
      */
     private List<InferBug> readBugList(Path jsonPath) throws IOException, JsonSyntaxException {
         final String json = new String(Files.readAllBytes(jsonPath));
@@ -69,7 +69,7 @@ public class ResultParser {
     }
 
     /**
-     * Rearranges the buglist from the format infer delievers to a map with the filenames as keys and a list of bugs from that file as value
+     * Rearranges the buglist from the format infer delivers to a map with the filenames as keys and a list of bugs from that file as value
      * @param bugList The buglist, deserialized from the infer report.json
      */
     private void rearrangeBugList(List<InferBug> bugList) {

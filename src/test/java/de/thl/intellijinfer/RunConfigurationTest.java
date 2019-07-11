@@ -1,10 +1,16 @@
 package de.thl.intellijinfer;
 
 import com.intellij.execution.ExecutionException;
-import com.intellij.execution.application.ApplicationConfigurationType;
-import com.intellij.execution.configurations.RunConfiguration;
+import com.intellij.execution.RunManager;
+import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.DataContext;
+import com.intellij.openapi.actionSystem.Presentation;
 import com.intellij.testFramework.PlatformTestUtil;
-import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCase;
+import com.intellij.testFramework.builders.JavaModuleFixtureBuilder;
+import com.intellij.testFramework.fixtures.*;
+import com.intellij.testFramework.fixtures.impl.LightTempDirTestFixtureImpl;
+import de.thl.intellijinfer.actions.RunAction;
+import de.thl.intellijinfer.config.GlobalSettings;
 import de.thl.intellijinfer.model.Checker;
 import de.thl.intellijinfer.model.InferInstallation;
 import de.thl.intellijinfer.model.buildtool.BuildToolFactory;
@@ -13,6 +19,7 @@ import de.thl.intellijinfer.run.InferRunConfiguration;
 import org.junit.FixMethodOrder;
 import org.junit.runners.MethodSorters;
 
+import java.awt.event.InputEvent;
 import java.io.IOException;
 import java.util.List;
 
@@ -27,16 +34,12 @@ public class RunConfigurationTest extends LightPlatformCodeInsightFixtureTestCas
         super.setUp();
         this.irc = (InferRunConfiguration) new InferConfigurationType().getConfigurationFactories()[0].createTemplateConfiguration(getProject());
         testInstall = TestUtil.createMockInstallation();
+
+
     }
     @Override
     protected String getTestDataPath() {
         return "src/test/resources/";
-    }
-
-
-
-    public void testAddRunConfig() {
-        createJavaRC();
     }
 
     public void testInferLaunchDefault() {
@@ -73,8 +76,10 @@ public class RunConfigurationTest extends LightPlatformCodeInsightFixtureTestCas
         }
     }
 
+
     private void createJavaRC() {
         this.irc.getLaunchOptions().setUsingBuildTool(BuildToolFactory.getInstanceFromName("JavaC"));
         this.irc.getLaunchOptions().setSelectedInstallation(testInstall);
     }
+
 }

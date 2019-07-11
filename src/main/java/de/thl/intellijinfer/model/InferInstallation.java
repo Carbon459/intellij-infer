@@ -43,7 +43,6 @@ public class InferInstallation implements Serializable {
         this.version = InstallationChecker.getInstance().checkInfer(this.getPath());
         if(this.version != null) setConfirmedWorking(true);
 
-        System.out.println(String.format("Confirmed Installation : %b Version: %s Path: %s Default: %b", confirmedWorking, (this.version == null ? "null" : this.version.toString()), path, defaultInstall));
         log.info(String.format("Confirmed Infer Installation : %b Version: %s Path: %s Default: %b", confirmedWorking, (this.version == null ? "null" : this.version.toString()), path, defaultInstall));
 
         return confirmedWorking;
@@ -54,7 +53,7 @@ public class InferInstallation implements Serializable {
     }
     public String getPath() {
         //make sure that the path is to a binary, not the directory of infer
-        if(path.endsWith("infer") || path.endsWith(".bat") || path.endsWith(".sh")) return path; // Exception: .bat and .sh endings are used for testing purposes, they shouldnt be changed
+        if(path.endsWith("infer") || path.endsWith(".bat") || path.endsWith(".sh")) return path; // Exception: .bat and .sh endings are used for testing purposes, they shouldn't be changed
         return path + "/bin/infer";
     }
 

@@ -38,7 +38,7 @@ public class RunAction extends AnAction {
         for(RunnerAndConfigurationSettings rcSettings : runManager.getConfigurationSettingsList(InferConfigurationType.class)) {
             if(rcSettings.getConfiguration().getName().equals(GENERATED_CONFIG_NAME)) rcs = rcSettings;
         }
-        //Generate a Config if we didnt find one
+        //Generate a Config if we didn't find one
         if(rcs == null) {
             rcs = InferConfigurationFactory.createValidConfiguration(runManager, GENERATED_CONFIG_NAME);
             if(rcs == null) {
