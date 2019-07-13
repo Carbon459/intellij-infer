@@ -2,6 +2,8 @@ package de.thl.intellijinfer.model.buildtool;
 
 import com.intellij.execution.ExecutionException;
 import com.intellij.openapi.project.Project;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,6 +18,7 @@ public abstract class BuildTool {
      * Gets the Name of the Build Tool
      * @return Build Tool Name
      */
+    @NotNull
     public abstract String getName();
 
     /**
@@ -23,6 +26,7 @@ public abstract class BuildTool {
      * @param project The project, where the Build Tool shall work
      * @return A Build Command
      */
+    @Nullable
     public abstract String getBuildCmd(Project project) throws ExecutionException;
 
     /**

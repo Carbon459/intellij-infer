@@ -2,7 +2,9 @@ package de.thl.intellijinfer;
 
 import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCase;
 import de.thl.intellijinfer.config.GlobalSettings;
+import de.thl.intellijinfer.model.InferInstallation;
 import de.thl.intellijinfer.model.InferVersion;
+import jdk.nashorn.internal.objects.Global;
 import org.junit.FixMethodOrder;
 import org.junit.runners.MethodSorters;
 
@@ -15,6 +17,9 @@ public class InstallationTest extends LightPlatformCodeInsightFixtureTestCase {
     protected void setUp() throws Exception {
         super.setUp();
         settings = GlobalSettings.getInstance();
+
+        //Remove all previously added installations
+        settings.getInstallations().removeIf((x) -> true);
     }
 
     @Override
@@ -23,9 +28,6 @@ public class InstallationTest extends LightPlatformCodeInsightFixtureTestCase {
     }
 
     public void testAddInstallation() {
-        //Remove the default installation first (we don't want to use a real installation for the test)
-        GlobalSettings.getInstance().removeInstallation(GlobalSettings.getInstance().getDefaultInstallation());
-
         assertEquals(0, settings.getInstallations().size());
         settings.addInstallation(TestUtil.getInferVersionTestPath(), false);
         assertEquals(1, settings.getInstallations().size());
@@ -40,6 +42,7 @@ public class InstallationTest extends LightPlatformCodeInsightFixtureTestCase {
     }
 
     public void testRemoveInstallation() {
+        settings.addInstallation(TestUtil.getInferVersionTestPath(), false);
         assertEquals(1, settings.getInstallations().size());
         settings.removeInstallation(settings.getInstallations().get(0));
         assertEquals(0, settings.getInstallations().size());

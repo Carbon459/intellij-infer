@@ -92,7 +92,9 @@ public class InferLaunchOptions {
         changedFiles.clear();
 
         //Build Tool
-        sb.append(this.usingBuildTool.getBuildCmd(project));
+        final String buildCmd = this.usingBuildTool.getBuildCmd(project);
+        if(buildCmd == null || buildCmd.isEmpty()) throw new ExecutionException("Infer Execution failed: Could not create a build tool command");
+        sb.append(buildCmd);
 
         return sb.toString();
     }

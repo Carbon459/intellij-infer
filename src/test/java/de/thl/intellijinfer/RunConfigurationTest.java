@@ -2,6 +2,7 @@ package de.thl.intellijinfer;
 
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.RunManager;
+import com.intellij.execution.process.ProcessNotCreatedException;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.actionSystem.Presentation;
@@ -10,6 +11,7 @@ import com.intellij.testFramework.builders.JavaModuleFixtureBuilder;
 import com.intellij.testFramework.fixtures.*;
 import com.intellij.testFramework.fixtures.impl.LightTempDirTestFixtureImpl;
 import de.thl.intellijinfer.actions.RunAction;
+import de.thl.intellijinfer.actions.SettingsAction;
 import de.thl.intellijinfer.config.GlobalSettings;
 import de.thl.intellijinfer.model.Checker;
 import de.thl.intellijinfer.model.InferInstallation;
@@ -17,6 +19,7 @@ import de.thl.intellijinfer.model.buildtool.BuildToolFactory;
 import de.thl.intellijinfer.run.InferConfigurationType;
 import de.thl.intellijinfer.run.InferRunConfiguration;
 import org.junit.FixMethodOrder;
+import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import java.awt.event.InputEvent;
@@ -34,8 +37,6 @@ public class RunConfigurationTest extends LightPlatformCodeInsightFixtureTestCas
         super.setUp();
         this.irc = (InferRunConfiguration) new InferConfigurationType().getConfigurationFactories()[0].createTemplateConfiguration(getProject());
         testInstall = TestUtil.createMockInstallation();
-
-
     }
     @Override
     protected String getTestDataPath() {
@@ -43,7 +44,10 @@ public class RunConfigurationTest extends LightPlatformCodeInsightFixtureTestCas
     }
 
     public void testInferLaunchDefault() {
-        createJavaRC();
+        myFixture.copyDirectoryToProject("helloworld/src", "/");
+
+        this.irc.getLaunchOptions().setUsingBuildTool(BuildToolFactory.getInstanceFromName("JavaC"));
+        this.irc.getLaunchOptions().setSelectedInstallation(testInstall);
 
         try {
             TestUtil.assertEqualLaunchArgs(PlatformTestUtil.loadFileText(getTestDataPath() + "defaultInferLaunchCmd.txt"), this.irc.getLaunchOptions().buildInferLaunchCmd(getProject()));
@@ -57,8 +61,8 @@ public class RunConfigurationTest extends LightPlatformCodeInsightFixtureTestCas
     }
 
     public void testInferLaunchModified() {
-        createJavaRC();
-
+        this.irc.getLaunchOptions().setUsingBuildTool(BuildToolFactory.getInstanceFromName("JavaC"));
+        this.irc.getLaunchOptions().setSelectedInstallation(testInstall);
         this.irc.getLaunchOptions().setAdditionalArgs("--debug");
 
         List<Checker> newCheckers = this.irc.getLaunchOptions().getSelectedCheckers();
@@ -75,11 +79,4 @@ public class RunConfigurationTest extends LightPlatformCodeInsightFixtureTestCas
             fail("No Run Configuration selected");
         }
     }
-
-
-    private void createJavaRC() {
-        this.irc.getLaunchOptions().setUsingBuildTool(BuildToolFactory.getInstanceFromName("JavaC"));
-        this.irc.getLaunchOptions().setSelectedInstallation(testInstall);
-    }
-
 }
