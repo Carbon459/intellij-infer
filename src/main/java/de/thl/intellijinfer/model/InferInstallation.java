@@ -1,13 +1,20 @@
 package de.thl.intellijinfer.model;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.intellij.openapi.diagnostic.Logger;
-import de.thl.intellijinfer.service.InstallationChecker;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.util.concurrent.TimeUnit;
 
 public class InferInstallation implements Serializable {
     private static final Logger log = Logger.getInstance(InferInstallation.class);
+    private static final long PROCESS_TIMEOUT = 500; //How long the check waits before it declares the binary the process started from as invalid (in ms)
 
     private String path = "infer";
     private InferVersion version;
@@ -40,13 +47,51 @@ public class InferInstallation implements Serializable {
      * @return true, if there is a valid infer installation in {@link #path}
      */
     private boolean confirm() {
-        this.version = InstallationChecker.getInstance().checkInfer(this.getPath());
+        this.version = checkInfer(this.getPath());
         if(this.version != null) setConfirmedWorking(true);
 
         log.info(String.format("Confirmed Infer Installation : %b Version: %s Path: %s Default: %b", confirmedWorking, (this.version == null ? "null" : this.version.toString()), path, defaultInstall));
 
         return confirmedWorking;
     }
+
+    /**
+     * Checks if the Infer Installation at the given path is valid.
+     * @param path Full path to the infer binary
+     * @return The Version if the installation is valid, otherwise null
+     */
+    @Nullable
+    public InferVersion checkInfer(@NotNull String path) {
+        try {
+            Process inferProcess = new ProcessBuilder(path , "--version-json").start();
+            StringBuilder output = new StringBuilder();
+
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(inferProcess.getInputStream()));
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                output.append(line + "\n");
+            }
+
+            inferProcess.waitFor(PROCESS_TIMEOUT, TimeUnit.MILLISECONDS);
+
+            if (inferProcess.exitValue() == 0) {
+                try {
+                    return new Gson().fromJson(output.toString(), InferVersion.class);
+                } catch(JsonSyntaxException ex) {
+                    return null;
+                }
+            }
+        } catch(IOException | IllegalThreadStateException ex) { //IllegalThreadStateException means the timeout elapsed without infer finishing returning the version
+            return null;
+        } catch(InterruptedException ex) {
+            ex.printStackTrace();
+        }
+
+        return null;
+    }
+
 
     public String toString() {
         return path + " " + version;

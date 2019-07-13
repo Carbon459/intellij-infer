@@ -98,8 +98,8 @@ public class InferLaunchOptions {
     }
 
     /**
-     * Creates a Listener (if one doesnt already exists), which collects all changed files, which are of a compilable type
-     * @see BuildToolFactory#FILE_EXTENSIONS
+     * Creates a Listener (if one doesn't already exists), which collects all changed files, which are of a compilable type
+     * @see BuildTool#FILE_EXTENSIONS
      */
     private void createChangeFileListener() {
         if(changeListener != null) return;
@@ -109,7 +109,7 @@ public class InferLaunchOptions {
                 Matcher m = r.matcher(document.toString());
 
                 if (m.find()) {
-                    if(m.group(0) != null && BuildToolFactory.FILE_EXTENSIONS.stream().anyMatch((ext) -> m.group(0).endsWith(ext))) {
+                    if(m.group(0) != null && BuildTool.FILE_EXTENSIONS.stream().anyMatch((ext) -> m.group(0).endsWith(ext))) {
                         changedFiles.add(m.group(0));
                     }
                 }

@@ -3,7 +3,15 @@ package de.thl.intellijinfer.model.buildtool;
 import com.intellij.execution.ExecutionException;
 import com.intellij.openapi.project.Project;
 
+import java.util.Arrays;
+import java.util.List;
+
 public abstract class BuildTool {
+    /**
+     * A list of compilable File Extensions for the supported Languages
+     */
+    public static final List<String> FILE_EXTENSIONS = Arrays.asList(".c", ".cpp", ".m", ".h", ".java");
+
     /**
      * Gets the Name of the Build Tool
      * @return Build Tool Name

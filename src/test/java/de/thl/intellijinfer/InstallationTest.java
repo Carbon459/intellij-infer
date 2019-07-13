@@ -2,10 +2,7 @@ package de.thl.intellijinfer;
 
 import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCase;
 import de.thl.intellijinfer.config.GlobalSettings;
-import de.thl.intellijinfer.model.InferInstallation;
 import de.thl.intellijinfer.model.InferVersion;
-import de.thl.intellijinfer.service.InstallationChecker;
-import jdk.nashorn.internal.objects.Global;
 import org.junit.FixMethodOrder;
 import org.junit.runners.MethodSorters;
 
@@ -25,25 +22,8 @@ public class InstallationTest extends LightPlatformCodeInsightFixtureTestCase {
         return "src/test/resources/";
     }
 
-    public void testVersionVerification() {
-    final String testJson = "{\n" +
-                "\"major\": 0,\n" +
-                "\"minor\": 16,\n" +
-                "\"patch\": 0,\n" +
-                "\"commit\": \"4a91616\",\n" +
-                "\"branch\": \"HEAD\",\n" +
-                "\"tag\": \"v0.16.0\"\n" +
-                "}";
-
-       final InferVersion iv = InstallationChecker.getInstance().parseVersionJson(testJson);
-       assertNotNull(iv);
-       assertEquals(0, iv.getMajor());
-       assertEquals(16, iv.getMinor());
-       assertEquals(0, iv.getPatch());
-    }
-
     public void testAddInstallation() {
-        //Remove the default installation first (we dont want to use a real installation for the test)
+        //Remove the default installation first (we don't want to use a real installation for the test)
         GlobalSettings.getInstance().removeInstallation(GlobalSettings.getInstance().getDefaultInstallation());
 
         assertEquals(0, settings.getInstallations().size());

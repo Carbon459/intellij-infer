@@ -34,7 +34,6 @@
         <projectService serviceImplementation="de.thl.intellijinfer.service.ResultParser"/>
         <configurationType implementation="de.thl.intellijinfer.run.InferConfigurationType"/>
         <applicationConfigurable provider="de.thl.intellijinfer.config.PluginConfigurableProvider" id="Infer" displayName="Infer"/>
-        <applicationService serviceImplementation="de.thl.intellijinfer.service.InstallationChecker"/>
     </extensions>
 
     <actions>

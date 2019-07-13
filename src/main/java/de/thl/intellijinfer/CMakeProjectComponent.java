@@ -14,6 +14,7 @@ public class CMakeProjectComponent implements ProjectComponent {
 
     @Override
     public void projectOpened() {
+        //Starting to Generate the Compile Commands at start, because it takes a few more seconds sometimes and we don't want the user to wait when he launches an infer run config
         if(PlatformUtils.isCLion()) CMake.generateCompileCommands(project);
     }
 }

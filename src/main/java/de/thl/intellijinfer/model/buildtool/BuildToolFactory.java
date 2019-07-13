@@ -15,10 +15,6 @@ public class BuildToolFactory {
      * List of all supported Build Tools.
      */
     private static final List<String> BUILD_TOOLS = Arrays.asList("JavaC", "Maven", "Gradle", "CMake");
-    /**
-     * A list of compilable File Extensions for the supported Languages
-     */
-    public static final List<String> FILE_EXTENSIONS = Arrays.asList(".c", ".cpp", ".m", ".h", ".java");
 
     @Nullable
     public static BuildTool getInstanceFromName(String name) {
