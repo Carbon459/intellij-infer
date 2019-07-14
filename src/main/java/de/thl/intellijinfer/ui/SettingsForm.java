@@ -26,6 +26,8 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -43,11 +45,15 @@ public class SettingsForm {
 
     private JBList<InferInstallation> installationJBList;
 
+    /**
+     * The IDE shows a reset button while this is true
+     */
     private boolean modified = false;
 
     public SettingsForm() {
         getInferHereJBLabel.setForeground(new JBColor(0x0645AD, 0x0652FF));
 
+        //CLicked on the File Chooser Icon by the text box
         pathChooser.addActionListener(e -> FileChooser.chooseFile(
                 FileChooserDescriptorFactory.createSingleFolderDescriptor(),
                 ProjectUtil.guessCurrentProject(mainPanel),
@@ -60,6 +66,7 @@ public class SettingsForm {
             @Override public void changedUpdate(DocumentEvent e) {modified = true;}
         });
 
+        //Clicked on the get infer link
         getInferHereJBLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -70,12 +77,28 @@ public class SettingsForm {
             }
         });
 
+        //Clicked Add Installation Button
         addAndCheckInstallationButton.addActionListener(e -> {
-            GlobalSettings.getInstance().addInstallation(pathChooser.getText(), false);
-            refreshInstallationList();
+            final boolean success = GlobalSettings.getInstance().addInstallation(pathChooser.getText(), false);
+            if(success) refreshInstallationList();
+            else showAddInstallationError();
         });
 
         showInferConsoleJBCheckBox.addActionListener(e -> modified = true);
+    }
+
+    private void showAddInstallationError() {
+        final Color oldBg = pathChooser.getBackground();
+        pathChooser.setBackground(JBColor.red);
+        addAndCheckInstallationButton.setEnabled(false);
+        pathChooser.setText(ResourceBundle.getBundle("strings").getString("invalid.installation.selected"));
+        Timer timer = new Timer(3000, actionEvent -> {
+            pathChooser.setBackground(oldBg);
+            addAndCheckInstallationButton.setEnabled(true);
+            pathChooser.setText("");
+        });
+        timer.setRepeats(false);
+        timer.start();
     }
 
     private void refreshInstallationList() {
@@ -83,28 +106,6 @@ public class SettingsForm {
         for(InferInstallation ii : GlobalSettings.getInstance().getInstallations()) {
             ((DefaultListModel<InferInstallation>) this.installationJBList.getModel()).addElement(ii);
         }
-    }
-
-    public JPanel getMainPanel() {
-        return mainPanel;
-    }
-    public boolean isModified() {
-        return modified;
-    }
-    public void setModified(boolean modified) {
-        this.modified = modified;
-    }
-    public String getPath() {
-        return this.pathChooser.getText();
-    }
-    public void setPath(String path) {
-        this.pathChooser.setText(path);
-    }
-    public boolean isShowConsole() {
-        return showInferConsoleJBCheckBox.isSelected();
-    }
-    public void setShowConsole(boolean selected) {
-        showInferConsoleJBCheckBox.setSelected(selected);
     }
 
     /**
@@ -129,5 +130,27 @@ public class SettingsForm {
         installationJBList.getEmptyText().setText(ResourceBundle.getBundle("strings").getString("no.installation.to.show"));
         installationJBList.setModel(new DefaultListModel<>());
         refreshInstallationList();
+    }
+
+    public JPanel getMainPanel() {
+        return mainPanel;
+    }
+    public boolean isModified() {
+        return modified;
+    }
+    public void setModified(boolean modified) {
+        this.modified = modified;
+    }
+    public String getPath() {
+        return this.pathChooser.getText();
+    }
+    public void setPath(String path) {
+        this.pathChooser.setText(path);
+    }
+    public boolean isShowConsole() {
+        return showInferConsoleJBCheckBox.isSelected();
+    }
+    public void setShowConsole(boolean selected) {
+        showInferConsoleJBCheckBox.setSelected(selected);
     }
 }
