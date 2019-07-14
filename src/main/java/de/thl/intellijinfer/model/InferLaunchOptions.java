@@ -29,7 +29,7 @@ public class InferLaunchOptions {
 
     //Tracks changed files for use with the reactive mode
     private FileDocumentManagerListener changeListener;
-    public List<String> changedFiles = new ArrayList<>();
+    private List<String> changedFiles = new ArrayList<>();
 
     private List<BuildTool> availableBuildTools;
     private Boolean fullAnalysis; //if a full analysis was already done after loading the current project/creating the run config
