@@ -16,6 +16,7 @@ import de.thl.intellijinfer.config.GlobalSettings;
 import de.thl.intellijinfer.service.ResultParser;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -49,6 +50,13 @@ public class InferProcessListener implements ProcessListener {
         } else {
             log.warn("Infer Process terminated unsuccessfully: Status Code " + event.getExitCode());
             Notifications.Bus.notify(new Notification("Infer", "Failure", "Infer terminated unsuccessfully", NotificationType.ERROR));
+        }
+
+        //remove the changedfiles.txt if it exists
+        try {
+            Files.deleteIfExists(Paths.get(project.getBasePath() + "/changedfiles.txt"));
+        } catch (IOException e) {
+            log.warn("Could not delete changedfiles.txt");
         }
     }
 
