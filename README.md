@@ -1,5 +1,5 @@
 # intellij-infer
-An Integration of the Infer static analyzer for the IntelliJ Platform
+An Integration of the [Infer static analyzer](https://fbinfer.com/) for the IntelliJ Platform
 
 # How to Use
 Prerequisites:
