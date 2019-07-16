@@ -3,10 +3,11 @@ An Integration of the [Infer static analyzer](https://fbinfer.com/) for IntelliJ
 
 ![intellij-infer screenshot](https://raw.githubusercontent.com/Carbon459/intellij-infer/master/src/main/resources/META-INF/intellij-infer_screenshot.png)
 # Features
-- Launch Infer Analysis via your IDE
+- Launch an Infer Analysis via your IDE
+- Select the desired Checkers
 - Supports JavaC, Gradle, Maven, CMake(gcc or clang)
-- Reactive Mode (only analyze changed files)
-- Bugtraces (makes the bugs easier to understand)
+- Reactive Mode supported (only analyze changed files)
+- Navigate through the Bugs or Bugtraces
 
 # How to Use
 Prerequisites:
