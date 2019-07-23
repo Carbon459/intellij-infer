@@ -24,8 +24,8 @@ public class InferInstallation implements Serializable {
     public InferInstallation() {}
 
     private InferInstallation(String path, boolean defaultInstall) {
-        this.path = path;
-        this.defaultInstall = defaultInstall;
+        setPath(path);
+        setDefaultInstall(defaultInstall);
     }
 
 
@@ -97,14 +97,15 @@ public class InferInstallation implements Serializable {
         return (defaultInstall ? "[Default] " : "") + path + " " + "(" + version + ")";
     }
     public String getPath() {
-        //make sure that the path is to a binary, not the directory of infer
-        if(path.endsWith("infer") || path.endsWith(".bat") || path.endsWith(".sh")) return path; // Exception: .bat and .sh endings are used for testing purposes, they shouldn't be changed
-        return path + "/bin/infer";
+        return this.path;
     }
 
     public void setPath(String path) {
-        this.path = path;
+        //make sure that the path is to a binary, not the directory of infer
+        if(path.endsWith("infer") || path.endsWith(".bat") || path.endsWith(".sh")) this.path = path; //Exception: .bat and .sh endings are used for testing purposes, they shouldn't be changed
+        else this.path = path + "/bin/infer";
     }
+
     public InferVersion getVersion() {
         return version;
     }
