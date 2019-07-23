@@ -7,9 +7,12 @@
     An Integration of the <a href="https://fbinfer.com/">Infer static analyzer</a> for the IntelliJ Platform.
     The following features are available:<br>
     <ul>
-        <li>1</li>
-        <li>2</li>
-        <li>3</li>
+        <li>Launch an Infer Analysis via your IDE</li>
+        <li>Select the desired Checkers</li>
+        <li>Supports JavaC, Gradle, Maven, CMake(gcc or clang)</li>
+        <li>Reactive Mode supported (only analyze changed files)</li>
+        <li>Manage Infer Installations</li>
+        <li>Navigate through the Bugs or Bugtraces</li>
     </ul>
     ]]></description>
 

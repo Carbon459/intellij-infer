@@ -94,7 +94,7 @@ public class InferInstallation implements Serializable {
 
 
     public String toString() {
-        return path + " " + version;
+        return (defaultInstall ? "[Default] " : "") + path + " " + "(" + version + ")";
     }
     public String getPath() {
         //make sure that the path is to a binary, not the directory of infer
