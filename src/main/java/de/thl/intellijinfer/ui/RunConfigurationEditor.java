@@ -40,14 +40,19 @@ public class RunConfigurationEditor extends SettingsEditor<InferRunConfiguration
     private JBList<Checker> checkersJBList;
     private CollectionListModel<Checker> checkersListModel;
 
+    private InferVersion selectedVersion; //the current selected version of the infer installation
+
     public RunConfigurationEditor() {
         this.installPanel.setLayout(new OverlayLayout(this.installPanel));
 
         //Reset the Checker list to default if installation was changed
         inferInstallationComboBox.addItemListener(itemEvent -> {
             if (itemEvent.getStateChange() == ItemEvent.SELECTED) {
-                System.out.println(itemEvent.paramString());
+                if(selectedVersion == null) return; //this happens only when the form was just initialized, so we dont need to do anything
+
                 checkersListModel.replaceAll(Checker.getDefaultCheckers());
+
+                selectedVersion = ((InferInstallation)itemEvent.getItem()).getVersion();
             }
         });
     }
@@ -59,6 +64,8 @@ public class RunConfigurationEditor extends SettingsEditor<InferRunConfiguration
         this.checkersListModel.replaceAll(inferRC.getLaunchOptions().getSelectedCheckers());
         this.reactiveModeJBCheckBox.setSelected(inferRC.getLaunchOptions().isReactiveMode());
         reloadInstallationComboBox(inferRC);
+
+        this.selectedVersion = inferRC.getLaunchOptions().getSelectedInstallation().getVersion();
     }
 
     @Override
@@ -68,6 +75,8 @@ public class RunConfigurationEditor extends SettingsEditor<InferRunConfiguration
         inferRC.getLaunchOptions().setAdditionalArgs(additionalArgsTextField.getText());
         inferRC.getLaunchOptions().setSelectedCheckers(this.checkersListModel.toList());
         inferRC.getLaunchOptions().setReactiveMode(this.reactiveModeJBCheckBox.isSelected());
+
+        this.selectedVersion = inferRC.getLaunchOptions().getSelectedInstallation().getVersion();
     }
 
     @NotNull
@@ -115,8 +124,6 @@ public class RunConfigurationEditor extends SettingsEditor<InferRunConfiguration
             }
             inferInstallationComboBox.setVisible(false);
             inferInstallationComboBox.setEnabled(false);
-
-            //this.installPane.repaint();
         }
     }
 
