@@ -2,7 +2,7 @@
 An Integration of the [Infer static analyzer](https://fbinfer.com/) for IntelliJ IDEA and CLion
 
 ![intellij-infer screenshot](https://raw.githubusercontent.com/Carbon459/intellij-infer/master/src/main/resources/META-INF/intellij-infer_screenshot.png)
-# Features
+## Features
 - Launch an Infer Analysis via your IDE
 - Select the desired Checkers
 - Supports JavaC, Gradle, Maven, CMake(gcc or clang)
@@ -10,7 +10,7 @@ An Integration of the [Infer static analyzer](https://fbinfer.com/) for IntelliJ
 - Navigate through the Bugs or Bugtraces
 - Manage Infer Installations
 
-# How to Use
+## How to Use
 Prerequisites:
  - IntelliJ IDEA 2019.1 (Edition doesn't matter)
  - Gradle Plugin
