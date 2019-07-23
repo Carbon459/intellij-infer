@@ -73,6 +73,15 @@ public class GlobalSettings implements PersistentStateComponent<GlobalSettings> 
         return this.getInstallations().stream().filter(InferInstallation::isConfirmedWorking).findAny().orElse(null);
     }
 
+    /**
+     * Returns the Installation at the given path
+     * @param path The given path
+     * @return A Installation if it exists at that path, otherwise null
+     */
+    @Nullable
+    public InferInstallation getInstallationFromPath(String path) {
+        return this.getInstallations().stream().filter((x) -> x.getPath().equals(path)).findFirst().orElse(null);
+    }
 
     public static GlobalSettings getInstance() {
         return ApplicationManager.getApplication().getComponent(GlobalSettings.class);

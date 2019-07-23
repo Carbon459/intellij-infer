@@ -46,6 +46,7 @@ public class RunConfigurationEditor extends SettingsEditor<InferRunConfiguration
         //Reset the Checker list to default if installation was changed
         inferInstallationComboBox.addItemListener(itemEvent -> {
             if (itemEvent.getStateChange() == ItemEvent.SELECTED) {
+                System.out.println(itemEvent.paramString());
                 checkersListModel.replaceAll(Checker.getDefaultCheckers());
             }
         });
