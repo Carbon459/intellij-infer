@@ -1,9 +1,12 @@
 package de.thl.intellijinfer.model.buildtool;
 
+import com.intellij.execution.ExecutionException;
 import com.intellij.ide.plugins.PluginManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.extensions.PluginId;
 import com.intellij.openapi.project.Project;
+import com.intellij.psi.search.FilenameIndex;
+import com.intellij.psi.search.GlobalSearchScope;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,8 +34,10 @@ public class Maven extends BuildTool {
     }
 
     @Override
-    public String getBuildCmd(Project project) {
+    public String getBuildCmd(Project project) throws ExecutionException {
         if(isUsable(project)) {
+            if(FilenameIndex.getFilesByName(project, "pom.xml", GlobalSearchScope.projectScope(project)).length == 0) throw new ExecutionException("Could not find the pom.xml file. Aborting.");
+
             final File mavenBinary = new File(PluginManager.getPlugin(PluginId.getId("org.jetbrains.idea.maven")).getPath(), "/lib/maven3/bin/mvn");
 
             //Make sure that the maven binary is executable from everywhere
