@@ -21,7 +21,7 @@
     <depends>com.intellij.modules.lang</depends>
     <depends optional="true" config-file="withCLion.xml">com.intellij.modules.clion</depends>
 
-    <idea-version since-build="191.*"/>
+    <idea-version since-build="191"/>
 
     <application-components>
         <component>
@@ -33,7 +33,7 @@
     </application-components>
     <extensions defaultExtensionNs="com.intellij">
         <!--suppress PluginXmlValidity -->
-        <toolWindow id="Infer" icon="toolWindowIcon.svg" secondary="false" anchor="bottom" factoryClass="de.thl.intellijinfer.ui.MainToolWindowFactory"/>
+        <toolWindow id="Infer" icon="toolWindowIcon.png" secondary="false" anchor="bottom" factoryClass="de.thl.intellijinfer.ui.MainToolWindowFactory"/>
         <projectService serviceImplementation="de.thl.intellijinfer.service.ResultParser"/>
         <configurationType implementation="de.thl.intellijinfer.run.InferConfigurationType"/>
         <applicationConfigurable provider="de.thl.intellijinfer.config.PluginConfigurableProvider" id="Infer" displayName="Infer"/>
