@@ -35,7 +35,6 @@ public class InferRunState extends CommandLineState {
         log.info("Running Infer with Command: " + runCmd);
 
         GeneralCommandLine commandLine = new GeneralCommandLine("/bin/sh", "-c", runCmd);
-        //GeneralCommandLine commandLine = new GeneralCommandLine("cmd.exe", "/c", "ping -n 6 127.0.0.1 > nul");
 
         if(runCfg.getProject().getBasePath() == null) throw new ExecutionException("Could not acquire the project base path");
         commandLine.setWorkDirectory(new File(runCfg.getProject().getBasePath()));

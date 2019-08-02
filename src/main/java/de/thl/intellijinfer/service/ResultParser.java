@@ -20,13 +20,11 @@ import java.util.*;
 
 public class ResultParser {
     private static final Logger log = Logger.getInstance(ResultParser.class);
-    private Project project;
 
     private Map<String, List<InferBug>> bugsPerFile;
     private PropertyChangeSupport changes = new PropertyChangeSupport( this );
 
-    public ResultParser(Project project) {
-        this.project = project;
+    public ResultParser() {
     }
 
     public static ResultParser getInstance(@NotNull Project project) {

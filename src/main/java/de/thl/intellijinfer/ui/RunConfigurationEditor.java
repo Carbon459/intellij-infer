@@ -1,7 +1,5 @@
 package de.thl.intellijinfer.ui;
 
-import com.intellij.execution.RunManager;
-import com.intellij.execution.configurations.RunConfiguration;
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.options.ConfigurationException;
@@ -69,7 +67,7 @@ public class RunConfigurationEditor extends SettingsEditor<InferRunConfiguration
     }
 
     @Override
-    protected void applyEditorTo(@NotNull InferRunConfiguration inferRC) throws ConfigurationException {
+    protected void applyEditorTo(@NotNull InferRunConfiguration inferRC) {
         if(this.inferInstallationComboBox.isEnabled()) inferRC.getLaunchOptions().setSelectedInstallation((InferInstallation) this.inferInstallationComboBox.getSelectedItem());
         inferRC.getLaunchOptions().setUsingBuildTool((BuildTool) usingBuildToolComboBox.getSelectedItem());
         inferRC.getLaunchOptions().setAdditionalArgs(additionalArgsTextField.getText());
@@ -128,6 +126,8 @@ public class RunConfigurationEditor extends SettingsEditor<InferRunConfiguration
     }
 
     private void checkersAddAction(final AnActionButton button) {
+        if(inferInstallationComboBox.getSelectedItem() == null) return;
+
         final InferVersion usingVersion = ((InferInstallation) inferInstallationComboBox.getSelectedItem()).getVersion().isValid() ?
                 ((InferInstallation) inferInstallationComboBox.getSelectedItem()).getVersion() :
                 new InferVersion(0, 15, 0); //fallback to oldest supported version if no valid version is selected

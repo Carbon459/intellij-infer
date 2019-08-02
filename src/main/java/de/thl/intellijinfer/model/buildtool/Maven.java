@@ -7,6 +7,7 @@ import com.intellij.openapi.extensions.PluginId;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.search.FilenameIndex;
 import com.intellij.psi.search.GlobalSearchScope;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,6 +30,7 @@ public class Maven extends BuildTool {
     private Maven() {}
 
     @Override
+    @NotNull
     public String getName() {
         return this.name;
     }

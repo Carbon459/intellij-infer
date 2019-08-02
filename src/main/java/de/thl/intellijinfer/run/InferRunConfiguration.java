@@ -27,7 +27,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class InferRunConfiguration extends RunConfigurationBase {
-    private static final Logger log = Logger.getInstance(InferRunConfiguration.class);
     private static final String PREFIX = "INTELLIJ_INFER-";
     private static final String INSTALLATION = PREFIX + "INSTALLATION";
     private static final String BUILD_TOOL = PREFIX + "BUILD_TOOL";
@@ -62,7 +61,7 @@ public class InferRunConfiguration extends RunConfigurationBase {
 
     @Nullable
     @Override
-    public RunProfileState getState(@NotNull Executor executor, @NotNull ExecutionEnvironment executionEnvironment) throws ExecutionException {
+    public RunProfileState getState(@NotNull Executor executor, @NotNull ExecutionEnvironment executionEnvironment) {
         return new InferRunState(this, executionEnvironment);
     }
     @Override
@@ -108,7 +107,7 @@ public class InferRunConfiguration extends RunConfigurationBase {
     }
 
     @NotNull
-    protected String getInferLaunchCmd() throws ExecutionException {
+    String getInferLaunchCmd() throws ExecutionException {
         return this.launchOptions.buildInferLaunchCmd(this.project);
     }
 

@@ -1,8 +1,6 @@
 package de.thl.intellijinfer.config;
 
 import com.intellij.openapi.components.BaseComponent;
-import com.intellij.util.PlatformUtils;
-import de.thl.intellijinfer.model.buildtool.CMake;
 import org.jetbrains.annotations.NotNull;
 
 public class DefaultConfigComponent implements BaseComponent {
@@ -14,6 +12,7 @@ public class DefaultConfigComponent implements BaseComponent {
 
     @Override
     public void initComponent() {
+        //adds the default installation (the one which is used if you just type 'infer' into the shell)
         GlobalSettings.getInstance().addInstallation("infer", true);
     }
 }

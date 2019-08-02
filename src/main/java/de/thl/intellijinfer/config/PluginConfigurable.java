@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
+import java.io.File;
 
 public class PluginConfigurable implements Configurable {
     private GlobalSettings settings;
@@ -39,17 +40,11 @@ public class PluginConfigurable implements Configurable {
     }
 
     @Override
-    public void apply() throws ConfigurationException {
+    public void apply() {
         if(this.form == null) return;
         this.form.setModified(false);
 
         this.settings.setShowConsole(this.form.isShowConsole());
-
-        /*final File inferDir = new File(this.form.getPath());
-        if(!inferDir.exists()) throw new ConfigurationException("Directory does not exist");
-        if(!inferDir.isDirectory()) throw new ConfigurationException("Given path is not a directory");*/
-
-
     }
 
     @Override

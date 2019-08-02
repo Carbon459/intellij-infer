@@ -8,21 +8,24 @@ import com.intellij.execution.impl.RunManagerImpl;
 import com.intellij.openapi.project.Project;
 import de.thl.intellijinfer.config.GlobalSettings;
 import de.thl.intellijinfer.model.buildtool.BuildToolFactory;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class InferConfigurationFactory extends ConfigurationFactory {
     private static final String FACTORY_NAME = "Infer configuration factory";
 
-    protected InferConfigurationFactory(ConfigurationType type) {
+    InferConfigurationFactory(ConfigurationType type) {
         super(type);
     }
 
     @Override
-    public RunConfiguration createTemplateConfiguration(Project project) {
+    @NotNull
+    public RunConfiguration createTemplateConfiguration(@NotNull Project project) {
         return new InferRunConfiguration(project, this, "Infer");
     }
 
     @Override
+    @NotNull
     public String getName() {
         return FACTORY_NAME;
     }

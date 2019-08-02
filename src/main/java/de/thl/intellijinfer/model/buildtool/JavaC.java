@@ -1,6 +1,5 @@
 package de.thl.intellijinfer.model.buildtool;
 
-import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.fileTypes.FileTypeManager;
 import com.intellij.openapi.module.Module;
@@ -14,12 +13,12 @@ import com.intellij.psi.search.FileTypeIndex;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.util.PlatformUtils;
 import com.intellij.util.indexing.FileBasedIndex;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.Collection;
 
 public class JavaC extends BuildTool {
-    private static final Logger log = Logger.getInstance(JavaC.class);
     private final String name = "JavaC";
 
     private static JavaC instance;
@@ -32,6 +31,7 @@ public class JavaC extends BuildTool {
     private JavaC() {}
 
     @Override
+    @NotNull
     public String getName() {
         return this.name;
     }

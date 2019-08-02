@@ -7,6 +7,7 @@ import com.intellij.util.PlatformUtils;
 import com.jetbrains.cidr.cpp.cmake.CMakeSettings;
 import com.jetbrains.cidr.cpp.cmake.workspace.CMakeProfileInfo;
 import com.jetbrains.cidr.cpp.cmake.workspace.CMakeWorkspace;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ public class CMake extends BuildTool {
     private CMake() {}
 
     @Override
+    @NotNull
     public String getName() {
         return this.name;
     }

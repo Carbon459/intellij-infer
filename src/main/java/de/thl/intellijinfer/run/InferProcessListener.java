@@ -6,11 +6,9 @@ import com.intellij.notification.Notification;
 import com.intellij.notification.NotificationType;
 import com.intellij.notification.Notifications;
 import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.application.ModalityState;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Key;
-import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowManager;
 import de.thl.intellijinfer.config.GlobalSettings;
 import de.thl.intellijinfer.service.ResultParser;
@@ -38,9 +36,7 @@ public class InferProcessListener implements ProcessListener {
 
             //Open the Infer Tool Window, which needs to be done in an AWT Event Dispatcher Thread
             if(!GlobalSettings.getInstance().isShowConsole()) { //if the user wants the console to stay in focus, we dont want to open the infer tool window
-                ApplicationManager.getApplication().invokeAndWait(() -> {
-                    ToolWindowManager.getInstance(project).getToolWindow("Infer").activate(null, true);
-                });
+                ApplicationManager.getApplication().invokeAndWait(() -> ToolWindowManager.getInstance(project).getToolWindow("Infer").activate(null, true));
             }
 
             final Path reportPath = Paths.get(project.getBasePath() + "/infer-out/report.json");

@@ -2,14 +2,13 @@ package de.thl.intellijinfer.model.buildtool;
 
 import com.intellij.execution.ExecutionException;
 import com.intellij.ide.plugins.PluginManager;
-import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.extensions.PluginId;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.search.FilenameIndex;
 import com.intellij.psi.search.GlobalSearchScope;
+import org.jetbrains.annotations.NotNull;
 
 public class Gradle extends BuildTool {
-    private static final Logger log = Logger.getInstance(Gradle.class);
     private final String name = "Gradle";
 
     private static Gradle instance;
@@ -22,6 +21,7 @@ public class Gradle extends BuildTool {
     private Gradle() {}
 
     @Override
+    @NotNull
     public String getName() {
         return this.name;
     }

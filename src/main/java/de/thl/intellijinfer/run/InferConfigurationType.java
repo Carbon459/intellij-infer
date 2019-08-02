@@ -9,6 +9,7 @@ import javax.swing.*;
 
 public class InferConfigurationType implements ConfigurationType {
     @Override
+    @NotNull
     public String getDisplayName() {
         return "Infer";
     }

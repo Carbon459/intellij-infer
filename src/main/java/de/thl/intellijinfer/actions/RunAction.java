@@ -6,16 +6,12 @@ import com.intellij.execution.RunnerAndConfigurationSettings;
 import com.intellij.execution.executors.DefaultRunExecutor;
 import com.intellij.execution.impl.RunManagerImpl;
 import com.intellij.execution.impl.RunnerAndConfigurationSettingsImpl;
-import com.intellij.notification.Notification;
-import com.intellij.notification.NotificationType;
-import com.intellij.notification.Notifications;
 import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.diagnostic.Logger;
-import com.jetbrains.cidr.cpp.cmake.workspace.CMakeProfileInfo;
-import com.jetbrains.cidr.cpp.cmake.workspace.CMakeWorkspace;
 import de.thl.intellijinfer.config.GlobalSettings;
 import de.thl.intellijinfer.run.InferConfigurationFactory;
 import de.thl.intellijinfer.run.InferConfigurationType;
+import org.jetbrains.annotations.NotNull;
 
 public class RunAction extends AnAction {
     private static final Logger log = Logger.getInstance(RunAction.class);
@@ -24,9 +20,14 @@ public class RunAction extends AnAction {
         super();
     }
 
-    public void actionPerformed(AnActionEvent event) {
+    public void actionPerformed(@NotNull AnActionEvent event) {
         if(!GlobalSettings.getInstance().hasValidInstallation()) {
             log.error("No valid Infer Installation: Go to the Infer Settings and add one");
+            return;
+        }
+
+        if(event.getProject() == null) {
+            log.error("Couldn't find open project");
             return;
         }
 
@@ -53,21 +54,4 @@ public class RunAction extends AnAction {
         ProgramRunnerUtil.executeConfiguration(runnerAndConfigurationSettings, DefaultRunExecutor.getRunExecutorInstance());
     }
 
-
 }
-
-
-
-//Editor editor = FileEditorManager.getInstance(project).getSelectedTextEditor();
-
-//Notifications.Bus.notify(new Notification("Infer", "Failure", "Infer terminated unsuccessfully", NotificationType.ERROR));
-//ResultParser.getInstance(project).parse(Paths.get("C:\\Users\\Carbon\\IdeaProjects\\intelij-infer\\src\\test\\resources\\multipleBugs.json"));
-
-//editor.getMarkupModel().addLineHighlighter(2, 20, new TextAttributes());
-        /*RangeHighlighter rh = editor.getMarkupModel().addLineHighlighter(1, 20, null);
-        rh.setGutterIconRenderer(NavigationGutterIconBuilder
-                .create(AllIcons.Actions.Cancel)
-                .setTarget(FilenameIndex.getFilesByName(project, "Main.java", GlobalSearchScope.projectScope(project))[0].findElementAt(2))
-                .setTooltipText("Laufzeitkomplexität: O(1)")
-                .createLineMarkerInfo(FilenameIndex.getFilesByName(project, "Main.java", GlobalSearchScope.projectScope(project))[0]).createGutterRenderer());*/
-//HintManager.getInstance().showErrorHint(editor,"jaja", 5, 5, HintManager.DEFAULT, HintManager.HIDE_BY_TEXT_CHANGE, 10);
