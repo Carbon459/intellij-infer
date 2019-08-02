@@ -38,17 +38,13 @@ public class MainToolWindow {
     private JPanel MainToolWindowContent;
     private Tree issueList;
 
-    private Project project;
-
-
     MainToolWindow(ToolWindow toolWindow, Project project) {
-        this.project = project;
-
         issueList.getEmptyText().setText(ResourceBundle.getBundle("strings").getString("no.bug.list.to.show"));
         issueList.setModel(new DefaultTreeModel(null));
 
         ResultParser.getInstance(project).addPropertyChangeListener(evt -> {
             if(evt.getNewValue() != null && evt.getPropertyName().equals("bugsPerFile")) {
+                //noinspection unchecked
                 drawBugTree((Map<String, List<InferBug>>)evt.getNewValue());
             }
         });
@@ -110,7 +106,7 @@ public class MainToolWindow {
         drawBugTree(ResultParser.getInstance(project).getBugsPerFile());
     }
 
-    public JPanel getContent() {
+    JPanel getContent() {
         return MainToolWindowContent;
     }
 
@@ -123,7 +119,6 @@ public class MainToolWindow {
 
         DefaultMutableTreeNode root = new DefaultMutableTreeNode(String.format(ResourceBundle.getBundle("strings").getString("infer.analysis.result.bugs.found"), bugMap.values().stream().mapToInt(List::size).sum()));
 
-        //todo effizienter
         for (Map.Entry<String, List<InferBug>> entry : bugMap.entrySet()) {
             DefaultMutableTreeNode fileNode = new DefaultMutableTreeNode(String.format(ResourceBundle.getBundle("strings").getString("bugs.found"), entry.getKey(), entry.getValue().size()));
             for(InferBug bug : entry.getValue()) {

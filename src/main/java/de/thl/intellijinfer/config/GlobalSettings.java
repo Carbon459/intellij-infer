@@ -13,7 +13,6 @@ import java.util.List;
 
 @State(name = "InferApplicationSettings", storages = {@Storage("$APP_CONFIG$/infer.xml")})
 public class GlobalSettings implements PersistentStateComponent<GlobalSettings> {
-    //@com.intellij.util.xmlb.annotations.Transient damit nicht serialisiert wird
 
     @Property
     private List<InferInstallation> installations = new ArrayList<>();
@@ -60,6 +59,7 @@ public class GlobalSettings implements PersistentStateComponent<GlobalSettings> 
      * Returns if at least one valid Installation exists
      * @return If a Installation exists, which is confirmed working
      */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean hasValidInstallation() {
         return this.getInstallations().stream().anyMatch(InferInstallation::isConfirmedWorking);
     }
@@ -109,7 +109,7 @@ public class GlobalSettings implements PersistentStateComponent<GlobalSettings> 
     public boolean isShowConsole() {
         return showConsole;
     }
-    public void setShowConsole(boolean showConsole) {
+    void setShowConsole(boolean showConsole) {
         this.showConsole = showConsole;
     }
 }

@@ -14,12 +14,6 @@ public class DefaultConfigComponent implements BaseComponent {
 
     @Override
     public void initComponent() {
-        System.out.println("--- IDE Start ---");
         GlobalSettings.getInstance().addInstallation("infer", true);
-    }
-
-    @Override
-    public void disposeComponent() {
-        System.out.println("--- IDE Stop ---");
     }
 }
