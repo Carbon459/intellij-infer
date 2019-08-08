@@ -74,6 +74,7 @@ public class InferInstallation implements Serializable {
                 output.append(line + "\n");
             }
 
+            reader.close();
             inferProcess.waitFor(PROCESS_TIMEOUT, TimeUnit.MILLISECONDS);
 
             if (inferProcess.exitValue() == 0) {

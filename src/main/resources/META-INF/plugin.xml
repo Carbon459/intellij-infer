@@ -45,7 +45,7 @@
             <action id="infer.runaction" class="de.thl.intellijinfer.actions.RunAction" text="Run" description="Runs Infer">
                 <keyboard-shortcut keymap="$default" first-keystroke="control alt G" second-keystroke="R"/>
             </action>
-            <action id="infer.settingsaction" class="de.thl.intellijinfer.actions.SettingsAction" text="Settings" description="Opens Infer Settings"/>
+            <action id="infer.settingsaction" class="de.thl.intellijinfer.actions.SettingsAction" text="Settings" description="Opens Infer settings"/>
         </group>
     </actions>
 </idea-plugin>
