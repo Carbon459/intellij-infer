@@ -10,7 +10,12 @@ An Integration of the [Infer static analyzer](https://fbinfer.com/) for IntelliJ
 - Navigate through the Bugs or Bugtraces
 - Manage Infer Installations
 
-## How to Use
+## Get it here
+[Jetbrains Plugin Repository](https://plugins.jetbrains.com/plugin/12847-infer-integration)
+
+Infer is available on Mac and Linux only
+
+## How to Compile It Yourself
 Prerequisites:
  - IntelliJ IDEA 2019.1 (Edition doesn't matter)
  - Gradle Plugin
@@ -24,5 +29,3 @@ Prerequisites:
     Replace PATH with the Path to the clion.jar of your CLion Installation (usually in the lib directory of the clion main directory).
  3. Import the project into IntelliJ IDEA and let Gradle download all dependencies.
  4. Run the 'runIde' task in Gradle
-
-Infer is available on Mac and Linux only
