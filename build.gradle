@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'de.thl'
-version '1.0'
+version '1.1'
 
 sourceCompatibility = 1.8
 
@@ -14,18 +14,16 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
-    compileOnly files("/home/carbon/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/191.6707.69/lib/clion.jar")
+    compileOnly files("C:\\Users\\Carbon\\AppData\\Local\\JetBrains\\Toolbox\\apps\\CLion\\ch-0\\191.7479.33\\lib\\clion.jar")
 }
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
     pluginName 'intellij-infer'
-    version '2019.2'
+    version '2019.3'
     //plugins = ['Maven', 'Gradle']
     sandboxDirectory = "$project.buildDir/myCustom-sandbox"
 }
 patchPluginXml {
-    changeNotes """
-      <em>First Release</em>"""
     sinceBuild '191'
 }

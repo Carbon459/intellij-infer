@@ -57,7 +57,7 @@ public class Maven extends BuildTool {
                 log.warn("Could not change permission for the maven binary", ex);
             }
 
-            return "-- " + mavenBinary.toString() + " clean package";
+            return "-- " + mavenBinary.toString().replace(" ", "\\ ") + " clean package";
         }
         else return null;
     }

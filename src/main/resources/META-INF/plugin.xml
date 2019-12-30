@@ -23,6 +23,16 @@
 
     <idea-version since-build="191"/>
 
+    <change-notes><![CDATA[
+    <ul>
+        <li>added support for the IntelliJ 2019.3 Platform</li>
+        <li>added (untested) support for infer 0.17.0</li>
+        <li>fixed a problem with spaces in the maven binary path</li>
+    </ul>
+    ]]></change-notes>
+
+    <version>1.1.0</version>
+
     <application-components>
         <component>
             <implementation-class>de.thl.intellijinfer.config.GlobalSettings</implementation-class>

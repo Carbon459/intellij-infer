@@ -37,7 +37,10 @@ public enum Checker {
     NULLSAFE("nullsafe", Category.EXPERIMENTAL, new InferVersion(0, 16, 0)),                                //nullable type checker (incomplete: use --eradicate for now)
     PULSE("pulse", Category.EXPERIMENTAL, new InferVersion(0, 16, 0)),                                      //C++ lifetime analysis
     PURITY("purity", Category.EXPERIMENTAL, new InferVersion(0, 16, 0)),                                    //Purity analysis
-    QUANDARY_BO("quandaryBO", Category.EXPERIMENTAL, new InferVersion(0,16,0));                             //The quandaryBO tainted buffer access
+    QUANDARY_BO("quandaryBO", Category.EXPERIMENTAL, new InferVersion(0,16,0)),                             //The quandaryBO tainted buffer access
+
+    //SINCE VERSION 0.17.0
+    INEFFICIENT_KEYSET_ITERATOR("inefficient-keyset-iterator", Category.OPTIONAL, new InferVersion(0,17,0));
 
     enum Category {DEFAULT, OPTIONAL, EXPERIMENTAL}
 
