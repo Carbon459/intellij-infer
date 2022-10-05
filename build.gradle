@@ -1,29 +1,50 @@
+
+def properties(String key) { project.findProperty(key).toString() }
+
 plugins {
     id 'java'
-    id 'org.jetbrains.intellij' version '0.4.7'
+    id 'org.jetbrains.intellij' version '1.9.0'
 }
 
-group 'de.thl'
-version '1.1'
+group properties("pluginGroup")
+version properties("pluginVersion")
 
-sourceCompatibility = 1.8
+sourceCompatibility = 11
 
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    compileOnly files("C:\\Users\\Carbon\\AppData\\Local\\JetBrains\\Toolbox\\apps\\CLion\\ch-0\\191.7479.33\\lib\\clion.jar")
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: '5.9.1'
 }
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    pluginName 'intellij-infer'
-    version '2019.3'
+    pluginName.set(properties("pluginName"))
+    version.set(properties("platformVersion"))
+    type.set(properties("platformType"))
     //plugins = ['Maven', 'Gradle']
-    sandboxDirectory = "$project.buildDir/myCustom-sandbox"
+    //sandboxDirectory.set("$project.buildDir/myCustom-sandbox")
+    downloadSources.set(properties("platformDownloadSources").toBoolean())
+
+    // Plugin Dependencies. Uses `platformPlugins` property from the gradle.properties file.
+    plugins.set(
+            properties("platformPlugins")
+                    .split(',')
+                    .collect({ it.trim() })
+                    .findAll({ !it.isEmpty() })
+    )
 }
 patchPluginXml {
-    sinceBuild '191'
+    sinceBuild.set(properties("pluginSinceBuild"))
+}
+runPluginVerifier {
+    ideVersions.addAll(
+        properties("pluginVerifierIdeVersions")
+            .split(',')
+            .collect({ it.trim() })
+            .findAll({ !it.isEmpty() })
+    )
 }
