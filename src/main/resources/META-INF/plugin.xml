@@ -19,9 +19,9 @@
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to target different products -->
     <depends>com.intellij.modules.lang</depends>
-    <depends optional="true" config-file="withCLion.xml">com.intellij.modules.clion</depends>
+    <depends optional="true" config-file="withCLion.xml">com.intellij.clion</depends>
 
-    <idea-version since-build="191"/>
+    <idea-version since-build="222"/>
 
     <change-notes><![CDATA[
     <ul>
